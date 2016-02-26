@@ -1,0 +1,5 @@
+<app>
+	<screen width="320" height="240" />
+	<img src="rsc/qbfont.png" name="qbfont" />
+	<img src="rsc/images.png" name="images" />
+</app>
