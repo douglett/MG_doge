@@ -239,7 +239,26 @@ int level_up() {
 }
 
 int chest_item() {
-	combatlog("you got a bean");
+	// 1 in 3 change to get an upgrade
+	int r = rand()%3;
+	if (r == 0) {
+		if (playermob.def < dungeon_floor) {
+			playermob.def++;
+			ss(1) << "you got mail+" << playermob.def;
+			combatlog(ss().str());
+			return 1;
+		}
+		else if (playermob.atk < dungeon_floor) {
+			playermob.atk++;
+			ss(1) << "you got sword+" << playermob.atk;
+			combatlog(ss().str());
+			return 1;
+		}
+	}
+	
+	// bad luck, or nothing to get this level - have a bean!
+	playermob.hp += 4;
+	combatlog("you got a bean! +4 hp");
 	return 0;
 }
 

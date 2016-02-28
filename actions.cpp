@@ -111,6 +111,7 @@ namespace action {
 
 		// do attack
 		int atk = attacker->atk - defender->def;
+		if (atk < 1) atk = 1;
 		defender->hp -= atk;
 
 		// display attack
