@@ -13,7 +13,7 @@ namespace menu {
 	const int HAND_SIZE_MAX = 4;
 
 	vector<int> cards;
-	int deck_size = 2;
+	int deck_size = 1;
 	int draw_count = 0;
 	int handpos = 0;
 	

@@ -32,7 +32,7 @@ namespace testmap {
 		};
 
 		gmobs = vector<map<string, int> > {
-			{ {"type", -1}, {"x",3}, {"y",2} },
+			{ {"type", -1}, {"x",5}, {"y",2} },
 			{ {"type", 1}, {"x",19}, {"y",2} },
 			{ {"type", 1}, {"x",24}, {"y",3} },
 			{ {"type", 2}, {"x",30}, {"y",5} },

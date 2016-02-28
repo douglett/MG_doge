@@ -10,7 +10,7 @@ using namespace std;
 
 const string 
 	walkable = " ./",
-	actionable = "%iC";
+	actionable = "%ijC";
 
 
 namespace action {
@@ -119,7 +119,7 @@ namespace action {
 		gtexts.push_back(create_gtext( defender->x, defender->y, ss().str() ));
 
 		// add player log
-		ss(1) << "-> " << defender->name << " (-" << atk << ")";
+		ss(1) << attacker->name << " hits " << defender->name << ": -" << atk;
 		combatlog(ss().str());
 	}
 
@@ -128,8 +128,12 @@ namespace action {
 		char block = gmap[y][x];
 		switch (block) {
 		 case 'i':  // brazier
+		 	menu::deck_size++;
+		 case 'j':  // brazier lit
 		 	combatlog("brazier: reset level");
 		 	reset_level();
+		 	gmap[y][x] = 'j';
+		 	reset_player();
 		 	break;
 		 case '%':  // ladder
 		 	combatlog("descended the ladder");

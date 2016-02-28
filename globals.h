@@ -68,6 +68,7 @@ namespace menu {
 		CARD_DIAMOND
 	};
 	extern std::vector<int> cards;
+	extern int deck_size;
 	extern int handpos;
 	int playeraction(int action);
 	int reset_cards();
@@ -86,7 +87,8 @@ namespace display {
 
 // globals
 std::stringstream& ss(int reset = 0);
-void  reset_level(int reset_player = 0);
+void  reset_level(int reset_pos = 0);
+void  reset_player();
 gtext create_gtext(int x, int y, std::string s, int type = 0);
 void  cleardead();
 void  combatlog(const std::string& s);

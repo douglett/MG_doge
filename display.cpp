@@ -77,6 +77,9 @@ namespace display {
 						case 'c':
 							SDL_SetRenderDrawColor(game::ren, 0, 200, 0, 255);
 							break;
+						case 'j':
+							SDL_SetRenderDrawColor(game::ren, 50, 250, 50, 255);
+							break;
 						default:
 							SDL_SetRenderDrawColor(game::ren, 255, 0, 255, 255);  // unknown - hot pink
 					}
@@ -84,6 +87,7 @@ namespace display {
 					const SDL_Rect* tile = NULL;
 					switch ( gmap[camera.y+y][camera.x+x] ) {
 						case 'i':
+						case 'j':
 							tile = &flame;
 							break;
 						case '%':

@@ -57,6 +57,7 @@ int main() {
 	playermob.name = "player";
 
 	reset_level(true);
+	reset_player();
 
 	gamestate::movecount = 0;
 
@@ -103,7 +104,7 @@ int main() {
 }
 
 
-void reset_level(int reset_player) {
+void reset_level(int reset_pos) {
 	// build maps
 	testmap::buildmap(6000 + dungeon_floor);
 	gmap = testmap::gmap;
@@ -111,7 +112,7 @@ void reset_level(int reset_player) {
 
 	// see if the map creator sent us some start coordinates
 	if (mobcache.size() > 0 && mobcache[0]["type"] == -1) {
-		if (reset_player) {
+		if (reset_pos) {
 			playermob.x = mobcache[0]["x"];
 			playermob.y = mobcache[0]["y"];
 		}
@@ -127,13 +128,18 @@ void reset_level(int reset_player) {
 	fogofwar = vector<string>(
 			gmap.size(),
 			string(gmap[0].size(), FOG_ENABLED) );
+	// reset cam
+	revealfog();
+	display::centercam();
+}
 
+void reset_player() {
 	// reset player
 	srand(time(NULL));
 	playermob.hp = playermob.maxhp;
 	menu::reset_cards();
-	revealfog();
-	display::centercam();
+	// revealfog();
+	// display::centercam();
 }
 
 mob create_mob(map<string, int>& mm) {
@@ -232,28 +238,29 @@ int level_up() {
 		playermob.xp %= nextlevel; // add level num
 		playermob.maxhp += 4;
 		playermob.hp += 4; // add health
-		combatlog("you leveled up!");
+		combatlog("LEVEL UP!");
 		return 1;
 	}
 	return 0;
 }
 
 int chest_item() {
-	// 1 in 3 change to get an upgrade
-	int r = rand()%3;
-	if (r == 0) {
-		if (playermob.def < dungeon_floor) {
-			playermob.def++;
-			ss(1) << "you got mail+" << playermob.def;
-			combatlog(ss().str());
-			return 1;
-		}
-		else if (playermob.atk < dungeon_floor) {
-			playermob.atk++;
-			ss(1) << "you got sword+" << playermob.atk;
-			combatlog(ss().str());
-			return 1;
-		}
+	// 1 in 3 chance to get an upgrade
+	switch (rand()%6) {
+	 case 1:
+	 	if (playermob.atk >= playermob.lvl) 
+	 		break;
+	 	playermob.atk++;
+		ss(1) << "you got sword+" << playermob.atk;
+		combatlog(ss().str());
+		return 1;
+	 case 2:
+	 	if (playermob.def >= playermob.lvl) 
+	 		break;
+		playermob.def++;
+		ss(1) << "you got mail+" << playermob.def;
+		combatlog(ss().str());
+		return 1;
 	}
 	
 	// bad luck, or nothing to get this level - have a bean!
