@@ -7,5 +7,5 @@
 namespace testmap {
 	extern std::vector<std::string> gmap;
 	extern std::vector<std::map<std::string, int> > gmobs;
-	int buildmap(int seed);
+	int buildmap(int seed, int level);
 }

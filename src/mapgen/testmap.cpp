@@ -9,7 +9,10 @@ namespace testmap {
 	vector<map<string, int> > gmobs;
 
 
-	int buildmap(int seed) {
+	int buildmap(int seed, int level) {
+		int mseed = seed + 7*level;
+		srand(mseed);
+
 		gmap = vector<string> {
 			"########       ##################",
 			"#......#       #................#",

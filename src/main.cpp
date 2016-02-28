@@ -106,7 +106,7 @@ int main() {
 
 void reset_level(int reset_pos) {
 	// build maps
-	testmap::buildmap(6000 + dungeon_floor);
+	testmap::buildmap(6000, dungeon_floor);
 	gmap = testmap::gmap;
 	auto& mobcache = testmap::gmobs;
 
