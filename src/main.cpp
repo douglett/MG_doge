@@ -6,7 +6,8 @@
 #include "globals.h"
 // #include "mapgen/tmap.h"
 // #include "mapgen/lazymap.h"
-#include "mapgen/testmap.h"
+// #include "mapgen/testmap.h"
+#include "mapgen/boxmap.h"
 
 using namespace std;
 
@@ -41,6 +42,7 @@ namespace gamestate {
 
 int main() {
 	cout << "hello world" << endl;
+	reset_level();
 	if (game::init())
 		return 1;
 
@@ -106,9 +108,9 @@ int main() {
 
 void reset_level(int reset_pos) {
 	// build maps
-	testmap::buildmap(6000, dungeon_floor);
-	gmap = testmap::gmap;
-	auto& mobcache = testmap::gmobs;
+	boxmap::buildmap(6000, dungeon_floor);
+	gmap = boxmap::gmap;
+	auto& mobcache = boxmap::gmobs;
 
 	// see if the map creator sent us some start coordinates
 	if (mobcache.size() > 0 && mobcache[0]["type"] == -1) {
