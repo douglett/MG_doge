@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <SDL.h>
+#include "rng.h"
 
 // mob types
 class mob {
