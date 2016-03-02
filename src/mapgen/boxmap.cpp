@@ -8,9 +8,6 @@ using namespace std;
 
 namespace boxmap {
 
-	vector<string> gmap;
-	vector<map<string, int> > gmobs;
-
 	struct box {
 		int x;
 		int y;
@@ -18,21 +15,63 @@ namespace boxmap {
 		int h;
 	};
 
-	static int intersect(const box& b1, const box& b2);
+	static int  intersect(const box& b1, const box& b2);
+	static void make_rooms(vector<box>& boxlist);
+	static void make_corridors_h(vector<box>& boxlist);
+
+	vector<string> gmap;
+	vector<map<string, int> > gmobs;
+	static int 
+		width = 40,
+		height = 40;
+	static vector<box> roomlist;
 
 
 	int buildmap(int seed, int level) {
+		// init seed
 		int mseed = seed + 7*level;
 		rng::seed(mseed);
 
 		// init map
-		int width = 40;
-		int height = 40;
 		string s = string(width, ' ');
 		gmap = vector<string>( height, s );
 		gmobs.erase(gmobs.begin(), gmobs.end());
-		vector<box> boxlist;
+		roomlist.erase(roomlist.begin(), roomlist.end());
 
+		// make rooms
+		make_rooms(roomlist);
+		make_corridors_h(roomlist);
+		
+		// display map
+		for (const auto &r : gmap) {
+			for (int x = 0; x < min(int(r.length()), 60); x++)
+				cout << r[x] << ' ';
+			cout << '+' << endl;
+		}
+		exit(1);
+
+		// start pos
+		int start = 2;
+		gmobs.push_back({ 
+			{ "x", roomlist[start].x + roomlist[start].w/2 },
+			{ "y", roomlist[start].y + roomlist[start].h/2 },
+			{ "type", -1 }
+		});
+
+		return 0;
+	}
+
+
+
+	static int intersect(const box& b1, const box& b2) {
+		if (b1.x > b2.x+b2.w || b1.y > b2.y+b2.h || b1.x+b1.w < b2.x || b1.y+b1.h < b2.y)
+			return 0;
+		return 1;
+	}
+
+
+
+	static void make_rooms(vector<box>& boxlist) {
 		// make random boxes
 		while (boxlist.size() < 6) {
 			// make box
@@ -61,14 +100,18 @@ namespace boxmap {
 						'#' : '.'
 					);
 		}
+	}
 
-		// make lines
+
+
+	static void make_corridors_h(vector<box>& boxlist) {
+		// make horizontal lines
 		vector<pair<const box*, const box*> > lines;
 		// assemble all possible horizontal tunnels
 		for (int y = 0; y < height; y++) {
 			vector<const box*> l;
 			for (const auto& b : boxlist)
-				if (y >= b.y && y < b.y+b.h)
+				if (y > b.y && y < b.y+b.h-1)
 					l.push_back(&b);
 			// split into pairs
 			while (l.size() >= 2) {
@@ -106,31 +149,6 @@ namespace boxmap {
 				gmap[h][x] = ',';
 			}
 		}
-		
-		// display map
-		for (const auto &r : gmap) {
-			for (int x = 0; x < min(int(r.length()), 60); x++)
-				cout << r[x] << ' ';
-			cout << '+' << endl;
-		}
-		// exit(1);
-
-		// start pos
-		int start = 2;
-		gmobs.push_back({ 
-			{ "x", boxlist[start].x + boxlist[start].w/2 },
-			{ "y", boxlist[start].y + boxlist[start].h/2 },
-			{ "type", -1 }
-		});
-
-		return 0;
 	}
 
-
-	static int intersect(const box& b1, const box& b2) {
-		if (b1.x > b2.x+b2.w || b1.y > b2.y+b2.h || b1.x+b1.w < b2.x || b1.y+b1.h < b2.y)
-			return 0;
-		return 1;
-	}
-
-}
+} // end boxmap
