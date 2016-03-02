@@ -30,6 +30,7 @@ namespace boxmap {
 		int height = 40;
 		string s = string(width, ' ');
 		gmap = vector<string>( height, s );
+		gmobs.erase(gmobs.begin(), gmobs.end());
 		vector<box> boxlist;
 
 		// make random boxes
@@ -84,7 +85,7 @@ namespace boxmap {
 					j--;
 				}
 
-		// 
+		// debug
 		cout << lines.size() << endl;
 		for (auto &l : lines)
 			printf("%d,%d  %d,%d\n", l.first->x, l.first->y, l.second->x, l.second->y );
@@ -99,8 +100,10 @@ namespace boxmap {
 				b2 = l.first;
 			}
 			for (int x = b1->x + b1->w - 1; x <= b2->x; x++) {
-				int h = b1->h / 2;
-				gmap[b1->y+h][x] = '.';
+				// int h = b1->h / 2;
+				// gmap[b1->y+h][x] = '.';
+				int h = (b1->y*2 + b1->h + b2->y*2 + b2->h) / 4;
+				gmap[h][x] = ',';
 			}
 		}
 		
@@ -110,7 +113,15 @@ namespace boxmap {
 				cout << r[x] << ' ';
 			cout << '+' << endl;
 		}
-		exit(1);
+		// exit(1);
+
+		// start pos
+		int start = 2;
+		gmobs.push_back({ 
+			{ "x", boxlist[start].x + boxlist[start].w/2 },
+			{ "y", boxlist[start].y + boxlist[start].h/2 },
+			{ "type", -1 }
+		});
 
 		return 0;
 	}

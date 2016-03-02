@@ -9,7 +9,7 @@ using namespace std;
 
 
 const string 
-	walkable = "./",
+	walkable = ".,/",
 	actionable = "%ijC";
 
 

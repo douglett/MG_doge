@@ -22,7 +22,9 @@ const vector<string> mob_names = {
 	"scorp",
 	"cakey"
 };
-const int FOG_ENABLED = 1;
+const int 
+	FOG_ENABLED = 1,
+	FOG_SPOTLIGHT_SIZE = 4;
 
 
 // main.cpp globals
@@ -129,7 +131,7 @@ void reset_level(int reset_pos) {
 	// make fog of war
 	fogofwar = vector<string>(
 			gmap.size(),
-			string(gmap[0].size(), FOG_ENABLED) );
+			string(gmap[0].size(), FOG_ENABLED*2) );
 	// reset cam
 	revealfog();
 	display::centercam();
@@ -281,13 +283,15 @@ void combatlog(const string& s) {
 
 void revealfog() {
 	int xx, yy;
-	for (int y = -3; y <= 3; y++) {
+	for (int y = -FOG_SPOTLIGHT_SIZE; y <= FOG_SPOTLIGHT_SIZE; y++) {
 		yy = playermob.y + y;
-		for (int x = -3; x <= 3; x++) {
+		for (int x = -FOG_SPOTLIGHT_SIZE; x <= FOG_SPOTLIGHT_SIZE; x++) {
 			xx = playermob.x + x;
 			if (xx < 0 || xx >= fogofwar[0].size() || yy < 0 || yy >= fogofwar.size())
 				continue;
-			if (abs(x) + abs(y) < 4)
+			else if (abs(x) + abs(y) == FOG_SPOTLIGHT_SIZE)
+				fogofwar[playermob.y+y][playermob.x+x] = 1;
+			else if (abs(x) + abs(y) < FOG_SPOTLIGHT_SIZE)
 				fogofwar[playermob.y+y][playermob.x+x] = 0;
 		}
 	}

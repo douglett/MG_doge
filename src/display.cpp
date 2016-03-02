@@ -59,7 +59,7 @@ namespace display {
 
 				dst.x = x * 12 + offsetx;
 				// draw block
-				if ( fogofwar[camera.y+y][camera.x+x] == 0 ) {
+				if ( fogofwar[camera.y+y][camera.x+x] < 2 ) {
 					// background color
 					switch ( gmap[camera.y+y][camera.x+x] ) {
 						case ' ':
@@ -69,6 +69,9 @@ namespace display {
 							break;
 						case '/':
 							SDL_SetRenderDrawColor(game::ren, 160, 100, 100, 255);
+							break;
+						case ',':
+							SDL_SetRenderDrawColor(game::ren, 0, 160, 0, 255);
 							break;
 						case '.':
 						case 'i':
@@ -106,6 +109,11 @@ namespace display {
 						SDL_Rect s = *tile;
 						s.x += 12 * animstate;
 						SDL_RenderCopy(game::ren, sprites, &s, &dst); // draw top sprite
+					}
+					// fog of war edge
+					if ( fogofwar[camera.y+y][camera.x+x] == 1 ) {
+						SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 150);
+						SDL_RenderFillRect(game::ren, &dst);
 					}
 				}
 				// draw lines
