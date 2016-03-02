@@ -18,6 +18,8 @@ namespace rng {
 		m_w = m+1;
 	}
 
+	// George Marsaglia's MWC generator (multiply with carry)
+	// thanks to John D. Cook for tutorial
 	int32_t rand() {
 		m_z = CONA * (m_z & CONZ) + (m_z >> 16);
 		m_w = CONB * (m_w & CONZ) + (m_w >> 16);
