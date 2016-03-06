@@ -16,9 +16,10 @@ namespace boxmap {
 	};
 
 	static int  intersect(const box& b1, const box& b2);
-	static void make_rooms(vector<box>& boxlist);
-	static void make_corridors_h(vector<box>& boxlist);
-	static void make_corridors_v(vector<box>& boxlist);
+	static void make_rooms();
+	static void make_corridors_h();
+	static void make_corridors_v();
+	static void make_furniture();
 
 	vector<string> gmap;
 	vector<map<string, int> > gmobs;
@@ -40,9 +41,10 @@ namespace boxmap {
 		roomlist.erase(roomlist.begin(), roomlist.end());
 
 		// make rooms
-		make_rooms(roomlist);
-		make_corridors_h(roomlist);
-		make_corridors_v(roomlist);
+		make_rooms();
+		make_corridors_h();
+		make_corridors_v();
+		make_furniture();
 		
 		// display map
 		for (const auto &r : gmap) {
@@ -73,28 +75,28 @@ namespace boxmap {
 
 
 
-	static void make_rooms(vector<box>& boxlist) {
+	static void make_rooms() {
 		// make random boxes
-		while (boxlist.size() < 6) {
+		while (roomlist.size() < 6) {
 			// make box
 			int w = rng::rand()%7+5;
 			int h = rng::rand()%7+5;
-			box b = { rng::rand()%(width-w), rng::rand()%(height-h), w, h };
+			box room = { rng::rand()%(width-w), rng::rand()%(height-h), w, h };
 			// check if it hits another box
 			int boxintersect = 0;
-			for (const auto &bb : boxlist)
-				if (intersect(b, bb)) {
+			for (const auto &r : roomlist)
+				if (intersect(r, room)) {
 					boxintersect = true;
 					break;
 				}
 			// if not, add box
 			if (!boxintersect)
-				boxlist.push_back(b);
+				roomlist.push_back(room);
 		}
 		
 
 		// build map rooms
-		for (const auto& b : boxlist) {
+		for (const auto& b : roomlist) {
 			for (int y = 0; y < b.h; y++)
 				for (int x = 0; x < b.w; x++)
 					gmap[b.y+y][b.x+x] = (
@@ -106,13 +108,14 @@ namespace boxmap {
 
 
 
-	static void make_corridors_h(vector<box>& boxlist) {
+	static void make_corridors_h() {
 		// make horizontal lines
 		vector<pair<const box*, const box*> > lines;
+
 		// assemble all possible horizontal tunnels
 		for (int y = 0; y < height; y++) {
 			vector<const box*> l;
-			for (const auto& b : boxlist)
+			for (const auto& b : roomlist)
 				if (y > b.y && y < b.y+b.h-1)
 					l.push_back(&b);
 			// split into pairs
@@ -151,14 +154,14 @@ namespace boxmap {
 	}
 
 
-	static void make_corridors_v(vector<box>& boxlist) {
+	static void make_corridors_v() {
 		// make horizontal lines
 		vector<pair<const box*, const box*> > lines;
 
 		// assemble all possible vertical tunnels
 		for (int x = 0; x < width; x++) {
 			vector<const box*> l;
-			for (const auto& b : boxlist)
+			for (const auto& b : roomlist)
 				if (x > b.x && x < b.x+b.w-1)
 					l.push_back(&b);
 			// split into pairs
@@ -193,6 +196,44 @@ namespace boxmap {
 			int posx = (b1->x*2 + b1->w + b2->x*2 + b2->w) / 4;  // find center point between boxes
 			for (int y = b1->y + b1->h - 1; y <= b2->y; y++)  // draw line
 				gmap[y][posx] = ',';
+		}
+	}
+
+
+	// get an available room square
+	static void room_pos(int* x, int* y, box** room) {
+		// static const string walkable = ".,";
+		while (true) {
+			*room = &roomlist[ rng::rand() % roomlist.size() ];
+			*x = (*room)->x+1 + rng::rand()%((*room)->w-2);
+			*y = (*room)->y+1 + rng::rand()%((*room)->h-2);
+			if ( gmap[*y][*x] != '.' )
+				continue;  // make sure position is empty
+			if (gmap[*y-1][*x] == ',' || gmap[*y+1][*x] == ',' || gmap[*y][*x-1] == ',' || gmap[*y][*x+1] == ',')
+				continue;  // make sure we are not next to a path, to avoid blocking exits
+			break;
+		}
+	}
+
+
+	static void make_furniture() {
+		box* room = NULL;
+		int x = 0, y = 0;
+
+		// treasure chests
+		int chestcount = 2 + rng::rand()%4;
+		while (chestcount > 0) {
+			room_pos(&x, &y, &room);
+			gmap[y][x] = 'C';
+			chestcount--;
+		}
+
+		// brazier
+		int braziercount = 1;
+		while (braziercount > 0) {
+			room_pos(&x, &y, &room);
+			gmap[y][x] = 'j';
+			braziercount--;
 		}
 	}
 

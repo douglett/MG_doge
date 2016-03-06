@@ -140,10 +140,9 @@ void reset_level(int reset_pos) {
 void reset_player() {
 	// reset player
 	srand(time(NULL));
-	playermob.hp = playermob.maxhp;
+	if (playermob.hp < playermob.maxhp)
+		playermob.hp = playermob.maxhp;
 	menu::reset_cards();
-	// revealfog();
-	// display::centercam();
 }
 
 mob create_mob(map<string, int>& mm) {
