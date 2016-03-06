@@ -18,6 +18,7 @@ namespace boxmap {
 	static int  intersect(const box& b1, const box& b2);
 	static void make_rooms(vector<box>& boxlist);
 	static void make_corridors_h(vector<box>& boxlist);
+	static void make_corridors_v(vector<box>& boxlist);
 
 	vector<string> gmap;
 	vector<map<string, int> > gmobs;
@@ -41,6 +42,7 @@ namespace boxmap {
 		// make rooms
 		make_rooms(roomlist);
 		make_corridors_h(roomlist);
+		make_corridors_v(roomlist);
 		
 		// display map
 		for (const auto &r : gmap) {
@@ -48,7 +50,7 @@ namespace boxmap {
 				cout << r[x] << ' ';
 			cout << '+' << endl;
 		}
-		exit(1);
+		// exit(1);
 
 		// start pos
 		int start = 2;
@@ -129,9 +131,9 @@ namespace boxmap {
 				}
 
 		// debug
-		cout << lines.size() << endl;
-		for (auto &l : lines)
-			printf("%d,%d  %d,%d\n", l.first->x, l.first->y, l.second->x, l.second->y );
+		// cout << "horizontal: " << lines.size() << endl;
+		// for (auto &l : lines)
+		// 	printf("%d,%d  %d,%d\n", l.first->x, l.first->y, l.second->x, l.second->y );
 
 		// draw lines
 		const box *b1, *b2;
@@ -142,12 +144,55 @@ namespace boxmap {
 				b1 = b2;
 				b2 = l.first;
 			}
-			for (int x = b1->x + b1->w - 1; x <= b2->x; x++) {
-				// int h = b1->h / 2;
-				// gmap[b1->y+h][x] = '.';
-				int h = (b1->y*2 + b1->h + b2->y*2 + b2->h) / 4;
-				gmap[h][x] = ',';
+			int posy = (b1->y*2 + b1->h + b2->y*2 + b2->h) / 4;  // find center point
+			for (int x = b1->x + b1->w - 1; x <= b2->x; x++)  // draw line
+				gmap[posy][x] = ',';
+		}
+	}
+
+
+	static void make_corridors_v(vector<box>& boxlist) {
+		// make horizontal lines
+		vector<pair<const box*, const box*> > lines;
+
+		// assemble all possible vertical tunnels
+		for (int x = 0; x < width; x++) {
+			vector<const box*> l;
+			for (const auto& b : boxlist)
+				if (x > b.x && x < b.x+b.w-1)
+					l.push_back(&b);
+			// split into pairs
+			while (l.size() >= 2) {
+				lines.push_back({ l[l.size()-1], l[l.size()-2] });
+				l.pop_back();
 			}
+		}
+
+		// clear duplicate lines
+		for (int i = 0; i < lines.size(); i++)
+			for (int j = i+1; j < lines.size(); j++)
+				if (lines[i].first == lines[j].first && lines[i].second == lines[j].second) {
+					lines.erase(lines.begin() + j);
+					j--;
+				}
+
+		// debug
+		// cout << "vertical: " << lines.size() << endl;
+		// for (auto &l : lines)
+		// 	printf("%d,%d  %d,%d\n", l.first->x, l.first->y, l.second->x, l.second->y );
+
+		// draw lines
+		const box *b1, *b2;
+		for (auto &l : lines) {
+			b1 = l.first;
+			b2 = l.second;
+			if (b1->y > b2->y) {
+				b1 = b2;
+				b2 = l.first;
+			}
+			int posx = (b1->x*2 + b1->w + b2->x*2 + b2->w) / 4;  // find center point between boxes
+			for (int y = b1->y + b1->h - 1; y <= b2->y; y++)  // draw line
+				gmap[y][posx] = ',';
 		}
 	}
 
