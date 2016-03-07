@@ -235,6 +235,15 @@ namespace boxmap {
 			gmap[y][x] = 'j';
 			braziercount--;
 		}
+
+		// exit ladder
+		int laddercount = 1;
+		while (laddercount > 0) {
+			room_pos(&x, &y, &room);
+			// check for player room here
+			gmap[y][x] = '%';
+			laddercount--;
+		}
 	}
 
 } // end boxmap
