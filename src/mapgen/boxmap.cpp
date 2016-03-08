@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <sys/ioctl.h>
 #include "src/rng.h"
 
 using namespace std;
@@ -48,15 +49,29 @@ namespace boxmap {
 		make_corridors_v();
 		make_furniture();
 		make_mobs();
-		
-		// display map
-		for (const auto &r : gmap) {
-			for (int x = 0; x < min(int(r.length()), 60); x++)
-				cout << r[x] << ' ';
-			cout << '+' << endl;
-		}
+
+		display();
 
 		return 0;
+	}
+
+
+	void display() {
+		// add mobs to map
+		auto map2 = gmap;
+		for (auto& m : gmobs)
+			map2[ m.at("y") ][ m.at("x") ] = '*';
+
+		struct winsize w;
+		ioctl(0, TIOCGWINSZ, &w);
+		int col = w.ws_col;
+
+		// display map
+		for (const auto &r : map2) {
+			for (int x = 0; x < min(int(r.length()), col); x++)
+				cout << r[x] << ' ';
+			cout << endl;
+		}
 	}
 
 
@@ -277,14 +292,15 @@ namespace boxmap {
 		return sqrt(dx*dx + dy*dy);  // trig woo
 	}
 
-	static void find_tile(int* pos, char tile) {
+	static int find_tile(int* pos, char tile) {
 		for (int y = 0; y < gmap.size(); y++)
 			for (int x = 0; x < gmap[y].size(); x++)
 				if (gmap[y][x] == tile) {
 					pos[0] = x;
 					pos[1] = y;
-					return;
+					return 1;
 				}
+		return 0;
 	}
 
 	static void make_mobs() {

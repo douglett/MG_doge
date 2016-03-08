@@ -7,5 +7,6 @@
 namespace boxmap {
 	extern std::vector<std::string> gmap;
 	extern std::vector<std::map<std::string, int> > gmobs;
-	int buildmap(int seed, int level);
+	int  buildmap(int seed, int level);
+	void display();
 }
