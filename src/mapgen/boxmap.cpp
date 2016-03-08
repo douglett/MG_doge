@@ -1,6 +1,7 @@
 #include "boxmap.h"
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 #include "src/rng.h"
 
 using namespace std;
@@ -20,6 +21,7 @@ namespace boxmap {
 	static void make_corridors_h();
 	static void make_corridors_v();
 	static void make_furniture();
+	static void make_mobs();
 
 	vector<string> gmap;
 	vector<map<string, int> > gmobs;
@@ -40,11 +42,12 @@ namespace boxmap {
 		gmobs.erase(gmobs.begin(), gmobs.end());
 		roomlist.erase(roomlist.begin(), roomlist.end());
 
-		// make rooms
+		// make rooms & map parts
 		make_rooms();
 		make_corridors_h();
 		make_corridors_v();
 		make_furniture();
+		make_mobs();
 		
 		// display map
 		for (const auto &r : gmap) {
@@ -52,15 +55,6 @@ namespace boxmap {
 				cout << r[x] << ' ';
 			cout << '+' << endl;
 		}
-		// exit(1);
-
-		// start pos
-		int start = 2;
-		gmobs.push_back({ 
-			{ "x", roomlist[start].x + roomlist[start].w/2 },
-			{ "y", roomlist[start].y + roomlist[start].h/2 },
-			{ "type", -1 }
-		});
 
 		return 0;
 	}
@@ -243,6 +237,93 @@ namespace boxmap {
 			// check for player room here
 			gmap[y][x] = '%';
 			laddercount--;
+		}
+	}
+
+
+	static void mob_pos(int* x, int* y) {
+		box* room = NULL;
+		while (true) {
+			// get room
+			room_pos(x, y, &room);
+			int hit = 0;
+			// don't stack mobs on top of each other
+			for (const auto& m : gmobs)
+				if (m.at("x") == *x && m.at("y") == *y) {
+					hit = 1;
+					break;
+				}
+			if (!hit)
+				return;
+		}
+	}
+
+	// static double getdist(const map<string, int>& mob, int x, int y) {
+	// 	int dx = mob.at("x") - x;
+	// 	int dy = mob.at("y") - y;
+	// 	return sqrt(dx*dx + dy*dy);  // trig woo
+	// }
+
+	// static double getdist(const map<string, int>& mob1, const map<string, int>& mob2) {
+	// 	int dx = mob1.at("x") - mob2.at("x");
+	// 	int dy = mob1.at("y") - mob2.at("y");
+	// 	// trig woo
+	// 	return sqrt(dx*dx + dy*dy);
+	// }
+
+	static double getdist(int x1, int y1, int x2, int y2) {
+		int dx = x1 - x2;
+		int dy = y1 - y2;
+		return sqrt(dx*dx + dy*dy);  // trig woo
+	}
+
+	static void find_tile(int* pos, char tile) {
+		for (int y = 0; y < gmap.size(); y++)
+			for (int x = 0; x < gmap[y].size(); x++)
+				if (gmap[y][x] == tile) {
+					pos[0] = x;
+					pos[1] = y;
+					return;
+				}
+	}
+
+	static void make_mobs() {
+		// find special tiles
+		int bp[2],  // brazier
+			lp[2];  // ladder
+		find_tile(bp, 'j');
+		find_tile(lp, '%');
+
+		// player start pos
+		int pp[2];
+		int player = 1;
+		while (player > 0) {
+			mob_pos( &pp[0], &pp[1] );
+			if (getdist(pp[0], pp[1], lp[0], lp[1]) < 10)  // don't spawn player near ladder
+				continue;
+			gmobs.push_back({ 
+				{ "x", pp[0] },
+				{ "y", pp[1] },
+				{ "type", -1 }
+			});
+			player--;
+		}
+
+		// mob start pos
+		int x = 0, y = 0;
+		int mobcount = 7 + rng::rand()%7;
+		while (mobcount > 0) {
+			mob_pos(&x, &y);
+			if (getdist(pp[0], pp[1], x, y) < 6)  // don't spawn near player spawn
+				continue;
+			if (getdist(bp[0], bp[1], x, y) < 6)  // don't spawn near brazier
+				continue;
+			gmobs.push_back({ 
+				{ "x", x },
+				{ "y", y },
+				{ "type", rng::rand()%2 + 1 }
+			});
+			mobcount--;
 		}
 	}
 

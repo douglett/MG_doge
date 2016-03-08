@@ -134,7 +134,7 @@ namespace display {
 		for (auto m : gmobs) {
 			if (m.x < camera.x || m.x >= camera.x+camera.w || m.y < camera.y || m.y >= camera.y+camera.h)
 				continue;
-			if ( fogofwar[m.y][m.x] == 1 )
+			if ( fogofwar[m.y][m.x] > 0 )
 				continue;
 			if (m.type == 1)
 				src = scorpion;

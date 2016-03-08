@@ -44,7 +44,8 @@ namespace gamestate {
 
 int main() {
 	cout << "hello world" << endl;
-	reset_level();
+	// reset_level(); exit(1);
+
 	if (game::init())
 		return 1;
 
