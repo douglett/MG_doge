@@ -45,23 +45,20 @@ int main() {
 	if (game::init())
 		return 1;
 
-	// sprite images
+	// game init work
 	display::sprites = texture::get("images")->tex;
-
-	// set up main player
 	display::camera.w = ceil(game::width/12.0);
 	display::camera.h = ceil(game::height/12.0);
-	playermob.hp = playermob.maxhp = 20;
-	playermob.xp = 0;
-	// playermob.x = 4;
-	// playermob.y = 3;
-	playermob.name = "player";
 
+	// reset game
+	gamestate::movecount = 0;
+	playermob.name = "player";
+	playermob.hp = playermob.maxhp = 20;
+	dungeon_floor = 1;
 	reset_level(true);
 	player_rest();
 
-	gamestate::movecount = 0;
-
+	// main game loop
 	while (true) {
 		animtt++;
 		if (animtt % 30 == 0) {
