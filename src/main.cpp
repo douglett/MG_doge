@@ -4,8 +4,6 @@
 #include <map>
 #include "libsrc/xcengine.h"
 #include "globals.h"
-// #include "mapgen/tmap.h"
-// #include "mapgen/lazymap.h"
 // #include "mapgen/testmap.h"
 #include "mapgen/boxmap.h"
 
@@ -44,8 +42,6 @@ namespace gamestate {
 
 int main() {
 	cout << "hello world" << endl;
-	// reset_level(); boxmap::display(); exit(1);
-
 	if (game::init())
 		return 1;
 
