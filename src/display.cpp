@@ -21,7 +21,9 @@ namespace display {
 		flame = { 0, 63, 12, 12 },
 		stairs = { 24, 63, 12, 12 },
 		chest = { 48, 63, 12, 12 },
-		chest_open = { 72, 63, 12, 12 };
+		chest_open = { 72, 63, 12, 12 },
+		brazier_unlit = { 0, 78, 12, 12 },
+		brazier = { 24, 78, 12, 12 };
 
 	// external vars
 	int animstate = 0;
@@ -75,13 +77,11 @@ namespace display {
 							break;
 						case '.':
 						case 'i':
+						case 'j':
 						case '%':
 						case 'C':
 						case 'c':
 							SDL_SetRenderDrawColor(game::ren, 0, 200, 0, 255);
-							break;
-						case 'j':
-							SDL_SetRenderDrawColor(game::ren, 50, 250, 50, 255);
 							break;
 						default:
 							SDL_SetRenderDrawColor(game::ren, 255, 0, 255, 255);  // unknown - hot pink
@@ -90,8 +90,10 @@ namespace display {
 					const SDL_Rect* tile = NULL;
 					switch ( gmap[camera.y+y][camera.x+x] ) {
 						case 'i':
+							tile = &brazier_unlit;
+							break;
 						case 'j':
-							tile = &flame;
+							tile = &brazier;
 							break;
 						case '%':
 							tile = &stairs;
