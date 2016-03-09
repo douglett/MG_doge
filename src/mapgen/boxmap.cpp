@@ -1,3 +1,8 @@
+/**
+ * Simple map generator using room boxes
+ * author: doug
+ * date: feb 2016
+ */
 #include "boxmap.h"
 #include <iostream>
 #include <algorithm>
@@ -61,7 +66,7 @@ namespace boxmap {
 		auto map2 = gmap;
 		for (auto& m : gmobs)
 			map2[ m.at("y") ][ m.at("x") ] = '*';
-
+		
 		struct winsize w;
 		ioctl(0, TIOCGWINSZ, &w);
 		int col = w.ws_col;
@@ -241,7 +246,7 @@ namespace boxmap {
 		int braziercount = 1;
 		while (braziercount > 0) {
 			room_pos(&x, &y, &room);
-			gmap[y][x] = 'j';
+			gmap[y][x] = 'i';
 			braziercount--;
 		}
 
@@ -307,7 +312,7 @@ namespace boxmap {
 		// find special tiles
 		int bp[2],  // brazier
 			lp[2];  // ladder
-		find_tile(bp, 'j');
+		find_tile(bp, 'i');
 		find_tile(lp, '%');
 
 		// player start pos

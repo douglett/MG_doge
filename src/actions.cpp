@@ -133,7 +133,7 @@ namespace action {
 		 	combatlog("brazier: reset level");
 		 	reset_level();
 		 	gmap[y][x] = 'j';
-		 	reset_player();
+		 	player_rest();
 		 	break;
 		 case '%':  // ladder
 		 	combatlog("descended the ladder");

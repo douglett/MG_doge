@@ -58,7 +58,7 @@ int main() {
 	playermob.name = "player";
 
 	reset_level(true);
-	reset_player();
+	player_rest();
 
 	gamestate::movecount = 0;
 
@@ -134,7 +134,7 @@ void reset_level(int reset_pos) {
 	display::centercam();
 }
 
-void reset_player() {
+void player_rest() {
 	// reset player
 	srand(time(NULL));
 	if (playermob.hp < playermob.maxhp)
@@ -168,13 +168,14 @@ stringstream& ss(int reset) {
 }
 
 
-int get_action_inner() {
+int get_action() {
+	action::Action act = action::ACT_NONE;
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		 case SDL_QUIT:
-			return action::ACT_KILL;
+			return action::ACT_KILL;  // override, force quit
 		 case SDL_WINDOWEVENT:
 			// (int)event.window.event
 			break;
@@ -182,39 +183,39 @@ int get_action_inner() {
 			// handle key press
 			switch (event.key.keysym.sym) {
 			 case SDLK_ESCAPE:
-				return action::ACT_KILL;
+				return action::ACT_KILL;  // override
 			 case SDLK_LEFT:
-				return action::ACT_WEST;
+			 	if (!act) act = action::ACT_WEST;
+				break;
 			 case SDLK_RIGHT:
-				return action::ACT_EAST;
+			 	if (!act) act = action::ACT_EAST;
+				break;
 			 case SDLK_UP:
-				return action::ACT_NORTH;
+			 	if (!act) act = action::ACT_NORTH;
+				break;
 			 case SDLK_DOWN:
-				return action::ACT_SOUTH;
+			 	if (!act) act = action::ACT_SOUTH;
+				break;
 			 case SDLK_SPACE:
 			 case SDLK_z:
-				return action::ACT_ACTION;
+			 	if (!act) act = action::ACT_ACTION;
+				break;
 			 case SDLK_x:
-				return action::ACT_CANCEL;
+			 	if (!act) act = action::ACT_CANCEL;
+				break;
 			 case SDLK_s:
-				return action::ACT_MENU;
+			 	if (!act) act = action::ACT_MENU;
+				break;
 			 case SDLK_a:
-				return action::ACT_SELECT;
+			 	if (!act) act = action::ACT_SELECT;
+				break;
 			}
 			break;
 		}  // end switch
 	}  // end while
 
-	return action::ACT_NONE;
+	return act;
 }
-
-int get_action() {
-	int event = get_action_inner();
-	if (game::clearevents())
-		return action::ACT_KILL;
-	return event;
-}
-
 
 void cleardead() {
 	for (int i = 0; i < gmobs.size(); i++)

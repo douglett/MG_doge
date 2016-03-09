@@ -44,7 +44,7 @@ namespace gamestate {
 // attack actions
 namespace action {
 	enum Action {
-		ACT_NONE,
+		ACT_NONE = 0,
 		ACT_KILL,
 		ACT_WEST,
 		ACT_EAST,
@@ -89,7 +89,7 @@ namespace display {
 // globals
 std::stringstream& ss(int reset = 0);
 void  reset_level(int reset_pos = 0);
-void  reset_player();
+void  player_rest();
 gtext create_gtext(int x, int y, std::string s, int type = 0);
 void  cleardead();
 void  combatlog(const std::string& s);
