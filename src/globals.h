@@ -88,6 +88,7 @@ namespace display {
 
 // globals
 std::stringstream& ss(int reset = 0);
+int   stringtoseed(std::string seedstr);
 void  reset_level(int reset_pos = 0);
 void  player_rest();
 gtext create_gtext(int x, int y, std::string s, int type = 0);

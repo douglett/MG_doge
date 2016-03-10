@@ -28,6 +28,7 @@ const int
 // main.cpp globals
 int animtt = 0;
 int dungeon_floor = 1;
+int seed = 6000;
 vector<string> gmap, fogofwar, combat_log;
 vector<mob> gmobs, effects;
 mob playermob;
@@ -51,10 +52,11 @@ int main() {
 	display::camera.h = ceil(game::height/12.0);
 
 	// reset game
+	// seed = stringtoseed("flobador");
+	dungeon_floor = 1;
 	gamestate::movecount = 0;
 	playermob.name = "player";
 	playermob.hp = playermob.maxhp = 20;
-	dungeon_floor = 1;
 	reset_level(true);
 	player_rest();
 
@@ -102,9 +104,34 @@ int main() {
 }
 
 
+// change an 8 character word to an integer seed
+int stringtoseed(string seedstr) {
+	// sanitize seed a-z only
+	string seed;
+	for (auto c : seedstr) {
+		c = tolower(c);
+		if (c >= 'a' && c <= 'z' && seed.length() < 8)
+			seed += c;
+	}
+	// make prefix and suffix
+	int s1 = 0;
+	int s2 = 0;
+	for (int i = 0; i < seed.length(); i++) {
+		char c = seed[i];
+		if (i < 3)
+			s1 += c - 'a' + 1;
+		else
+			s2 += c - 'a' + 1;
+	}
+	int s = s1*100 + s2;  // make seed number
+	printf("seed: %s  %d\n", seed.c_str(), s);  // debug
+	return s;
+}
+
+
 void reset_level(int reset_pos) {
 	// build maps
-	boxmap::buildmap(6000, dungeon_floor);
+	boxmap::buildmap(seed, dungeon_floor);
 	gmap = boxmap::gmap;
 	auto& mobcache = boxmap::gmobs;
 
