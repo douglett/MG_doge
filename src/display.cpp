@@ -110,7 +110,7 @@ namespace display {
 		textout(x, y, s2);
 
 		// player name
-		string pname = "bahnhoff";
+		string pname = playermob.name;
 		pname += (display::animstate ? '_' : ' ');
 		for (auto& c : pname)
 			c = toupper(c);

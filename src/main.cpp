@@ -52,8 +52,12 @@ int main() {
 	display::camera.w = ceil(game::width/12.0);
 	display::camera.h = ceil(game::height/12.0);
 
-	mainloop_startmenu();
-	// mainloop_game();
+	while (true) {
+		if (mainloop_startmenu())
+			break;
+		if (mainloop_game())
+			break;
+	}
 
 	game::quit();
 }
@@ -63,13 +67,23 @@ int mainloop_startmenu() {
 	while (true) {
 		display::paintscreen('m');
 
-		int action = get_action();
-		switch (action) {
-		 case action::ACT_KILL:
-		 	return 1;
+		string& k = keys::getkey();
+		if (k.length()) {
+			// cout << k << endl;
+			if (k == "^q")
+				return 1;
+			else if (k == "^e" && playermob.name.length() > 0)
+				return 0;
+			else if (k == "^b" && playermob.name.length())
+				playermob.name.pop_back();
+			else if (playermob.name.length() >= 8)
+				;
+			else if (k[0] >= 'a' && k[0] <= 'z')
+				playermob.name += k[0];
+			else if (k[0] >= '0' && k[0] <= '9')
+				playermob.name += k[0];
 		}
 	}
-
 	return 0;
 }
 
@@ -79,7 +93,7 @@ int mainloop_game() {
 	// seed = stringtoseed("flobador");
 	dungeon_floor = 1;
 	gamestate::movecount = 0;
-	playermob.name = "player";
+	// playermob.name = "player";
 	playermob.hp = playermob.maxhp = 20;
 	reset_level(true);
 	player_rest();
@@ -115,7 +129,6 @@ int mainloop_game() {
 			break;
 		}
 	}
-
 	return 0;
 }
 
@@ -126,7 +139,11 @@ int stringtoseed(string seedstr) {
 	string seed;
 	for (auto c : seedstr) {
 		c = tolower(c);
-		if (c >= 'a' && c <= 'z' && seed.length() < 8)
+		if (seed.length() >= 8)
+			;
+		else if (c >= 'a' && c <= 'z')
+			seed += c;
+		else if (c >= '0' && c <= '9')
 			seed += c;
 	}
 	// make prefix and suffix
@@ -277,6 +294,7 @@ static int get_action() {
 
 	return act;
 }
+
 
 void cleardead() {
 	for (int i = 0; i < gmobs.size(); i++)

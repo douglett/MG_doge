@@ -41,6 +41,12 @@ namespace gamestate {
 	extern int movecount;
 }
 
+// get keys
+namespace keys {
+	extern std::string keystr;
+	std::string& getkey();
+}
+
 // attack actions
 namespace action {
 	enum Action {
