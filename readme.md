@@ -2,7 +2,7 @@ Dungeon Of the Goblin Emperor
 -----------------------------
 An epic RPG.
 
-TODO
+Todo
 ----
 - white fade flash (brazier)
 - fade in/out transitions
@@ -11,7 +11,7 @@ TODO
 - spell scaling (by level?)
 - spell range scaling - e.g. lv5 +1 tile
 
-done
+Done
 ----
 16/03/13
 - start game screen
