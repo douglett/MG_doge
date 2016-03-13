@@ -7,6 +7,10 @@ using namespace std;
 
 namespace display {
 
+	// defines
+	static void draw_gamescene();
+	static void draw_menu();
+
 	// consts
 	const SDL_Rect
 		parchment = { 0, 0, 100, 28 },
@@ -23,11 +27,14 @@ namespace display {
 		chest = { 48, 63, 12, 12 },
 		chest_open = { 72, 63, 12, 12 },
 		brazier_unlit = { 0, 78, 12, 12 },
-		brazier = { 24, 78, 12, 12 };
+		brazier = { 24, 78, 12, 12 },
+		crown = { 0, 0, 32, 32 };
 
 	// external vars
 	int animstate = 0;
-	SDL_Texture* sprites = NULL;
+	SDL_Texture 
+		*sprites = NULL,
+		*crownsprite = NULL;
 	SDL_Rect camera = { 0, 0, 10, 10 };
 	// internal vars
 	const int COMBAT_LOG_LENGTH = 6;
@@ -35,18 +42,27 @@ namespace display {
 
 
 
-	// all draw actions
 	void draw() {
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
+		SDL_RenderClear(game::ren);  // cls
+		draw_gamescene();
+		draw_menu();
+
+		SDL_Rect dst = crown;
+		dst.x = 20;
+		dst.y = 20;
+		SDL_RenderCopy(game::ren, crownsprite, &crown, &dst);
+	}
+
+
+	// all game scene draw actions
+	static void draw_gamescene() {
 		static const int
 			offsety = 0,
 			offsetx = 0;
 
 		// vars
 		SDL_Rect src, dst;
-
-		// cls
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);
 
 		// draw map
 		dst = { 0, 0, 12, 12 };
@@ -181,11 +197,13 @@ namespace display {
 	}
 
 
-	// helpers
 	void centercam() {
 		camera.x = playermob.x - floor((camera.w-0.5)/2);
 		camera.y = playermob.y - floor((camera.h-0.5)/2);
 	}
+
+
+	// menu helpers
 	static void drawcard(int type, int x, int y) {
 		static SDL_Rect cards[] = { spade, heart, club, diamond };
 
@@ -209,7 +227,7 @@ namespace display {
 	}
 
 
-	void draw_menu() {
+	static void draw_menu() {
 		// draw large info
 		if (showmenu) {
 			// draw parchment background

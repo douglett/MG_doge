@@ -78,12 +78,11 @@ namespace menu {
 
 // display
 namespace display {
-	extern SDL_Texture* sprites;
+	extern SDL_Texture *sprites, *crownsprite;
 	extern int animstate;
 	extern SDL_Rect camera;
 	void draw();
 	void centercam();
-	void draw_menu();
 }
 
 // globals

@@ -48,6 +48,7 @@ int main() {
 
 	// game init work
 	display::sprites = texture::get("images")->tex;
+	display::crownsprite = texture::get("crown")->tex;
 	display::camera.w = ceil(game::width/12.0);
 	display::camera.h = ceil(game::height/12.0);
 
