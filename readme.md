@@ -1,32 +1,24 @@
 Dungeon Of the Goblin Emperor
 -----------------------------
-
 An epic RPG.
-
 
 TODO
 ----
-
-- implement bonfires - brazier!
-- stairs (for next level)
-- stairs = bonfire?
-- deck draw system - have to design something useful?
-
-future
-------
-
-- start game screen
-- "you died" screen
-- deck builder - can pick up cards and equip them into deck
-- cards drop from mobs? bosses? treasure chests? bonfires?
-- better map builder
+- white fade flash (brazier)
+- fade in/out transitions
+- "you died" screen/transition
+- some use for spade - teleport?
+- spell scaling (by level?)
+- spell range scaling - e.g. lv5 +1 tile
 
 done
 ----
+16/03/13
+- start game screen
 
-26/01/16
+16/01/26
 - fog-of-war
 
-24/01/16
+16/01/24
 - spell cast actually takes a turn
 - bug in which mobs die when using fireball after 1 turn (related?)
