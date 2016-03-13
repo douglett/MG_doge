@@ -89,12 +89,11 @@ int mainloop_startmenu() {
 
 
 int mainloop_game() {
-	// reset game
-	// seed = stringtoseed("flobador");
-	dungeon_floor = 1;
-	gamestate::movecount = 0;
-	// playermob.name = "player";
+	// reset game;
 	playermob.hp = playermob.maxhp = 20;
+	gamestate::movecount = 0;
+	dungeon_floor = 1;
+	// seed = stringtoseed(playermob.name)
 	reset_level(true);
 	player_rest();
 
@@ -162,7 +161,7 @@ int stringtoseed(string seedstr) {
 }
 
 
-void reset_level(int reset_pos) {
+void reset_level(int reset) {
 	// build maps
 	boxmap::buildmap(seed, dungeon_floor);
 	gmap = boxmap::gmap;
@@ -170,11 +169,16 @@ void reset_level(int reset_pos) {
 
 	// see if the map creator sent us some start coordinates
 	if (mobcache.size() > 0 && mobcache[0]["type"] == -1) {
-		if (reset_pos) {
+		if (reset) {
 			playermob.x = mobcache[0]["x"];
 			playermob.y = mobcache[0]["y"];
 		}
 		mobcache.erase(mobcache.begin());
+	}
+	// clear fog of war
+	if (reset) {
+		fogofwar = vector<string>(
+			gmap.size(), string(gmap[0].size(), FOG_ENABLED*2) );
 	}
 
 	// make mobs
@@ -182,10 +186,6 @@ void reset_level(int reset_pos) {
 	for (auto& mm : mobcache)
 		gmobs.push_back(create_mob(mm));
 
-	// make fog of war
-	fogofwar = vector<string>(
-			gmap.size(),
-			string(gmap[0].size(), FOG_ENABLED*2) );
 	// reset cam
 	revealfog();
 	display::centercam();
