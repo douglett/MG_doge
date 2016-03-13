@@ -10,9 +10,9 @@
 using namespace std;
 
 
-mob  create_mob(map<string, int>& mm);
-int  get_action();
-void revealfog();
+static mob  create_mob(map<string, int>& mm);
+static int  get_action();
+static void revealfog();
 
 
 const vector<string> mob_names = {
@@ -26,7 +26,7 @@ const int
 
 
 // main.cpp globals
-int animtt = 0;
+// int animtt = 0;
 int dungeon_floor = 1;
 int seed = 6000;
 vector<string> gmap, fogofwar, combat_log;
@@ -52,6 +52,29 @@ int main() {
 	display::camera.w = ceil(game::width/12.0);
 	display::camera.h = ceil(game::height/12.0);
 
+	mainloop_startmenu();
+	// mainloop_game();
+
+	game::quit();
+}
+
+
+int mainloop_startmenu() {
+	while (true) {
+		display::paintscreen('m');
+
+		int action = get_action();
+		switch (action) {
+		 case action::ACT_KILL:
+		 	return 1;
+		}
+	}
+
+	return 0;
+}
+
+
+int mainloop_game() {
 	// reset game
 	// seed = stringtoseed("flobador");
 	dungeon_floor = 1;
@@ -63,21 +86,13 @@ int main() {
 
 	// main game loop
 	while (true) {
-		animtt++;
-		if (animtt % 30 == 0) {
-			animtt = 0;
-			display::animstate = !display::animstate;
-		}
-
-		display::draw();
-		SDL_RenderPresent(game::ren);
-		game::waitscreen();
+		display::paintscreen('g');
 		
 		// take player action
 		int action = get_action();
 		int action_performed = 0;
 		if (action == action::ACT_KILL) {
-			break;
+			return 1;
 		} else if (gamestate::gamemode == gamestate::MODE_GAME) {
 			action_performed = action::playeraction(action);
 		} else if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {
@@ -101,7 +116,7 @@ int main() {
 		}
 	}
 
-	game::quit();
+	return 0;
 }
 
 
@@ -159,6 +174,7 @@ void reset_level(int reset_pos) {
 	display::centercam();
 }
 
+
 void player_rest() {
 	// reset player
 	srand(time(NULL));
@@ -167,7 +183,26 @@ void player_rest() {
 	menu::reset_cards();
 }
 
-mob create_mob(map<string, int>& mm) {
+
+static void revealfog() {
+	int xx, yy;
+	for (int y = -FOG_SPOTLIGHT_SIZE; y <= FOG_SPOTLIGHT_SIZE; y++) {
+		yy = playermob.y + y;
+		for (int x = -FOG_SPOTLIGHT_SIZE; x <= FOG_SPOTLIGHT_SIZE; x++) {
+			xx = playermob.x + x;
+			if (xx < 0 || xx >= fogofwar[0].size() || yy < 0 || yy >= fogofwar.size())
+				continue;
+			else if (abs(x) + abs(y) == FOG_SPOTLIGHT_SIZE)
+				fogofwar[playermob.y+y][playermob.x+x] = 1;
+			else if (abs(x) + abs(y) < FOG_SPOTLIGHT_SIZE)
+				fogofwar[playermob.y+y][playermob.x+x] = 0;
+		}
+	}
+}
+
+
+// helpers - create mobs and floating text inline
+static mob create_mob(map<string, int>& mm) {
 	mob m;
 	m.x = mm["x"];
 	m.y = mm["y"];
@@ -193,7 +228,8 @@ stringstream& ss(int reset) {
 }
 
 
-int get_action() {
+// get key as game action 
+static int get_action() {
 	action::Action act = action::ACT_NONE;
 	SDL_Event event;
 
@@ -301,20 +337,4 @@ void combatlog(const string& s) {
 	int overflow = combat_log.size() - 50;
 	if (overflow > 0)
 		combat_log.erase( combat_log.begin(), combat_log.begin()+overflow );
-}
-
-void revealfog() {
-	int xx, yy;
-	for (int y = -FOG_SPOTLIGHT_SIZE; y <= FOG_SPOTLIGHT_SIZE; y++) {
-		yy = playermob.y + y;
-		for (int x = -FOG_SPOTLIGHT_SIZE; x <= FOG_SPOTLIGHT_SIZE; x++) {
-			xx = playermob.x + x;
-			if (xx < 0 || xx >= fogofwar[0].size() || yy < 0 || yy >= fogofwar.size())
-				continue;
-			else if (abs(x) + abs(y) == FOG_SPOTLIGHT_SIZE)
-				fogofwar[playermob.y+y][playermob.x+x] = 1;
-			else if (abs(x) + abs(y) < FOG_SPOTLIGHT_SIZE)
-				fogofwar[playermob.y+y][playermob.x+x] = 0;
-		}
-	}
 }

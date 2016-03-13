@@ -81,12 +81,19 @@ namespace display {
 	extern SDL_Texture *sprites, *crownsprite;
 	extern int animstate;
 	extern SDL_Rect camera;
-	void draw();
+	extern const SDL_Rect crown;
+	void paintscreen(char scene);
+	void advance_anim();
 	void centercam();
+	void draw_gamescene();
+	void draw_menu();
+	void draw_mainmenuscene();
 }
 
 // globals
 std::stringstream& ss(int reset = 0);
+int   mainloop_startmenu();
+int   mainloop_game();
 int   stringtoseed(std::string seedstr);
 void  reset_level(int reset_pos = 0);
 void  player_rest();

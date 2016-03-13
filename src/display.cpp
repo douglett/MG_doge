@@ -7,10 +7,6 @@ using namespace std;
 
 namespace display {
 
-	// defines
-	static void draw_gamescene();
-	static void draw_menu();
-
 	// consts
 	const SDL_Rect
 		parchment = { 0, 0, 100, 28 },
@@ -36,27 +32,96 @@ namespace display {
 		*sprites = NULL,
 		*crownsprite = NULL;
 	SDL_Rect camera = { 0, 0, 10, 10 };
+
 	// internal vars
-	const int COMBAT_LOG_LENGTH = 6;
-	int showmenu = 1;
+	static const int COMBAT_LOG_LENGTH = 6;
+	static int showmenu = 1;
+	static int animtt = 0;
 
 
-
-	void draw() {
+	// main draw function
+	void paintscreen(char scene) {
 		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
 		SDL_RenderClear(game::ren);  // cls
-		draw_gamescene();
-		draw_menu();
+		// draw
+		switch (scene) {
+		 case 'g':  // game scene
+			draw_gamescene();
+			draw_menu();
+			break;
+		 case 'm':  // main menu scene
+		 default:
+		 	draw_mainmenuscene();
+		}
+		advance_anim(); // advance
+		SDL_RenderPresent(game::ren);  // paint
+		game::waitscreen();  // vsync
+	}
 
-		SDL_Rect dst = crown;
-		dst.x = 20;
-		dst.y = 20;
-		SDL_RenderCopy(game::ren, crownsprite, &crown, &dst);
+
+	void advance_anim() {
+		animtt++;
+		if (animtt % 30 == 0) {
+			animtt = 0;
+			animstate = !animstate;
+		}
+	}
+
+	void centercam() {
+		camera.x = playermob.x - floor((camera.w-0.5)/2);
+		camera.y = playermob.y - floor((camera.h-0.5)/2);
+	}
+
+
+	// draw_mainmenuscene helper - outlined text
+	static void textout(int x, int y, const string& s) {
+		game::qbcolor(100, 0, 0);
+		for (int yy = -2; yy <= 2; yy++)
+			for (int xx = -2; xx <= 2; xx++)
+				game::qbprint(x + xx, y + yy, s);
+		game::qbcolor(255, 255, 255);
+		game::qbprint(x, y, s);
+	} 
+
+
+	// main menu
+	void draw_mainmenuscene() {
+		static const string 
+			s1 = "Dungeon of the Goblin Emperor",
+			s2 = "VS.";
+		SDL_Rect dst;
+
+		// dungeon header
+		int x = (game::width - s1.length()*8) / 2;
+		int y = 40;
+		textout(x, y, s1);
+
+		// goblin face
+		dst = display::crown;
+		dst.w *= 2;
+		dst.h *= 2;
+		dst.x = (game::width - dst.h) / 2;
+		dst.y = 60;
+		SDL_RenderCopy(game::ren, display::crownsprite, &display::crown, &dst);
+
+		// vs
+		x = (game::width - s2.length()*8) / 2;
+		y = 140;
+		textout(x, y, s2);
+
+		// player name
+		string pname = "bahnhoff";
+		pname += (display::animstate ? '_' : ' ');
+		for (auto& c : pname)
+			c = toupper(c);
+		x = (game::width - pname.length()*8) / 2;
+		y = 170;
+		textout(x, y, pname);
 	}
 
 
 	// all game scene draw actions
-	static void draw_gamescene() {
+	void draw_gamescene() {
 		static const int
 			offsety = 0,
 			offsetx = 0;
@@ -197,12 +262,6 @@ namespace display {
 	}
 
 
-	void centercam() {
-		camera.x = playermob.x - floor((camera.w-0.5)/2);
-		camera.y = playermob.y - floor((camera.h-0.5)/2);
-	}
-
-
 	// menu helpers
 	static void drawcard(int type, int x, int y) {
 		static SDL_Rect cards[] = { spade, heart, club, diamond };
@@ -227,7 +286,7 @@ namespace display {
 	}
 
 
-	static void draw_menu() {
+	void draw_menu() {
 		// draw large info
 		if (showmenu) {
 			// draw parchment background
