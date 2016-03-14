@@ -39,23 +39,11 @@ namespace display {
 	static int animtt = 0;
 
 
-	// main draw function
-	void paintscreen(char scene) {
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);  // cls
-		// draw
-		switch (scene) {
-		 case 'g':  // game scene
-			draw_gamescene();
-			draw_menu();
-			break;
-		 case 'm':  // main menu scene
-		 default:
-		 	draw_mainmenuscene();
-		}
-		advance_anim(); // advance
+	// flip buffer to screen
+	void flip() {
 		SDL_RenderPresent(game::ren);  // paint
 		game::waitscreen();  // vsync
+		advance_anim(); // advance animation
 	}
 
 

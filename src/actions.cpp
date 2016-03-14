@@ -134,6 +134,7 @@ namespace action {
 		 	reset_level();
 		 	gmap[y][x] = 'j';
 		 	player_rest();
+		 	loop_fadewhite();
 		 	break;
 		 case '%':  // ladder
 		 	combatlog("descended the ladder");

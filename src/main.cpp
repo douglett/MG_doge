@@ -64,8 +64,13 @@ int main() {
 
 
 int mainloop_startmenu() {
+	loop_fadeblack(0, 1);
+
 	while (true) {
-		display::paintscreen('m');
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
+		SDL_RenderClear(game::ren);  // cls
+		display::draw_mainmenuscene();
+		display::flip();
 
 		string& k = keys::getkey();
 		if (k.length()) {
@@ -73,7 +78,7 @@ int mainloop_startmenu() {
 			if (k == "^q")
 				return 1;
 			else if (k == "^e" && playermob.name.length() > 0)
-				return 0;
+				break;
 			else if (k == "^b" && playermob.name.length())
 				playermob.name.pop_back();
 			else if (playermob.name.length() >= 8)
@@ -84,6 +89,9 @@ int mainloop_startmenu() {
 				playermob.name += k[0];
 		}
 	}
+
+	loop_fadeblack(1, 1);
+
 	return 0;
 }
 
@@ -97,9 +105,15 @@ int mainloop_game() {
 	reset_level(true);
 	player_rest();
 
+	loop_fadeblack(0, 2);
+
 	// main game loop
 	while (true) {
-		display::paintscreen('g');
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
+		SDL_RenderClear(game::ren);  // cls
+		display::draw_gamescene();
+		display::draw_menu();
+		display::flip();
 		
 		// take player action
 		int action = get_action();
@@ -128,6 +142,63 @@ int mainloop_game() {
 			break;
 		}
 	}
+
+	loop_fadeblack(1, 2);
+
+	return 0;
+}
+
+
+int loop_fadewhite() {
+	SDL_Rect dst = { 0, 0, game::width, game::height };
+
+	// main game loop
+	for (int i = 0; i < 255; i += 4) {
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
+		SDL_RenderClear(game::ren);  // cls
+		
+		display::draw_gamescene();
+		display::draw_menu();
+
+		int a = ( i < 128 ? i : 128-(i-128) );  // get alpha
+		SDL_SetRenderDrawColor(game::ren, 255, 255, 255, a);
+		SDL_RenderFillRect(game::ren, &dst);
+		display::flip();
+
+		// clear player action
+		if (get_action() == action::ACT_KILL)
+			return 1;
+	}
+
+	return 0;
+}
+
+
+int loop_fadeblack(int dir, int scene) {
+	SDL_Rect dst = { 0, 0, game::width, game::height };
+
+	// main game loop
+	for (int i = 0; i < 255; i += 8) {
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
+		SDL_RenderClear(game::ren);  // cls
+		
+		if (scene == 1) {
+			display::draw_mainmenuscene();
+		} else if (scene == 2) {
+			display::draw_gamescene();
+			display::draw_menu();
+		}
+
+		int a = ( dir == 1 ? i : 255-i );  // get alpha
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, a);
+		SDL_RenderFillRect(game::ren, &dst);
+		display::flip();
+
+		// clear player action
+		if (get_action() == action::ACT_KILL)
+			return 1;
+	}
+
 	return 0;
 }
 

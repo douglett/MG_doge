@@ -88,7 +88,7 @@ namespace display {
 	extern int animstate;
 	extern SDL_Rect camera;
 	extern const SDL_Rect crown;
-	void paintscreen(char scene);
+	void flip();
 	void advance_anim();
 	void centercam();
 	void draw_gamescene();
@@ -100,6 +100,8 @@ namespace display {
 std::stringstream& ss(int reset = 0);
 int   mainloop_startmenu();
 int   mainloop_game();
+int   loop_fadewhite();
+int   loop_fadeblack(int dir, int scene);
 int   stringtoseed(std::string seedstr);
 void  reset_level(int reset = 0);
 void  player_rest();
