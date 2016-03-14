@@ -4,8 +4,7 @@ An epic RPG.
 
 Todo
 ----
-- white fade flash (brazier)
-- fade in/out transitions
+- fix map tunnel bug
 - "you died" screen/transition
 - some use for spade - teleport?
 - spell scaling (by level?)
@@ -13,6 +12,11 @@ Todo
 
 Done
 ----
+16/03/14
+- treasure chests no refill
+- white fade flash (brazier)
+- fade in/out transitions
+
 16/03/13
 - start game screen
 

@@ -130,9 +130,9 @@ namespace action {
 		 case 'i':  // brazier
 		 	menu::deck_size++;
 		 case 'j':  // brazier lit
+		 	gmap[y][x] = 'j';
 		 	combatlog("brazier: reset level");
 		 	reset_level();
-		 	gmap[y][x] = 'j';
 		 	player_rest();
 		 	loop_fadewhite();
 		 	break;

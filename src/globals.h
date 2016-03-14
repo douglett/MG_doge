@@ -101,7 +101,7 @@ std::stringstream& ss(int reset = 0);
 int   mainloop_startmenu();
 int   mainloop_game();
 int   loop_fadewhite();
-int   loop_fadeblack(int dir, int scene);
+int   loop_fadeblack(int dir, int fullreset);
 int   stringtoseed(std::string seedstr);
 void  reset_level(int reset = 0);
 void  player_rest();

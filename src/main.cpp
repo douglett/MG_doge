@@ -232,30 +232,48 @@ int stringtoseed(string seedstr) {
 }
 
 
-void reset_level(int reset) {
-	// build maps
+void reset_level(int fullreset) {
+	// if not resetting, check for used action blocks
+	vector<pair<int, int> > usedblocks;
+	if (!fullreset) {
+		for (int y = 0; y < gmap.size(); y++)
+			for (int x = 0; x < gmap[y].size(); x++)
+				if (gmap[y][x] == 'c' || gmap[y][x] == 'j')
+					usedblocks.push_back({ x, y });
+	}
+
+	// (re)build maps
 	boxmap::buildmap(seed, dungeon_floor);
 	gmap = boxmap::gmap;
 	auto& mobcache = boxmap::gmobs;
 
+	// replace used action blocks
+	for (auto& p : usedblocks) {
+		if (gmap[p.second][p.first] == 'C')
+		 	gmap[p.second][p.first] = 'c';
+		else if (gmap[p.second][p.first] == 'i')
+			gmap[p.second][p.first] = 'j';
+	}
+
 	// see if the map creator sent us some start coordinates
 	if (mobcache.size() > 0 && mobcache[0]["type"] == -1) {
-		if (reset) {
+		if (fullreset) {
 			playermob.x = mobcache[0]["x"];
 			playermob.y = mobcache[0]["y"];
 		}
 		mobcache.erase(mobcache.begin());
-	}
-	// clear fog of war
-	if (reset) {
-		fogofwar = vector<string>(
-			gmap.size(), string(gmap[0].size(), FOG_ENABLED*2) );
 	}
 
 	// make mobs
 	gmobs.erase(gmobs.begin(), gmobs.end());
 	for (auto& mm : mobcache)
 		gmobs.push_back(create_mob(mm));
+
+	// clear fog of war
+	if (fullreset) {
+		fogofwar = vector<string>(
+			gmap.size(), string(gmap[0].size(), FOG_ENABLED*2) );
+	}
 
 	// reset cam
 	revealfog();
