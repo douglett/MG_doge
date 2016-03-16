@@ -7,6 +7,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 #include <sys/ioctl.h>
 #include "src/rng.h"
 
@@ -24,8 +25,7 @@ namespace boxmap {
 
 	static int  intersect(const box& b1, const box& b2);
 	static void make_rooms();
-	static void make_corridors_h();
-	static void make_corridors_v();
+	static void make_corridors(char type);
 	static void make_furniture();
 	static void make_mobs();
 
@@ -50,8 +50,8 @@ namespace boxmap {
 
 		// make rooms & map parts
 		make_rooms();
-		make_corridors_h();
-		make_corridors_v();
+		make_corridors('h');
+		make_corridors('v');
 		make_furniture();
 		make_mobs();
 
@@ -122,15 +122,21 @@ namespace boxmap {
 
 
 
-	static void make_corridors_h() {
-		// make horizontal lines
+	static void make_corridors(char type) {
+		// lots of code shared between h and v tunnels
+		assert(type == 'h' || type == 'v');
+		
+		// make all lines
 		vector<pair<const box*, const box*> > lines;
 
-		// assemble all possible horizontal tunnels
-		for (int y = 0; y < height; y++) {
+		// assemble all possible horizontal/vertical tunnels
+		int size = (type == 'h' ? height : width);
+		for (int i = 0; i < size; i++) {
 			vector<const box*> l;
 			for (const auto& b : roomlist)
-				if (y > b.y && y < b.y+b.h-1)
+				if (type == 'h' && i > b.y && i < b.y+b.h-1)
+					l.push_back(&b);
+				else if (type == 'v' && i > b.x && i < b.x+b.w-1)
 					l.push_back(&b);
 			// split into pairs
 			while (l.size() >= 2) {
@@ -157,59 +163,24 @@ namespace boxmap {
 		for (auto &l : lines) {
 			b1 = l.first;
 			b2 = l.second;
-			if (b1->x > b2->x) {
+			if ((type == 'h' && b1->x > b2->x) || (type == 'v' && b1->y > b2->y)) {
 				b1 = b2;
 				b2 = l.first;
 			}
-			int posy = (b1->y*2 + b1->h + b2->y*2 + b2->h) / 4;  // find center point
-			for (int x = b1->x + b1->w - 1; x <= b2->x; x++)  // draw line
-				gmap[posy][x] = ',';
-		}
-	}
-
-
-	static void make_corridors_v() {
-		// make horizontal lines
-		vector<pair<const box*, const box*> > lines;
-
-		// assemble all possible vertical tunnels
-		for (int x = 0; x < width; x++) {
-			vector<const box*> l;
-			for (const auto& b : roomlist)
-				if (x > b.x && x < b.x+b.w-1)
-					l.push_back(&b);
-			// split into pairs
-			while (l.size() >= 2) {
-				lines.push_back({ l[l.size()-1], l[l.size()-2] });
-				l.pop_back();
+			if (type == 'h') {
+				int posy = (b1->y*2 + b1->h + b2->y*2 + b2->h) / 4;  // find center point
+				int tstart = b1->x + b1->w - 2;
+				int tend = b2->x + 2;
+				for (int x = tstart; x < tend; x++)  // draw line
+					gmap[posy][x] = (x == tstart || x == tend-1 ? '.' : ',');
 			}
-		}
-
-		// clear duplicate lines
-		for (int i = 0; i < lines.size(); i++)
-			for (int j = i+1; j < lines.size(); j++)
-				if (lines[i].first == lines[j].first && lines[i].second == lines[j].second) {
-					lines.erase(lines.begin() + j);
-					j--;
-				}
-
-		// debug
-		// cout << "vertical: " << lines.size() << endl;
-		// for (auto &l : lines)
-		// 	printf("%d,%d  %d,%d\n", l.first->x, l.first->y, l.second->x, l.second->y );
-
-		// draw lines
-		const box *b1, *b2;
-		for (auto &l : lines) {
-			b1 = l.first;
-			b2 = l.second;
-			if (b1->y > b2->y) {
-				b1 = b2;
-				b2 = l.first;
+			else if (type == 'v') {
+				int posx = (b1->x*2 + b1->w + b2->x*2 + b2->w) / 4;  // find center point between boxes
+				int tstart = b1->y + b1->h - 2;
+				int tend = b2->y + 2;
+				for (int y = tstart; y < tend; y++)  // draw line
+					gmap[y][posx] = (y == tstart || y == tend-1 ? '.' : ',');
 			}
-			int posx = (b1->x*2 + b1->w + b2->x*2 + b2->w) / 4;  // find center point between boxes
-			for (int y = b1->y + b1->h - 1; y <= b2->y; y++)  // draw line
-				gmap[y][posx] = ',';
 		}
 	}
 
