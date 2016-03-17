@@ -1,0 +1,9 @@
+CC=clang++
+FRAMEWORK=-FFrameworks -rpath Frameworks -rpath ../Frameworks -framework SDL2 -framework SDL2_image
+LIBS=-LFrameworks -ltinyxml
+ARGS=$(FRAMEWORK) $(LIBS)
+SRC=bin/*.o
+OUT=main.out
+
+$(OUT): $(SRC)
+	$(CC) $(ARGS) -o $(OUT) $(SRC)
