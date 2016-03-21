@@ -391,7 +391,8 @@ void cleardead() {
 			ss(1) << gmobs[i].name << " died. +" << gmobs[i].xp << "xp";
 			combatlog(ss().str());
 			// add xp
-			playermob.xp += gmobs[i].xp;
+			if (gmobs[i].lvl >= playermob.lvl - 2)
+				playermob.xp += gmobs[i].xp;
 			level_up();
 			// erase
 			gmobs.erase(gmobs.begin()+i);
