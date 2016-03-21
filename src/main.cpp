@@ -284,8 +284,7 @@ void reset_level(int fullreset) {
 void player_rest() {
 	// reset player
 	srand(time(NULL));
-	if (playermob.hp < playermob.maxhp)
-		playermob.hp = playermob.maxhp;
+	playermob.hp = playermob.maxhp;
 	menu::reset_cards();
 }
 
