@@ -139,7 +139,9 @@ namespace action {
 		 case '%':  // ladder
 		 	combatlog("descended the ladder");
 		 	dungeon_floor++;
+		 	loop_fadeblack(1, 2);
 		 	reset_level(true);
+		 	loop_fadeblack(0, 2);
 		 	break;
 		 case 'C':
 		 	combatlog("opened a chest");
@@ -157,8 +159,10 @@ namespace action {
 		assert(target != NULL);
 
 		// do heal
-		int heal = ceil( target->maxhp * 0.25 ); 
-		if (heal > target->maxhp - target->hp)
+		int heal = 4 + round( target->lvl/2 );
+		if (target->hp >= target->maxhp)
+			heal = 0;
+		else if (heal > target->maxhp - target->hp)
 			heal = target->maxhp - target->hp;
 		target->hp += heal;
 
@@ -175,9 +179,10 @@ namespace action {
 	void dofireball(int x, int y) {
 		mob* m = findmob(x, y);
 		if (m) {
-			m->hp -= 5;
+			int dmg = 4 + round( playermob.lvl/2 );
+			m->hp -= dmg;
 			// display attack
-			ss(1) << 5;
+			ss(1) << dmg;
 			gtexts.push_back(create_gtext( x, y, ss().str() ));
 		}
 		// make fireball

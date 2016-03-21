@@ -5,23 +5,22 @@ An epic RPG.
 Todo
 ----
 - Difficulty
-	- spell range scaling - e.g. lv5 +1 tile
+	- stupid ai
+	- enemys scaling up / new enemies!
 - UI
 	- alternating color combat log
 	- "you died" screen/transition
-	- HP spell -2 display bug
 - Misc
-	- . & , replacement bug
 	- some use for spade - teleport?
-	- enemys scaling up / new enemies!
-	- stupid ai
+	- spell range scaling - e.g. lv5 +1 tile?
 
 Done
 ----
 16/03/21
+- HP spell -2 display bug (hopefully)
 - grinding limit - level+2 = no xp
 - bean fireplace limit
-- map tunnel floor color bug
+- map tunnel floor color bug, . & , replacement
 - always take 1 hit on combat exchange
 
 16/03/16
