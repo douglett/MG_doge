@@ -172,14 +172,16 @@ namespace boxmap {
 				int tstart = b1->x + b1->w - 2;
 				int tend = b2->x + 2;
 				for (int x = tstart; x < tend; x++)  // draw line
-					gmap[posy][x] = (x == tstart || x == tend-1 ? '.' : ',');
+					if (gmap[posy][x] != '.')
+						gmap[posy][x] = ',';
 			}
 			else if (type == 'v') {
 				int posx = (b1->x*2 + b1->w + b2->x*2 + b2->w) / 4;  // find center point between boxes
 				int tstart = b1->y + b1->h - 2;
 				int tend = b2->y + 2;
 				for (int y = tstart; y < tend; y++)  // draw line
-					gmap[y][posx] = (y == tstart || y == tend-1 ? '.' : ',');
+					if (gmap[y][posx] != '.')
+						gmap[y][posx] = ',';
 			}
 		}
 	}

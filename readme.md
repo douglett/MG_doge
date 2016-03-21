@@ -4,15 +4,26 @@ An epic RPG.
 
 Todo
 ----
-- "you died" screen/transition
-- some use for spade - teleport?
-- spell scaling (by level?)
-- spell range scaling - e.g. lv5 +1 tile
-- enemys scaling up
-- stupid ai
+- Difficulty
+	- bean fireplace limit
+	- grinding limit - level+2 = no xp
+	- always take 1 hit on combat exchange
+	- spell range scaling - e.g. lv5 +1 tile
+- UI
+	- alternating color combat log
+	- "you died" screen/transition
+	- HP spell -2 display bug
+- Misc
+	- . & , replacement bug
+	- some use for spade - teleport?
+	- enemys scaling up / new enemies!
+	- stupid ai
 
 Done
 ----
+16/03/21
+- map tunnel floor color bug
+
 16/03/16
 - fix map tunnel bug
 
