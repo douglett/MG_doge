@@ -128,8 +128,8 @@ int mainloop_game() {
 
 		// do turn actions
 		if (action_performed) {
-			cleardead();
 			action::allenemyactions();
+			cleardead();
 			menu::givecard(); // add random card to hand if space available
 			gamestate::movecount++; // increment moves
 			revealfog();

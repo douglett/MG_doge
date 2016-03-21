@@ -7,7 +7,6 @@ Todo
 - Difficulty
 	- bean fireplace limit
 	- grinding limit - level+2 = no xp
-	- always take 1 hit on combat exchange
 	- spell range scaling - e.g. lv5 +1 tile
 - UI
 	- alternating color combat log
@@ -23,6 +22,7 @@ Done
 ----
 16/03/21
 - map tunnel floor color bug
+- always take 1 hit on combat exchange
 
 16/03/16
 - fix map tunnel bug
