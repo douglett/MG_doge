@@ -5,17 +5,21 @@ An epic RPG.
 Todo
 ----
 - Difficulty
-	- enemys scaling up / new enemies!
+	- new enemies!
 - UI
 	- "you died" screen/transition
 - Misc
+	- better menu code
+	- 'stacking' scenes and modes?
+	- selecting cards in menu
 	- some use for spade - teleport?
 	- spell range scaling - e.g. lv5 +1 tile?
-	- selecting cards
 
 Done
 ----
 16/03/22
+- added enemy scaling
+- added ghost and fdisk enemy!
 - alternating color combat log
 
 16/03/21
