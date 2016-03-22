@@ -10,16 +10,10 @@
 using namespace std;
 
 
-static mob  create_mob(map<string, int>& mm);
 static int  get_action();
 static void revealfog();
 
 
-const vector<string> mob_names = {
-	"???",
-	"scorp",
-	"cakey"
-};
 const int 
 	FOG_ENABLED = 1,
 	FOG_SPOTLIGHT_SIZE = 4;
@@ -270,7 +264,7 @@ void reset_level(int fullreset) {
 	// make mobs
 	gmobs.erase(gmobs.begin(), gmobs.end());
 	for (auto& mm : mobcache)
-		gmobs.push_back(create_mob(mm));
+		gmobs.push_back(mobmaker::make(mm));
 
 	// clear fog of war
 	if (fullreset) {
@@ -309,15 +303,7 @@ static void revealfog() {
 }
 
 
-// helpers - create mobs and floating text inline
-static mob create_mob(map<string, int>& mm) {
-	mob m;
-	m.x = mm["x"];
-	m.y = mm["y"];
-	m.type = mm["type"];
-	m.name = mob_names[m.type];
-	return m;
-}
+// helpers - create floating text inline
 gtext create_gtext(int x, int y, string s, int type) {
 	gtext g;
 	g.x = x;

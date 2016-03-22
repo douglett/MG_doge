@@ -27,7 +27,7 @@ namespace boxmap {
 	static void make_rooms();
 	static void make_corridors(char type);
 	static void make_furniture();
-	static void make_mobs();
+	static void make_mobs(int level);
 
 	vector<string> gmap;
 	vector<map<string, int> > gmobs;
@@ -53,7 +53,7 @@ namespace boxmap {
 		make_corridors('h');
 		make_corridors('v');
 		make_furniture();
-		make_mobs();
+		make_mobs(level);
 
 		display();
 
@@ -281,7 +281,7 @@ namespace boxmap {
 		return 0;
 	}
 
-	static void make_mobs() {
+	static void make_mobs(int level) {
 		// find special tiles
 		int bp[2],  // brazier
 			lp[2];  // ladder
@@ -312,10 +312,15 @@ namespace boxmap {
 				continue;
 			if (getdist(bp[0], bp[1], x, y) < 6)  // don't spawn near brazier
 				continue;
+			int z = (rng::rand()%3 == 0 ? 0 : 1);
+			if (level == 1)
+				z = 1;
+			else if (level < 4)
+				z += level - 1;
 			gmobs.push_back({ 
 				{ "x", x },
 				{ "y", y },
-				{ "type", rng::rand()%2 + 1 }
+				{ "type", z }
 			});
 			mobcount--;
 		}

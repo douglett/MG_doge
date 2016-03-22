@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <map>
 #include <SDL.h>
 #include "rng.h"
 
@@ -29,6 +30,18 @@ public:
 	int type = 0;
 	std::string s;
 };
+
+// mobmaker
+namespace mobmaker {
+	enum MOBTYPE {
+		UNKNOWN,
+		CAKEY,
+		SCORP,
+		GHOST,
+		FDISK
+	};
+	mob make(std::map<std::string, int>& mm);
+}
 
 // game state
 namespace gamestate {

@@ -10,6 +10,7 @@ namespace display {
 	#define ROW1 48
 	#define ROW2 61
 	#define ROW3 76
+	#define ROW4 91
 
 	// consts
 	const SDL_Rect
@@ -32,6 +33,9 @@ namespace display {
 		man =      { 0,    ROW3, 12, 12 },
 		scorpion = { 1*24, ROW3, 12, 12 },
 		cake =     { 2*24, ROW3, 12, 12 },
+		ghost =    { 3*24, ROW3, 12, 12 },
+		// row4
+		fdisk =    { 0,    ROW4, 12, 12 },
 		// 2nd image
 		crown = { 0, 0, 32, 32 };
 
@@ -216,10 +220,23 @@ namespace display {
 				continue;
 			if ( fogofwar[m.y][m.x] > 0 )
 				continue;
-			if (m.type == 1)
-				src = scorpion;
-			else if (m.type == 2)
+			// select mob sprite
+			switch (m.type) {
+			 case mobmaker::CAKEY:
 				src = cake;
+				break;
+			 case mobmaker::SCORP:
+				src = scorpion;
+				break;
+			 case mobmaker::GHOST:
+			 	src = ghost;
+			 	break;
+			 case mobmaker::FDISK:
+			 	src = fdisk;
+			 	break;
+			 default:
+			 	src = flame;
+			}
 			src.x += 12 * animstate;
 			dst = src;
 			dst.x = 12 * (m.x - camera.x) + offsetx;
