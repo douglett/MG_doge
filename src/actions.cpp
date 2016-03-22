@@ -20,7 +20,7 @@ namespace action {
 	void doattack(mob* attacker, mob* defender);
 	void doactionblock(int x, int y);
 	void allenemyactions();
-	void enemyaction(mob& m);
+	int  enemyaction(mob& m);
 
 
 	int playeraction(int action) {
@@ -237,35 +237,47 @@ namespace action {
 	}
 
 
-	void enemyaction(mob& m) {
+	int enemyaction(mob& m) {
 		int diffx = playermob.x - m.x;
 		int diffy = playermob.y - m.y;
 		// cout << diffx << " " << diffy << endl;
-		if (diffy <= -1) {
-			int collide = collision(m.x, m.y - 1);
-			if (collide == 0)
-				m.y -= 1;
-			else if (collide == 3)
-				doattack(&m, &playermob);
-		} else if (diffy >= 1) {
-			int collide = collision(m.x, m.y + 1);
-			if (collide == 0)
+		if (diffy <= -1)
+			switch ( collision(m.x, m.y-1) ) {
+			 case 0:
+			 	m.y -= 1;
+			 	return 1;
+			 case 3:
+			 	doattack(&m, &playermob);
+			 	return 1;
+			}	
+		else if (diffy >= 1)
+			switch ( collision(m.x, m.y+1) ) {
+			 case 0:
 				m.y += 1;
-			else if (collide == 3)
+				return 1;
+			 case 3:
 				doattack(&m, &playermob);
-		} else if (diffx <= -1) {
-			int collide = collision(m.x - 1, m.y);
-			if (collide == 0)
+				return 1;
+			}
+		if (diffx <= -1) 
+			switch ( collision(m.x-1, m.y) ) {
+			 case 0:
 				m.x -= 1;
-			else if (collide == 3)
+				return 1;
+			 case 3:
 				doattack(&m, &playermob);
-		} else if (diffx >= 1) {
-			int collide = collision(m.x + 1, m.y);
-			if (collide == 0)
+				return 1;
+			}
+		else if (diffx >= 1)
+			switch ( collision(m.x+1, m.y) ) {
+			 case 0:
 				m.x += 1;
-			else if (collide == 3)
+				return 1;
+			 case 3:
 				doattack(&m, &playermob);
-		}
+				return 1;
+			}
+		return 0;
 	}
 
 } // end actions
