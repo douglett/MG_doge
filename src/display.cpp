@@ -315,7 +315,8 @@ namespace display {
 			static const int 
 				yellow[] = { 230, 230, 0 },
 				green[] = { 0, 200, 0 },
-				red[] = { 200, 80, 80 };
+				red[] = { 200, 80, 80 },
+				white[] = { 230, 230, 230 };
 
 			// HP text
 			ss(1) << setfill('0') << setw(2) << playermob.hp << "/"
@@ -338,17 +339,24 @@ namespace display {
 			menu_text(5, ss().str(), red);
 
 			// combat log
+			const int 
+				*m0 = yellow, 
+				*m1 = white;
+				
 			for (int i = 0; i < COMBAT_LOG_LENGTH; i++) {
 				if (i >= combat_log.size())
 					break;
 				int x = 1;
 				int y = game::height - 10 - 8*i;
-				auto s = *(combat_log.end() - (1+i));
+				auto ln = *(combat_log.end() - (1+i));
 				game::qbcolor(0, 0, 0);
-				game::qbprint(x+1, y+1, s);
+				game::qbprint(x+1, y+1, ln.second);
 				// game::qbcolor(255, 255, 255);
-				game::qbcolor(230, 230, 0);
-				game::qbprint(x, y, s);
+				if (ln.first == 0)
+					game::qbcolor(m0[0], m0[1], m0[2]);
+				else
+					game::qbcolor(m1[0], m1[1], m1[2]);
+				game::qbprint(x, y, ln.second);
 			}
 		}
 		// draw small info

@@ -29,7 +29,8 @@ const int
 // int animtt = 0;
 int dungeon_floor = 1;
 int seed = 6000;
-vector<string> gmap, fogofwar, combat_log;
+vector<string> gmap, fogofwar;
+vector<pair<int, string> > combat_log;
 vector<mob> gmobs, effects;
 mob playermob;
 vector<gtext> gtexts;
@@ -445,9 +446,10 @@ void combatlog(const string& s) {
 		last_col = 0;
 	if (gamestate::movecount > last_movecount) {
 		last_col = !last_col;
-		combat_log.push_back( last_col ? "/col light" : "/col reset" );
+		last_movecount = gamestate::movecount;
+		// combat_log.push_back( last_col ? "/col 1" : "/col 0" );
 	}
-	combat_log.push_back(s);
+	combat_log.push_back({ last_col, s });
 	int overflow = combat_log.size() - 50;
 	if (overflow > 0)
 		combat_log.erase( combat_log.begin(), combat_log.begin()+overflow );
