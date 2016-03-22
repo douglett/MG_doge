@@ -440,6 +440,13 @@ int chest_item() {
 
 
 void combatlog(const string& s) {
+	static int 
+		last_movecount = 0,
+		last_col = 0;
+	if (gamestate::movecount > last_movecount) {
+		last_col = !last_col;
+		combat_log.push_back( last_col ? "/col light" : "/col reset" );
+	}
 	combat_log.push_back(s);
 	int overflow = combat_log.size() - 50;
 	if (overflow > 0)

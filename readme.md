@@ -5,7 +5,6 @@ An epic RPG.
 Todo
 ----
 - Difficulty
-	- stupid ai
 	- enemys scaling up / new enemies!
 - UI
 	- alternating color combat log
@@ -17,6 +16,7 @@ Todo
 Done
 ----
 16/03/21
+- stupid ai
 - HP spell -2 display bug (hopefully)
 - grinding limit - level+2 = no xp
 - bean fireplace limit
