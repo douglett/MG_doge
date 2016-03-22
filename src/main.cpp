@@ -125,6 +125,8 @@ int mainloop_game() {
 			action_performed = action::playeraction(action);
 		} else if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {
 			action_performed = menu::playeraction(action);
+		} else if (gamestate::gamemode == gamestate::MODE_CARDPICKER) {
+			;
 		}
 
 		// do turn actions

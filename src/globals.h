@@ -35,7 +35,8 @@ namespace gamestate {
 	enum mode {
 		MODE_NONE,
 		MODE_GAME,
-		MODE_GAMEMENU
+		MODE_GAMEMENU,
+		MODE_CARDPICKER
 	};
 	extern int gamemode;
 	extern int movecount;

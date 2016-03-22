@@ -7,23 +7,32 @@ using namespace std;
 
 namespace display {
 
+	#define ROW1 48
+	#define ROW2 61
+	#define ROW3 76
+
 	// consts
 	const SDL_Rect
 		parchment = { 0, 0, 100, 28 },
-		cardback = { 0, 29, 16, 18 },
-		spade = { 17, 30, 14, 16 },
-		heart = { 31, 30, 14, 16 },
-		club = { 47, 30, 15, 16 },
+		cardback =  { 0, 29, 16, 18 },
+		// card row
+		spade =   { 17, 30, 14, 16 },
+		heart =   { 31, 30, 14, 16 },
+		club =    { 47, 30, 15, 16 },
 		diamond = { 62, 30, 14, 16 },
-		man = { 0, 48, 12, 12 },
-		scorpion = { 24, 48, 12, 12 },
-		cake = { 48, 48, 12, 12 },
-		flame = { 0, 63, 12, 12 },
-		stairs = { 24, 63, 12, 12 },
-		chest = { 48, 63, 12, 12 },
-		chest_open = { 72, 63, 12, 12 },
-		brazier_unlit = { 0, 78, 12, 12 },
-		brazier = { 24, 78, 12, 12 },
+		// row1
+		flame =      { 0,    ROW1, 12, 12 },
+		stairs =     { 1*24, ROW1, 12, 12 },
+		chest =      { 2*24, ROW1, 12, 12 },
+		chest_open = { 3*24, ROW1, 12, 12 },
+		// row2
+		brazier_unlit = { 0,    ROW2, 12, 12 },
+		brazier =       { 1*24, ROW2, 12, 12 },
+		// row3
+		man =      { 0,    ROW3, 12, 12 },
+		scorpion = { 1*24, ROW3, 12, 12 },
+		cake =     { 2*24, ROW3, 12, 12 },
+		// 2nd image
 		crown = { 0, 0, 32, 32 };
 
 	// external vars
@@ -342,7 +351,7 @@ namespace display {
 			const int 
 				*m0 = yellow, 
 				*m1 = white;
-				
+
 			for (int i = 0; i < COMBAT_LOG_LENGTH; i++) {
 				if (i >= combat_log.size())
 					break;
