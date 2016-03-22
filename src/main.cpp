@@ -444,12 +444,14 @@ void combatlog(const string& s) {
 	static int 
 		last_movecount = 0,
 		last_col = 0;
+	// calculate alternating color
 	if (gamestate::movecount > last_movecount) {
 		last_col = !last_col;
 		last_movecount = gamestate::movecount;
-		// combat_log.push_back( last_col ? "/col 1" : "/col 0" );
 	}
+	// add log
 	combat_log.push_back({ last_col, s });
+	// calculate overflow
 	int overflow = combat_log.size() - 50;
 	if (overflow > 0)
 		combat_log.erase( combat_log.begin(), combat_log.begin()+overflow );

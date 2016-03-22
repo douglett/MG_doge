@@ -7,14 +7,17 @@ Todo
 - Difficulty
 	- enemys scaling up / new enemies!
 - UI
-	- alternating color combat log
 	- "you died" screen/transition
 - Misc
 	- some use for spade - teleport?
 	- spell range scaling - e.g. lv5 +1 tile?
+	- selecting cards
 
 Done
 ----
+16/03/22
+- alternating color combat log
+
 16/03/21
 - stupid ai
 - HP spell -2 display bug (hopefully)
