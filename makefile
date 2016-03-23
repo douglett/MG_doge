@@ -4,9 +4,9 @@ OUT=main.out
 
 # mac defines
 MAC_CC=clang++
-FRAMEWORK=-FFrameworks -framework SDL2 -framework SDL2_image
-MAC_RPATH=-rpath @executable_path/Frameworks -rpath @executable_path/../Frameworks
-MAC_LIBS=-LFrameworks -ltinyxml
+FRAMEWORK=-F../Frameworks -framework SDL2 -framework SDL2_image
+MAC_RPATH=-rpath @executable_path/../Frameworks
+MAC_LIBS=-L../Frameworks -ltinyxml
 MAC_ARGS=$(FRAMEWORK) $(MAC_LIBS) $(MAC_RPATH)
 
 
