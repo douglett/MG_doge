@@ -51,8 +51,7 @@ namespace gamestate {
 		MODE_GAME,
 		MODE_GAMEMENU,
 		MODE_CARDPICKER,
-		MODE_FADEIN,
-		MODE_FADEOUT
+		MODE_FADEBLACK
 	};
 	extern int gamemode;
 	extern int movecount;
@@ -64,11 +63,12 @@ namespace fadeblack {
 		FADEOUT = 1
 	};
 	void reset(int dir);
-	int step();
+	int  step(std::string& k);
 	void draw();
 }
-namespace mainloop {
-	int titlemenu(std::string& k);
+namespace titlemenu {
+	void reset();
+	int  step(std::string& k);
 }
 
 // get keys

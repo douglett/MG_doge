@@ -44,10 +44,7 @@ int main() {
 	display::camera.h = ceil(game::height/12.0);
 
 	// start state
-	gamestate::gstack.push_back(gamestate::MODE_TITLEMENU);
-	gamestate::gstack.push_back(gamestate::MODE_FADEIN);
-	fadeblack::reset(fadeblack::FADEIN);
-
+	titlemenu::reset();
 	loopt();
 
 	game::quit();
@@ -58,37 +55,41 @@ int loopt() {
 	using namespace gamestate;
 
 	while (true) {
+		// cls
 		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);  // cls
-
+		SDL_RenderClear(game::ren);
 		// draw
 		for (int mstate : gamestate::gstack)
 			switch (mstate) {
 			 case MODE_TITLEMENU:
 				display::draw_mainmenuscene();
 				break;
-			 case MODE_FADEIN:
+			 case MODE_FADEBLACK:
 			 	fadeblack::draw();
 				break;
 			}
-		
+		// display
 		display::flip();
 
-		// 
+		// handle menu
+		int rval = 0;
 		string& k = keys::getkey();
 		if (k == "^q")
 			break;
 		for (int i = gamestate::gstack.size()-1; i >= 0; i--) {
-			int rval = 0;
 			switch (gstack[i]) {
 			 case MODE_TITLEMENU:
-				// display::draw_mainmenuscene();
-			 	rval = mainloop::titlemenu(k);
+			 	rval = titlemenu::step(k);
 				break;
-			 case MODE_FADEIN:
-			 	rval = fadeblack::step();
+			 case MODE_FADEBLACK:
+			 	rval = fadeblack::step(k);
 				break;
 			}
+			// handle return values
+			if (rval == 2)
+				return 1;
+			else if (rval)
+				break;
 		}
 	}
 
