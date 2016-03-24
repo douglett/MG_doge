@@ -43,16 +43,32 @@ namespace mobmaker {
 	mob make(std::map<std::string, int>& mm);
 }
 
-// game state
+// game states
 namespace gamestate {
 	enum mode {
 		MODE_NONE,
+		MODE_TITLEMENU,
 		MODE_GAME,
 		MODE_GAMEMENU,
-		MODE_CARDPICKER
+		MODE_CARDPICKER,
+		MODE_FADEIN,
+		MODE_FADEOUT
 	};
 	extern int gamemode;
 	extern int movecount;
+	extern std::vector<int> gstack;
+}
+namespace fadeblack {
+	enum FADEDIR {
+		FADEIN = -1,
+		FADEOUT = 1
+	};
+	void reset(int dir);
+	int step();
+	void draw();
+}
+namespace mainloop {
+	int titlemenu(std::string& k);
 }
 
 // get keys

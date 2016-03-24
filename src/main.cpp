@@ -12,6 +12,7 @@ using namespace std;
 
 static int  get_action();
 static void revealfog();
+static int  loopt();
 
 
 const int 
@@ -29,11 +30,6 @@ vector<mob> gmobs, effects;
 mob playermob;
 vector<gtext> gtexts;
 
-namespace gamestate {
-	int gamemode = MODE_GAME;
-	int movecount = 0;
-}
-
 
 
 int main() {
@@ -47,14 +43,56 @@ int main() {
 	display::camera.w = ceil(game::width/12.0);
 	display::camera.h = ceil(game::height/12.0);
 
-	while (true) {
-		if (mainloop_startmenu())
-			break;
-		if (mainloop_game())
-			break;
-	}
+	// start state
+	gamestate::gstack.push_back(gamestate::MODE_TITLEMENU);
+	gamestate::gstack.push_back(gamestate::MODE_FADEIN);
+	fadeblack::reset(fadeblack::FADEIN);
+
+	loopt();
 
 	game::quit();
+}
+
+
+int loopt() {
+	using namespace gamestate;
+
+	while (true) {
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
+		SDL_RenderClear(game::ren);  // cls
+
+		// draw
+		for (int mstate : gamestate::gstack)
+			switch (mstate) {
+			 case MODE_TITLEMENU:
+				display::draw_mainmenuscene();
+				break;
+			 case MODE_FADEIN:
+			 	fadeblack::draw();
+				break;
+			}
+		
+		display::flip();
+
+		// 
+		string& k = keys::getkey();
+		if (k == "^q")
+			break;
+		for (int i = gamestate::gstack.size()-1; i >= 0; i--) {
+			int rval = 0;
+			switch (gstack[i]) {
+			 case MODE_TITLEMENU:
+				// display::draw_mainmenuscene();
+			 	rval = mainloop::titlemenu(k);
+				break;
+			 case MODE_FADEIN:
+			 	rval = fadeblack::step();
+				break;
+			}
+		}
+	}
+
+	return 0;
 }
 
 
