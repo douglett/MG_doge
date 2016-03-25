@@ -322,15 +322,15 @@ namespace display {
 				drawcard(menu::cards[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
 			
 			// menu markers
-			if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {
-				int x = parchment_pos.x + 22 + 5 + (menu::handpos*17);
-				int y = parchment_pos.y + 26;
-				string s = string()+char(24);
-				game::qbcolor(70, 70, 70);
-				game::qbprint(x+1, y+1, s);
-				game::qbcolor(255, 0, 0);
-				game::qbprint(x, y, s);
-			}
+			// if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {
+			// 	int x = parchment_pos.x + 22 + 5 + (menu::handpos*17);
+			// 	int y = parchment_pos.y + 26;
+			// 	string s = string()+char(24);
+			// 	game::qbcolor(70, 70, 70);
+			// 	game::qbprint(x+1, y+1, s);
+			// 	game::qbcolor(255, 0, 0);
+			// 	game::qbprint(x, y, s);
+			// }
 
 			// background
 			// SDL_Rect textbox = { 0, 1, 41, 28 };
@@ -361,7 +361,7 @@ namespace display {
 			ss(1) << playermob.xp << " xp";
 			menu_text(4, ss().str(), yellow);
 			// move count
-			ss(1) << gamestate::movecount << "m";
+			ss(1) << movecount << "m";
 			menu_text(5, ss().str(), red);
 
 			// combat log

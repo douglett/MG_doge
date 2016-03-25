@@ -53,8 +53,6 @@ namespace gamestate {
 		MODE_CARDPICKER,
 		MODE_FADEBLACK
 	};
-	extern int gamemode;
-	extern int movecount;
 	extern std::vector<int> gstack;
 	int current();
 	int addmode(int mode);
@@ -82,21 +80,7 @@ namespace keys {
 
 // attack actions
 namespace action {
-	enum Action {
-		ACT_NONE = 0,
-		ACT_KILL,
-		ACT_WEST,
-		ACT_EAST,
-		ACT_NORTH,
-		ACT_SOUTH,
-		ACT_ACTION,
-		ACT_CANCEL,
-		ACT_MENU,
-		ACT_SELECT
-	};
 	int  taketurn(const std::string& k);
-	int  playeraction(int action);
-	// int  playeraction(const std::string& k);
 	void allenemyactions();
 	int  dospell(int cardtype);
 }
@@ -144,7 +128,7 @@ void  revealfog();
 void  combatlog(const std::string& s);
 int   level_up();
 int   chest_item();
-extern int dungeon_floor;
+extern int dungeon_floor, movecount;
 extern std::vector<std::string> gmap, fogofwar;
 extern std::vector<std::pair<int, std::string> > combat_log;
 extern std::vector<mob> gmobs, effects;

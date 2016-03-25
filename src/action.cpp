@@ -32,7 +32,7 @@ namespace action {
 			allenemyactions();
 			cleardead();
 			menu::givecard(); // add random card to hand if space available
-			gamestate::movecount++; // increment moves
+			movecount++; // increment moves
 			revealfog();
 			display::centercam();
 		}
@@ -45,88 +45,22 @@ namespace action {
 		int x = 0, y = 0;
 		int collide = -1;  // default, no movement
 
-		switch (k[0]) {
-		 // case ACT_NONE:
-			// break;
-		 case 'a':
+		if (k == "^l") {
 			x = -1;
 			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		 case 'd':
+		} else if (k == "^r") {
 			x = +1;
 			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		 case 's':
+		} else if (k == "^d") {
 			y = +1;
 			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		 case 'w':
+		} else if (k == "^u") {
 			y = -1;
 			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		 case 'z':
+		} else if (k == "z") {
 			collide = 0; // no-op
-			break;
-		 case 'f':
-		 	gamestate::gamemode = gamestate::MODE_GAMEMENU;
-		 	break;
-		}
-
-		// do movement actions
-		if (collide == 0 || collide == 2 || collide == 4) {
-			gtexts.erase(gtexts.begin(), gtexts.end());
-			effects.erase(effects.begin(), effects.end());
-			// player can move
-			if (collide == 0) {
-				playermob.x += x;
-				playermob.y += y;
-			} 
-			// player hits a mob - do attack
-			else if (collide == 2) {
-				doattack(&playermob, findmob(playermob.x + x, playermob.y + y));
-			} 
-			// player hits an action block
-			else if (collide == 4) {
-				doactionblock(playermob.x+x, playermob.y+y);
-			}
-			return 1;
-		}
-
-		return 0;
-	}
-
-
-	int playeraction(int action) {
-		int x = 0, y = 0;
-		int collide = -1;  // default, no movement
-
-		switch (action) {
-		case ACT_NONE:
-			break;
-		case ACT_WEST:
-			x = -1;
-			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		case ACT_EAST:
-			x = +1;
-			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		case ACT_SOUTH:
-			y = +1;
-			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		case ACT_NORTH:
-			y = -1;
-			collide = collision(playermob.x + x, playermob.y + y);
-			break;
-		case ACT_ACTION:
-			collide = 0; // no-op
-			break;
-		 case ACT_MENU:
-		 	gamestate::gamemode = gamestate::MODE_GAMEMENU;
-		 	break;
-		 default:
-			break;
+		} else if (k == "s") {
+		 	// gamestate::gamemode = gamestate::MODE_GAMEMENU;
 		}
 
 		// do movement actions

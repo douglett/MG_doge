@@ -19,27 +19,27 @@ namespace menu {
 	
 	
 	int playeraction(int action) {
-		switch (action) {
-		 case action::ACT_WEST:
-		 	move_hand(-1);
-			break;
-		 case action::ACT_EAST:
-		 	move_hand(1);
-		 	break;
-		 case action::ACT_ACTION:
-		 	if ( use_card() ) {
-		 		menu::playeraction(action::ACT_MENU);  // close menu
-		 		cleardead();
-		 		return 1;
-		 	}
-			break;
-		 case action::ACT_MENU:
-		 case action::ACT_CANCEL:
-		 	gamestate::gamemode = gamestate::MODE_GAME;
-			break;
-		 default:
-		 	break;
-		}
+		// switch (action) {
+		//  case action::ACT_WEST:
+		//  	move_hand(-1);
+		// 	break;
+		//  case action::ACT_EAST:
+		//  	move_hand(1);
+		//  	break;
+		//  case action::ACT_ACTION:
+		//  	if ( use_card() ) {
+		//  		menu::playeraction(action::ACT_MENU);  // close menu
+		//  		cleardead();
+		//  		return 1;
+		//  	}
+		// 	break;
+		//  case action::ACT_MENU:
+		//  case action::ACT_CANCEL:
+		//  	gamestate::gamemode = gamestate::MODE_GAME;
+		// 	break;
+		//  default:
+		//  	break;
+		// }
 		return 0;
 	}
 	

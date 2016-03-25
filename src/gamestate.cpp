@@ -8,8 +8,6 @@ using namespace std;
 
 namespace gamestate {
 
-	int gamemode = MODE_GAME;
-	int movecount = 0;
 	vector<int> gstack;
 
 	void showmodes() {

@@ -10,8 +10,7 @@
 using namespace std;
 
 
-static int  get_action();
-static int  loopt();
+static int loopt();
 
 
 const int 
@@ -20,9 +19,9 @@ const int
 
 
 // main.cpp globals
-// int animtt = 0;
-int dungeon_floor = 1;
 int seed = 6000;
+int movecount = 0;
+int dungeon_floor = 1;
 vector<string> gmap, fogofwar;
 vector<pair<int, string> > combat_log;
 vector<mob> gmobs, effects;
@@ -74,7 +73,7 @@ int loopt() {
 		// display
 		display::flip();
 
-		// handle menu
+		// handle input
 		int rval = 0;
 		string k = keys::getkey();
 		if (k == "^q")
@@ -90,7 +89,7 @@ int loopt() {
 		 	rval = action::taketurn(k);
 		}
 		// handle return values
-		// if (rval)
+		// ...
 	}
 
 	return 0;
@@ -100,7 +99,7 @@ int loopt() {
 void start_game() {
 	// reset game;
 	playermob.hp = playermob.maxhp = 20;
-	gamestate::movecount = 0;
+	movecount = 0;
 	dungeon_floor = 1;
 	// seed = stringtoseed(playermob.name)
 	reset_level(true);
@@ -108,61 +107,6 @@ void start_game() {
 
 	gamestate::addmode(gamestate::MODE_GAME);
 	fadeblack::reset(fadeblack::FADEIN);
-}
-
-
-int mainloop_game() {
-	// reset game;
-	playermob.hp = playermob.maxhp = 20;
-	gamestate::movecount = 0;
-	dungeon_floor = 1;
-	// seed = stringtoseed(playermob.name)
-	reset_level(true);
-	player_rest();
-
-	// loop_fadeblack(0, 2);
-
-	// main game loop
-	while (true) {
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);  // cls
-		display::draw_gamescene();
-		display::draw_menu();
-		display::flip();
-		
-		// take player action
-		int action = get_action();
-		int action_performed = 0;
-		if (action == action::ACT_KILL) {
-			return 1;
-		} else if (gamestate::gamemode == gamestate::MODE_GAME) {
-			action_performed = action::playeraction(action);
-		} else if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {
-			action_performed = menu::playeraction(action);
-		} else if (gamestate::gamemode == gamestate::MODE_CARDPICKER) {
-			;
-		}
-
-		// do turn actions
-		if (action_performed) {
-			action::allenemyactions();
-			cleardead();
-			menu::givecard(); // add random card to hand if space available
-			gamestate::movecount++; // increment moves
-			revealfog();
-			display::centercam();
-		}
-		
-		// kill player
-		if (playermob.hp <= 0) {
-			cout << "you died" << endl;
-			break;
-		}
-	}
-
-	// loop_fadeblack(1, 2);
-
-	return 0;
 }
 
 
@@ -183,7 +127,8 @@ int loop_fadewhite() {
 		display::flip();
 
 		// clear player action
-		if (get_action() == action::ACT_KILL)
+		// if (get_action() == action::ACT_KILL)
+		if (keys::getkey() == "^q")
 			return 1;
 	}
 
@@ -313,57 +258,6 @@ stringstream& ss(int reset) {
 }
 
 
-// get key as game action 
-static int get_action() {
-	action::Action act = action::ACT_NONE;
-	SDL_Event event;
-
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		 case SDL_QUIT:
-			return action::ACT_KILL;  // override, force quit
-		 case SDL_WINDOWEVENT:
-			// (int)event.window.event
-			break;
-		 case SDL_KEYDOWN:
-			// handle key press
-			switch (event.key.keysym.sym) {
-			 case SDLK_ESCAPE:
-				return action::ACT_KILL;  // override
-			 case SDLK_LEFT:
-			 	if (!act) act = action::ACT_WEST;
-				break;
-			 case SDLK_RIGHT:
-			 	if (!act) act = action::ACT_EAST;
-				break;
-			 case SDLK_UP:
-			 	if (!act) act = action::ACT_NORTH;
-				break;
-			 case SDLK_DOWN:
-			 	if (!act) act = action::ACT_SOUTH;
-				break;
-			 case SDLK_SPACE:
-			 case SDLK_z:
-			 	if (!act) act = action::ACT_ACTION;
-				break;
-			 case SDLK_x:
-			 	if (!act) act = action::ACT_CANCEL;
-				break;
-			 case SDLK_s:
-			 	if (!act) act = action::ACT_MENU;
-				break;
-			 case SDLK_a:
-			 	if (!act) act = action::ACT_SELECT;
-				break;
-			}
-			break;
-		}  // end switch
-	}  // end while
-
-	return act;
-}
-
-
 void cleardead() {
 	for (int i = 0; i < gmobs.size(); i++)
 		if (gmobs[i].hp <= 0) {
@@ -424,9 +318,9 @@ void combatlog(const string& s) {
 		last_movecount = 0,
 		last_col = 0;
 	// calculate alternating color
-	if (gamestate::movecount > last_movecount) {
+	if (movecount > last_movecount) {
 		last_col = !last_col;
-		last_movecount = gamestate::movecount;
+		last_movecount = movecount;
 	}
 	// add log
 	combat_log.push_back({ last_col, s });
