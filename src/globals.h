@@ -56,6 +56,7 @@ namespace gamestate {
 	extern int gamemode;
 	extern int movecount;
 	extern std::vector<int> gstack;
+	int current();
 }
 namespace fadeblack {
 	enum FADEDIR {
@@ -63,12 +64,12 @@ namespace fadeblack {
 		FADEOUT = 1
 	};
 	void reset(int dir);
-	int  step(std::string& k);
+	int  step(const std::string& k);
 	void draw();
 }
 namespace titlemenu {
 	void reset();
-	int  step(std::string& k);
+	int  step(const std::string& k);
 }
 
 // get keys

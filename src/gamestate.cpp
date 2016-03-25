@@ -7,33 +7,66 @@ using namespace std;
 
 
 namespace gamestate {
+
 	int gamemode = MODE_GAME;
 	int movecount = 0;
 	vector<int> gstack;
+
+	void showmodes() {
+		cout << "s ";
+		for (auto& m : gstack)
+			cout << m << " "; 
+		cout << endl;
+	}
+
+	int current() {
+		if (gstack.size() == 0)
+			return MODE_NONE;
+		return gstack[gstack.size()-1];
+	}
+
+	int addmode(int mode) {
+		gstack.push_back(mode);
+		showmodes();
+		return 0;
+	}
+
+	int clearmode(int mode) {
+		for (int i = gstack.size()-1; i >= 0; i--)
+			if (gstack[i] == mode) {
+				gstack.erase(gstack.begin()+i);
+				showmodes();
+				return 1;
+			}
+		return 0;
+	}
+
 } // end gamestate
 
 
 
 namespace fadeblack {
 
+	using namespace gamestate;
+
 	static int 
 		mdir = 1,
 		fadeval = 0;
 
 	void reset(int dir) {
-		using namespace gamestate;
 		assert(dir == -1 || dir == 1);
 		mdir = dir;
-		gstack.push_back(MODE_FADEBLACK);
+		addmode(MODE_FADEBLACK);
 		fadeval = (dir == 1 ? 0 : 255);
 	}
 
-	int step(string& k) {
-		fadeval += mdir * 8;
+	int step(const string& k) {
+		fadeval += mdir * 4;
 		fadeval = min(max(0, fadeval), 255);
+		// cout << "f " << fadeval << endl;
 		if (fadeval == 0 || fadeval == 255)
-			gamestate::gstack.pop_back();
-		return 1; // absorb keys
+			clearmode(MODE_FADEBLACK);
+		return 0;
 	}
 
 	void draw() {
@@ -48,25 +81,27 @@ namespace fadeblack {
 
 namespace titlemenu {
 
+	using namespace gamestate;
+
 	static int mstate = 0;
 
 	void reset() {
 		using namespace gamestate;
 		mstate = 0;
-		gstack.push_back(MODE_TITLEMENU);
+		addmode(MODE_TITLEMENU);
 		fadeblack::reset(fadeblack::FADEIN);
 	}
 
-	int step(string& k) {
+	int step(const string& k) {
 		if (mstate == 1) {
-			gamestate::gstack.pop_back();
-			return 1;
+			clearmode(MODE_TITLEMENU);
+			addmode(MODE_GAME);
+			fadeblack::reset(fadeblack::FADEIN);
+			return 0;
 		}
 
 		// handle input
-		if (k == "^q")
-			return 2;
-		else if (k == "^b" && playermob.name.length()) // backspace
+		if (k == "^b" && playermob.name.length()) // backspace
 			playermob.name.pop_back();
 		else if (k == "^e" && playermob.name.length() > 0) { // enter
 			mstate = 1;
@@ -79,7 +114,7 @@ namespace titlemenu {
 		else if (k[0] >= '0' && k[0] <= '9')
 			playermob.name += k[0];
 
-		return 1; // absorb keys
+		return 0;
 	}
 
 } // end mainloop

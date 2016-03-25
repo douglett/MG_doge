@@ -67,30 +67,29 @@ int loopt() {
 			 case MODE_FADEBLACK:
 			 	fadeblack::draw();
 				break;
+			 case MODE_GAME:
+			 	display::draw_gamescene();
+			 	display::draw_menu();
+			 	break;
 			}
 		// display
 		display::flip();
 
 		// handle menu
 		int rval = 0;
-		string& k = keys::getkey();
+		string k = keys::getkey();
 		if (k == "^q")
 			break;
-		for (int i = gamestate::gstack.size()-1; i >= 0; i--) {
-			switch (gstack[i]) {
-			 case MODE_TITLEMENU:
-			 	rval = titlemenu::step(k);
-				break;
-			 case MODE_FADEBLACK:
-			 	rval = fadeblack::step(k);
-				break;
-			}
-			// handle return values
-			if (rval == 2)
-				return 1;
-			else if (rval)
-				break;
+		switch (gamestate::current()) {
+		 case MODE_TITLEMENU:
+		 	rval = titlemenu::step(k);
+			break;
+		 case MODE_FADEBLACK:
+		 	rval = fadeblack::step(k);
+			break;
 		}
+		// handle return values
+		// if (rval)
 	}
 
 	return 0;
