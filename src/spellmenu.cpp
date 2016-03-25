@@ -5,7 +5,7 @@
 using namespace std;
 
 
-namespace menu {
+namespace spellmenu {
 
 	int  use_card();
 	void move_hand(int direction);
@@ -18,7 +18,7 @@ namespace menu {
 	int handpos = 0;
 	
 	
-	int playeraction(int action) {
+	int action(const string& k) {
 		// switch (action) {
 		//  case action::ACT_WEST:
 		//  	move_hand(-1);
@@ -79,7 +79,7 @@ namespace menu {
 
 	int reset_cards() {
 		cards.erase(cards.begin(), cards.end());
-		cards.push_back(menu::CARD_HEART);
+		cards.push_back(CARD_HEART);
 		draw_count = 1;
 		return 0;
 	}
@@ -93,5 +93,5 @@ namespace menu {
 		return 1;
 	}
 
-} // end menu
+} // end spellmenu
 

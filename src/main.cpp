@@ -51,7 +51,7 @@ int main() {
 
 static int loopt() {
 	using namespace scene;
-	
+
 	while (true) {
 		// cls
 		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
@@ -87,6 +87,9 @@ static int loopt() {
 			break;
 		 case GAME:
 		 	rval = action::taketurn(k);
+		 	break;
+		 case SPELLMENU:
+			rval = spellmenu::action(k);
 		}
 		// handle return values
 		// ...
@@ -218,7 +221,7 @@ void player_rest() {
 	// reset player
 	srand(time(NULL));
 	playermob.hp = playermob.maxhp;
-	menu::reset_cards();
+	spellmenu::reset_cards();
 }
 
 

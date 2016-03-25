@@ -318,8 +318,8 @@ namespace display {
 			// drawcard(3, 73, 80);
 
 			// draw cards (inline)
-			for (int i = 0; i < menu::cards.size(); i++)
-				drawcard(menu::cards[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
+			for (int i = 0; i < spellmenu::cards.size(); i++)
+				drawcard(spellmenu::cards[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
 			
 			// menu markers
 			// if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {

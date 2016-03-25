@@ -49,7 +49,7 @@ namespace scene {
 		NOSCENE,
 		TITLEMENU,
 		GAME,
-		GAMEMENU,
+		SPELLMENU,
 		CARDPICKER,
 		FADEBLACK
 	};
@@ -86,7 +86,7 @@ namespace action {
 }
 
 // menu actions 
-namespace menu {
+namespace spellmenu {
 	enum cardtypes {
 		CARD_SPADE,
 		CARD_HEART,
@@ -96,7 +96,7 @@ namespace menu {
 	extern std::vector<int> cards;
 	extern int deck_size;
 	extern int handpos;
-	int playeraction(int action);
+	int action(const std::string& k);
 	int reset_cards();
 	int givecard();
 }

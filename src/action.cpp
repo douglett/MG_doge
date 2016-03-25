@@ -31,7 +31,7 @@ namespace action {
 		if (action_performed) {
 			allenemyactions();
 			cleardead();
-			menu::givecard(); // add random card to hand if space available
+			spellmenu::givecard(); // add random card to hand if space available
 			movecount++; // increment moves
 			revealfog();
 			display::centercam();
@@ -61,6 +61,7 @@ namespace action {
 			collide = 0; // no-op
 		} else if (k == "s") {
 		 	// gamestate::gamemode = gamestate::MODE_GAMEMENU;
+		 	scene::add(scene::SPELLMENU);
 		}
 
 		// do movement actions
@@ -135,7 +136,7 @@ namespace action {
 		char block = gmap[y][x];
 		switch (block) {
 		 case 'i':  // brazier
-		 	menu::deck_size++;
+		 	spellmenu::deck_size++;
 		 case 'j':  // brazier lit
 		 	gmap[y][x] = 'j';
 		 	combatlog("brazier: reset level");
@@ -206,11 +207,11 @@ namespace action {
 		int x = playermob.x;
 		int y = playermob.y;
 		switch(cardtype) {
-		 case menu::CARD_HEART:
+		 case spellmenu::CARD_HEART:
 		 	combatlog("spell: heart");
 			doheal(&playermob);
 		 	return 1;
-		 case menu::CARD_CLUB:
+		 case spellmenu::CARD_CLUB:
 			dofireball(x-1, y);
 		 	dofireball(x+1, y);
 		 	dofireball(x, y-1);
@@ -218,7 +219,7 @@ namespace action {
 		 	ss(1) << "spell: club";
 		 	combatlog(ss().str());
 		 	return 1;
-		 case menu::CARD_DIAMOND:
+		 case spellmenu::CARD_DIAMOND:
 		 	dofireball(x-1, y-1);
 		 	dofireball(x+1, y-1);
 		 	dofireball(x-1, y+1);
@@ -226,7 +227,7 @@ namespace action {
 		 	ss(1) << "spell: diamond";
 		 	combatlog(ss().str());
 		 	return 1;
-		 case menu::CARD_SPADE:
+		 case spellmenu::CARD_SPADE:
 		 	combatlog("spell: spade (fail)");
 		 	return 1;
 		}
