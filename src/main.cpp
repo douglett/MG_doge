@@ -60,14 +60,14 @@ static int loopt() {
 		for (int mscene : scene::scenestack)
 			switch (mscene) {
 			 case TITLEMENU:
-				display::draw_mainmenuscene();
+				display::draw_titlemenu();
 				break;
 			 case FADEBLACK:
 			 	fadeblack::draw();
 				break;
 			 case GAME:
 			 	display::draw_gamescene();
-			 	display::draw_menu();
+			 	display::draw_spellmenu();
 			 	break;
 			}
 		// display
@@ -122,7 +122,7 @@ int loop_fadewhite() {
 		SDL_RenderClear(game::ren);  // cls
 		
 		display::draw_gamescene();
-		display::draw_menu();
+		display::draw_spellmenu();
 
 		int a = ( i < 128 ? i : 128-(i-128) );  // get alpha
 		SDL_SetRenderDrawColor(game::ren, 255, 255, 255, a);

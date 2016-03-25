@@ -110,9 +110,9 @@ namespace display {
 	void flip();
 	void advance_anim();
 	void centercam();
+	void draw_titlemenu();
 	void draw_gamescene();
-	void draw_menu();
-	void draw_mainmenuscene();
+	void draw_spellmenu();
 }
 
 // globals

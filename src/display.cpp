@@ -86,7 +86,7 @@ namespace display {
 
 
 	// main menu
-	void draw_mainmenuscene() {
+	void draw_titlemenu() {
 		static const string 
 			s1 = "Dungeon of the Goblin Emperor",
 			s2 = "VS.";
@@ -270,9 +270,6 @@ namespace display {
 				game::qbcolor(200, 0, 0);
 			game::qbprint(dst.x, dst.y, g.s);
 		}
-		
-		// draw game menus
-		draw_menu();
 	}
 
 
@@ -300,7 +297,7 @@ namespace display {
 	}
 
 
-	void draw_menu() {
+	void draw_spellmenu() {
 		// draw large info
 		if (showmenu) {
 			// draw parchment background
@@ -322,15 +319,15 @@ namespace display {
 				drawcard(spellmenu::cards[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
 			
 			// menu markers
-			// if (gamestate::gamemode == gamestate::MODE_GAMEMENU) {
-			// 	int x = parchment_pos.x + 22 + 5 + (menu::handpos*17);
-			// 	int y = parchment_pos.y + 26;
-			// 	string s = string()+char(24);
-			// 	game::qbcolor(70, 70, 70);
-			// 	game::qbprint(x+1, y+1, s);
-			// 	game::qbcolor(255, 0, 0);
-			// 	game::qbprint(x, y, s);
-			// }
+			if (scene::current() == scene::SPELLMENU) {
+				int x = parchment_pos.x + 22 + 5 + (spellmenu::handpos*17);
+				int y = parchment_pos.y + 26;
+				string s = string()+char(24);
+				game::qbcolor(70, 70, 70);
+				game::qbprint(x+1, y+1, s);
+				game::qbcolor(255, 0, 0);
+				game::qbprint(x, y, s);
+			}
 
 			// background
 			// SDL_Rect textbox = { 0, 1, 41, 28 };
