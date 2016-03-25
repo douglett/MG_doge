@@ -15,12 +15,85 @@ const string
 
 namespace action {
 
+	int  playeraction(const std::string& k);
 	int  collision(int x, int y);
 	mob* findmob(int x, int y);
 	void doattack(mob* attacker, mob* defender);
 	void doactionblock(int x, int y);
 	void allenemyactions();
 	int  enemyaction(mob& m);
+
+
+	int taketurn(const string& k) {
+		int action_performed = playeraction(k);
+
+		// do turn actions
+		if (action_performed) {
+			allenemyactions();
+			cleardead();
+			menu::givecard(); // add random card to hand if space available
+			gamestate::movecount++; // increment moves
+			revealfog();
+			display::centercam();
+		}
+
+		return 0;
+	}
+
+	
+	int playeraction(const string& k) {
+		int x = 0, y = 0;
+		int collide = -1;  // default, no movement
+
+		switch (k[0]) {
+		 // case ACT_NONE:
+			// break;
+		 case 'a':
+			x = -1;
+			collide = collision(playermob.x + x, playermob.y + y);
+			break;
+		 case 'd':
+			x = +1;
+			collide = collision(playermob.x + x, playermob.y + y);
+			break;
+		 case 's':
+			y = +1;
+			collide = collision(playermob.x + x, playermob.y + y);
+			break;
+		 case 'w':
+			y = -1;
+			collide = collision(playermob.x + x, playermob.y + y);
+			break;
+		 case 'z':
+			collide = 0; // no-op
+			break;
+		 case 'f':
+		 	gamestate::gamemode = gamestate::MODE_GAMEMENU;
+		 	break;
+		}
+
+		// do movement actions
+		if (collide == 0 || collide == 2 || collide == 4) {
+			gtexts.erase(gtexts.begin(), gtexts.end());
+			effects.erase(effects.begin(), effects.end());
+			// player can move
+			if (collide == 0) {
+				playermob.x += x;
+				playermob.y += y;
+			} 
+			// player hits a mob - do attack
+			else if (collide == 2) {
+				doattack(&playermob, findmob(playermob.x + x, playermob.y + y));
+			} 
+			// player hits an action block
+			else if (collide == 4) {
+				doactionblock(playermob.x+x, playermob.y+y);
+			}
+			return 1;
+		}
+
+		return 0;
+	}
 
 
 	int playeraction(int action) {
@@ -139,9 +212,9 @@ namespace action {
 		 case '%':  // ladder
 		 	combatlog("descended the ladder");
 		 	dungeon_floor++;
-		 	loop_fadeblack(1, 2);
+		 	// loop_fadeblack(1, 2);
 		 	reset_level(true);
-		 	loop_fadeblack(0, 2);
+		 	// loop_fadeblack(0, 2);
 		 	break;
 		 case 'C':
 		 	combatlog("opened a chest");

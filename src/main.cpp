@@ -11,7 +11,6 @@ using namespace std;
 
 
 static int  get_action();
-static void revealfog();
 static int  loopt();
 
 
@@ -87,6 +86,8 @@ int loopt() {
 		 case MODE_FADEBLACK:
 		 	rval = fadeblack::step(k);
 			break;
+		 case MODE_GAME:
+		 	rval = action::taketurn(k);
 		}
 		// handle return values
 		// if (rval)
@@ -96,36 +97,17 @@ int loopt() {
 }
 
 
-int mainloop_startmenu() {
-	loop_fadeblack(0, 1);
+void start_game() {
+	// reset game;
+	playermob.hp = playermob.maxhp = 20;
+	gamestate::movecount = 0;
+	dungeon_floor = 1;
+	// seed = stringtoseed(playermob.name)
+	reset_level(true);
+	player_rest();
 
-	while (true) {
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);  // cls
-		display::draw_mainmenuscene();
-		display::flip();
-
-		string& k = keys::getkey();
-		if (k.length()) {
-			// cout << k << endl;
-			if (k == "^q")
-				return 1;
-			else if (k == "^e" && playermob.name.length() > 0)
-				break;
-			else if (k == "^b" && playermob.name.length())
-				playermob.name.pop_back();
-			else if (playermob.name.length() >= 8)
-				;
-			else if (k[0] >= 'a' && k[0] <= 'z')
-				playermob.name += k[0];
-			else if (k[0] >= '0' && k[0] <= '9')
-				playermob.name += k[0];
-		}
-	}
-
-	loop_fadeblack(1, 1);
-
-	return 0;
+	gamestate::addmode(gamestate::MODE_GAME);
+	fadeblack::reset(fadeblack::FADEIN);
 }
 
 
@@ -138,7 +120,7 @@ int mainloop_game() {
 	reset_level(true);
 	player_rest();
 
-	loop_fadeblack(0, 2);
+	// loop_fadeblack(0, 2);
 
 	// main game loop
 	while (true) {
@@ -178,7 +160,7 @@ int mainloop_game() {
 		}
 	}
 
-	loop_fadeblack(1, 2);
+	// loop_fadeblack(1, 2);
 
 	return 0;
 }
@@ -197,35 +179,6 @@ int loop_fadewhite() {
 
 		int a = ( i < 128 ? i : 128-(i-128) );  // get alpha
 		SDL_SetRenderDrawColor(game::ren, 255, 255, 255, a);
-		SDL_RenderFillRect(game::ren, &dst);
-		display::flip();
-
-		// clear player action
-		if (get_action() == action::ACT_KILL)
-			return 1;
-	}
-
-	return 0;
-}
-
-
-int loop_fadeblack(int dir, int scene) {
-	SDL_Rect dst = { 0, 0, game::width, game::height };
-
-	// main game loop
-	for (int i = 0; i < 255; i += 8) {
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);  // cls
-		
-		if (scene == 1) {
-			display::draw_mainmenuscene();
-		} else if (scene == 2) {
-			display::draw_gamescene();
-			display::draw_menu();
-		}
-
-		int a = ( dir == 1 ? i : 255-i );  // get alpha
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, a);
 		SDL_RenderFillRect(game::ren, &dst);
 		display::flip();
 
@@ -324,7 +277,7 @@ void player_rest() {
 }
 
 
-static void revealfog() {
+void revealfog() {
 	int xx, yy;
 	for (int y = -FOG_SPOTLIGHT_SIZE; y <= FOG_SPOTLIGHT_SIZE; y++) {
 		yy = playermob.y + y;

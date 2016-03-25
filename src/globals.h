@@ -57,6 +57,8 @@ namespace gamestate {
 	extern int movecount;
 	extern std::vector<int> gstack;
 	int current();
+	int addmode(int mode);
+	int clearmode(int mode);
 }
 namespace fadeblack {
 	enum FADEDIR {
@@ -92,7 +94,9 @@ namespace action {
 		ACT_MENU,
 		ACT_SELECT
 	};
+	int  taketurn(const std::string& k);
 	int  playeraction(int action);
+	// int  playeraction(const std::string& k);
 	void allenemyactions();
 	int  dospell(int cardtype);
 }
@@ -129,15 +133,14 @@ namespace display {
 
 // globals
 std::stringstream& ss(int reset = 0);
-int   mainloop_startmenu();
-int   mainloop_game();
 int   loop_fadewhite();
-int   loop_fadeblack(int dir, int fullreset);
 int   stringtoseed(std::string seedstr);
+void  start_game();
 void  reset_level(int reset = 0);
 void  player_rest();
 gtext create_gtext(int x, int y, std::string s, int type = 0);
 void  cleardead();
+void  revealfog();
 void  combatlog(const std::string& s);
 int   level_up();
 int   chest_item();

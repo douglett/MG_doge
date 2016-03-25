@@ -95,8 +95,7 @@ namespace titlemenu {
 	int step(const string& k) {
 		if (mstate == 1) {
 			clearmode(MODE_TITLEMENU);
-			addmode(MODE_GAME);
-			fadeblack::reset(fadeblack::FADEIN);
+			start_game();
 			return 0;
 		}
 
