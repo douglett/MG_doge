@@ -44,19 +44,19 @@ namespace mobmaker {
 }
 
 // game states
-namespace gamestate {
-	enum mode {
-		MODE_NONE,
-		MODE_TITLEMENU,
-		MODE_GAME,
-		MODE_GAMEMENU,
-		MODE_CARDPICKER,
-		MODE_FADEBLACK
+namespace scene {
+	enum SCENETYPE {
+		NOSCENE,
+		TITLEMENU,
+		GAME,
+		GAMEMENU,
+		CARDPICKER,
+		FADEBLACK
 	};
-	extern std::vector<int> gstack;
+	extern std::vector<int> scenestack;
 	int current();
-	int addmode(int mode);
-	int clearmode(int mode);
+	int add(SCENETYPE mode);
+	int clear(SCENETYPE mode);
 }
 namespace fadeblack {
 	enum FADEDIR {

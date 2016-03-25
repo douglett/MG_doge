@@ -6,46 +6,44 @@ using namespace std;
 
 
 
-namespace gamestate {
+namespace scene {
 
-	vector<int> gstack;
+	vector<int> scenestack;
 
-	void showmodes() {
-		cout << "s ";
-		for (auto& m : gstack)
-			cout << m << " "; 
+	static void show() {
+		cout << "scenes: ";
+		for (auto& s : scenestack)
+			cout << s << " "; 
 		cout << endl;
 	}
 
 	int current() {
-		if (gstack.size() == 0)
-			return MODE_NONE;
-		return gstack[gstack.size()-1];
+		if (scenestack.size() == 0)
+			return NOSCENE;
+		return scenestack[scenestack.size()-1];
 	}
 
-	int addmode(int mode) {
-		gstack.push_back(mode);
-		showmodes();
+	int add(SCENETYPE mode) {
+		scenestack.push_back(mode);
+		show();
 		return 0;
 	}
 
-	int clearmode(int mode) {
-		for (int i = gstack.size()-1; i >= 0; i--)
-			if (gstack[i] == mode) {
-				gstack.erase(gstack.begin()+i);
-				showmodes();
+	int clear(SCENETYPE mode) {
+		for (int i = scenestack.size()-1; i >= 0; i--)
+			if (scenestack[i] == mode) {
+				scenestack.erase(scenestack.begin()+i);
+				show();
 				return 1;
 			}
 		return 0;
 	}
 
-} // end gamestate
+} // end scene
 
 
 
 namespace fadeblack {
-
-	using namespace gamestate;
 
 	static int 
 		mdir = 1,
@@ -54,7 +52,7 @@ namespace fadeblack {
 	void reset(int dir) {
 		assert(dir == -1 || dir == 1);
 		mdir = dir;
-		addmode(MODE_FADEBLACK);
+		scene::add(scene::FADEBLACK);
 		fadeval = (dir == 1 ? 0 : 255);
 	}
 
@@ -63,7 +61,7 @@ namespace fadeblack {
 		fadeval = min(max(0, fadeval), 255);
 		// cout << "f " << fadeval << endl;
 		if (fadeval == 0 || fadeval == 255)
-			clearmode(MODE_FADEBLACK);
+			scene::clear(scene::FADEBLACK);
 		return 0;
 	}
 
@@ -79,20 +77,17 @@ namespace fadeblack {
 
 namespace titlemenu {
 
-	using namespace gamestate;
-
 	static int mstate = 0;
 
 	void reset() {
-		using namespace gamestate;
 		mstate = 0;
-		addmode(MODE_TITLEMENU);
+		scene::add(scene::TITLEMENU);
 		fadeblack::reset(fadeblack::FADEIN);
 	}
 
 	int step(const string& k) {
 		if (mstate == 1) {
-			clearmode(MODE_TITLEMENU);
+			scene::clear(scene::TITLEMENU);
 			start_game();
 			return 0;
 		}

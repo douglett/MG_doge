@@ -49,23 +49,23 @@ int main() {
 }
 
 
-int loopt() {
-	using namespace gamestate;
-
+static int loopt() {
+	using namespace scene;
+	
 	while (true) {
 		// cls
 		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
 		SDL_RenderClear(game::ren);
 		// draw
-		for (int mstate : gamestate::gstack)
-			switch (mstate) {
-			 case MODE_TITLEMENU:
+		for (int mscene : scene::scenestack)
+			switch (mscene) {
+			 case TITLEMENU:
 				display::draw_mainmenuscene();
 				break;
-			 case MODE_FADEBLACK:
+			 case FADEBLACK:
 			 	fadeblack::draw();
 				break;
-			 case MODE_GAME:
+			 case GAME:
 			 	display::draw_gamescene();
 			 	display::draw_menu();
 			 	break;
@@ -78,14 +78,14 @@ int loopt() {
 		string k = keys::getkey();
 		if (k == "^q")
 			break;
-		switch (gamestate::current()) {
-		 case MODE_TITLEMENU:
+		switch (scene::current()) {
+		 case TITLEMENU:
 		 	rval = titlemenu::step(k);
 			break;
-		 case MODE_FADEBLACK:
+		 case FADEBLACK:
 		 	rval = fadeblack::step(k);
 			break;
-		 case MODE_GAME:
+		 case GAME:
 		 	rval = action::taketurn(k);
 		}
 		// handle return values
@@ -105,7 +105,7 @@ void start_game() {
 	reset_level(true);
 	player_rest();
 
-	gamestate::addmode(gamestate::MODE_GAME);
+	scene::add(scene::GAME);
 	fadeblack::reset(fadeblack::FADEIN);
 }
 
