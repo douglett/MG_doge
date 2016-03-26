@@ -9,7 +9,7 @@
 #include <cmath>
 #include <cassert>
 #include <sys/ioctl.h>
-#include "src/rng.h"
+#include "rng.h"
 
 using namespace std;
 

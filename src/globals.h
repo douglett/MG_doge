@@ -5,7 +5,6 @@
 #include <sstream>
 #include <map>
 #include <SDL.h>
-#include "rng.h"
 #include "scenes/scenes.h"
 
 // mob types
