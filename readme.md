@@ -9,14 +9,17 @@ Todo
 - UI
 	- "you died" screen/transition
 - Misc
-	- better menu code
-	- 'stacking' scenes and modes?
 	- selecting cards in menu
 	- some use for spade - teleport?
 	- spell range scaling - e.g. lv5 +1 tile?
 
 Done
 ----
+16/03/26
+- some hefty code reorganising
+- stacking scenes. will help with in game menus
+- remade some menus
+
 16/03/22
 - added enemy scaling
 - added ghost and fdisk enemy!

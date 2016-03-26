@@ -4,6 +4,8 @@
 using namespace std;
 
 
+// initial stats for various mobs.
+// TODO: could be cleaner, in own file, etc
 namespace mobmaker {
 
 	mob make(map<string, int>& mm) {
