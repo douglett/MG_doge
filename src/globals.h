@@ -6,6 +6,7 @@
 #include <map>
 #include <SDL.h>
 #include "rng.h"
+#include "scenes/scenes.h"
 
 // mob types
 class mob {
@@ -43,62 +44,11 @@ namespace mobmaker {
 	mob make(std::map<std::string, int>& mm);
 }
 
-// game states
-namespace scene {
-	enum SCENETYPE {
-		NOSCENE,
-		TITLEMENU,
-		GAME,
-		SPELLMENU,
-		CARDPICKER,
-		FADEBLACK,
-		FADEWHITE
-	};
-	extern std::vector<int> scenestack;
-	int current();
-	int add(SCENETYPE mode);
-	int clear(SCENETYPE mode);
-}
-namespace fadeblack {
-	enum FADEDIR {
-		FADEIN = -1,
-		FADEOUT = 1
-	};
-	void reset(int dir);
-	int  step(const std::string& k);
-	void draw();
-}
-namespace fadewhite {
-	void reset();
-	int  step(const std::string& k);
-	void draw();	
-}
-namespace titlemenu {
-	void reset();
-	int  step(const std::string& k);
-}
-
 // attack actions
 namespace action {
 	int  taketurn(const std::string& k);
 	void allenemyactions();
 	int  dospell(int cardtype);
-}
-
-// menu actions 
-namespace spellmenu {
-	enum cardtypes {
-		CARD_SPADE,
-		CARD_HEART,
-		CARD_CLUB,
-		CARD_DIAMOND
-	};
-	extern std::vector<int> cards;
-	extern int deck_size;
-	extern int handpos;
-	int action(const std::string& k);
-	int reset_cards();
-	int givecard();
 }
 
 // display
