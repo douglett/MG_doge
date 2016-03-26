@@ -124,7 +124,7 @@ namespace action {
 
 		// display attack
 		ss(1) << atk;
-		gtexts.push_back(create_gtext( defender->x, defender->y, ss().str() ));
+		gtexts.push_back({ defender->x, defender->y, 0, ss().str() });
 
 		// add player log
 		ss(1) << attacker->name << " hits " << defender->name << ": -" << atk;
@@ -176,7 +176,7 @@ namespace action {
 
 		// display attack
 		ss(1) << heal;
-		gtexts.push_back(create_gtext( target->x, target->y, ss().str(), 1 ));
+		gtexts.push_back({ target->x, target->y, 1, ss().str() });
 
 		// add player log
 		ss(1) << "-> " << target->name << " (+" << heal << ")";
@@ -191,7 +191,7 @@ namespace action {
 			m->hp -= dmg;
 			// display attack
 			ss(1) << dmg;
-			gtexts.push_back(create_gtext( x, y, ss().str() ));
+			gtexts.push_back({ x, y, 0, ss().str() });
 		}
 		// make fireball
 		mob e;

@@ -25,9 +25,9 @@ public:
 // visible text
 class gtext {
 public:
-	int x = 0;
-	int y = 0;
-	int type = 0;
+	int x;
+	int y;
+	int type;
 	std::string s;
 };
 
@@ -121,21 +121,25 @@ namespace display {
 	void draw_spellmenu();
 }
 
-// globals
+// main.cpp globals
 std::stringstream& ss(int reset = 0);
 int   stringtoseed(std::string seedstr);
-void  start_game();
-void  reset_level(int reset = 0);
-void  player_rest();
-gtext create_gtext(int x, int y, std::string s, int type = 0);
-void  cleardead();
-void  revealfog();
-void  combatlog(const std::string& s);
-int   level_up();
-int   chest_item();
-extern int dungeon_floor, movecount;
 extern std::vector<std::string> gmap, fogofwar;
 extern std::vector<std::pair<int, std::string> > combat_log;
 extern std::vector<mob> gmobs, effects;
 extern std::vector<gtext> gtexts;
+
+// gamestate.cpp globals
+extern int 
+		seed, 
+		dungeon_floor, 
+		movecount;
 extern mob playermob;
+void  combatlog(const std::string& s);
+void  start_game();
+void  reset_level(int reset = 0);
+void  player_rest();
+void  cleardead();
+void  revealfog();
+int   level_up();
+int   chest_item();
