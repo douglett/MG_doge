@@ -69,6 +69,9 @@ static int loopt() {
 			 	display::draw_gamescene();
 			 	display::draw_spellmenu();
 			 	break;
+			 case FADEWHITE:
+			 	fadewhite::draw();
+			 	break;
 			}
 		// display
 		display::flip();
@@ -90,6 +93,10 @@ static int loopt() {
 		 	break;
 		 case SPELLMENU:
 			rval = spellmenu::action(k);
+			break;
+		 case FADEWHITE:
+		 	rval = fadewhite::step(k);
+		 	break;
 		}
 		// handle return values
 		// ...
@@ -110,32 +117,6 @@ void start_game() {
 
 	scene::add(scene::GAME);
 	fadeblack::reset(fadeblack::FADEIN);
-}
-
-
-int loop_fadewhite() {
-	SDL_Rect dst = { 0, 0, game::width, game::height };
-
-	// main game loop
-	for (int i = 0; i < 255; i += 4) {
-		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 255);
-		SDL_RenderClear(game::ren);  // cls
-		
-		display::draw_gamescene();
-		display::draw_spellmenu();
-
-		int a = ( i < 128 ? i : 128-(i-128) );  // get alpha
-		SDL_SetRenderDrawColor(game::ren, 255, 255, 255, a);
-		SDL_RenderFillRect(game::ren, &dst);
-		display::flip();
-
-		// clear player action
-		// if (get_action() == action::ACT_KILL)
-		if (keys::getkey() == "^q")
-			return 1;
-	}
-
-	return 0;
 }
 
 

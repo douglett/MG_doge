@@ -142,7 +142,7 @@ namespace action {
 		 	combatlog("brazier: reset level");
 		 	reset_level();
 		 	player_rest();
-		 	loop_fadewhite();
+		 	fadewhite::reset();
 		 	break;
 		 case '%':  // ladder
 		 	combatlog("descended the ladder");

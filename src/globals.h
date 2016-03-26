@@ -51,7 +51,8 @@ namespace scene {
 		GAME,
 		SPELLMENU,
 		CARDPICKER,
-		FADEBLACK
+		FADEBLACK,
+		FADEWHITE
 	};
 	extern std::vector<int> scenestack;
 	int current();
@@ -66,6 +67,11 @@ namespace fadeblack {
 	void reset(int dir);
 	int  step(const std::string& k);
 	void draw();
+}
+namespace fadewhite {
+	void reset();
+	int  step(const std::string& k);
+	void draw();	
 }
 namespace titlemenu {
 	void reset();
@@ -117,7 +123,6 @@ namespace display {
 
 // globals
 std::stringstream& ss(int reset = 0);
-int   loop_fadewhite();
 int   stringtoseed(std::string seedstr);
 void  start_game();
 void  reset_level(int reset = 0);
