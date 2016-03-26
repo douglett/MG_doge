@@ -78,12 +78,6 @@ namespace titlemenu {
 	int  step(const std::string& k);
 }
 
-// get keys
-namespace keys {
-	extern std::string keystr;
-	std::string& getkey();
-}
-
 // attack actions
 namespace action {
 	int  taketurn(const std::string& k);

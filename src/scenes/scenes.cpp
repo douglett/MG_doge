@@ -1,6 +1,6 @@
 #include <cassert>
-#include "globals.h"
 #include "libsrc/xcengine.h"
+#include "src/globals.h"
 
 using namespace std;
 
