@@ -124,7 +124,7 @@ static string getkey() {
 		 	if (key == SDLK_ESCAPE)
 		 		keystr = "^q";
 		 	else if (key == SDLK_RETURN)
-		 		keystr = "^e";
+		 		keystr = "^ret";
 		 	else if (key >= SDLK_a && key <= SDLK_z)
 		 		keystr += 'a' + (key - SDLK_a);
 		 	else if (key >= SDLK_0 && key <= SDLK_9)
@@ -146,7 +146,7 @@ static string getkey() {
 		 			break;
 		 		 case SDLK_BACKSPACE:
 		 		 case SDLK_DELETE:
-		 		 	keystr += 'b';
+		 		 	keystr += "bs";
 		 		 	break;
 		 		 default:
 		 		 	keystr = "";

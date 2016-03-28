@@ -16,9 +16,9 @@ namespace titlemenu {
 
 	int step(const string& k) {
 		// handle input
-		if (k == "^b" && playermob.name.length()) // backspace
+		if (k == "^bs" && playermob.name.length()) // backspace
 			playermob.name.pop_back();
-		else if (k == "^e" && playermob.name.length() > 0) // enter
+		else if (k == "^ret" && playermob.name.length() > 0) // return
 			fadeblack::reset(fadeblack::FADEOUT, callback_start);
 		else if (playermob.name.length() >= 8)
 			;
