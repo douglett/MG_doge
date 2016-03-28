@@ -40,9 +40,14 @@ void combatlog(const string& s) {
 void start_game() {
 	// reset game;
 	playermob.hp = playermob.maxhp = 20;
+	playermob.lvl = 1;
+	playermob.xp = 0;
+	playermob.atk = 1;
+	playermob.def = 0;
 	movecount = 0;
 	dungeon_floor = 1;
 	// seed = stringtoseed(playermob.name)
+	spellmenu::clear_deck();
 	reset_level(true);
 	player_rest();
 

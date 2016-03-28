@@ -26,7 +26,7 @@ namespace cardpicker {
 
 	int step(const string& k) {
 		if (k == "z") {
-			spellmenu::givecard(pos == 0 ? card_1 : card_2);
+			spellmenu::give_card(pos == 0 ? card_1 : card_2);
 			scene::clear(scene::CARDPICKER);
 		} 
 		else if (k == "^r")

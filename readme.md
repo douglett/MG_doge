@@ -6,6 +6,7 @@ Todo
 ----
 - Difficulty
 	- new enemies!
+	- spells not taking a turn again...
 - UI
 	- new spell casting behaviour - use cards from built deck
 	- "you died" screen/transition

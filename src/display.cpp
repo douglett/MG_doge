@@ -282,10 +282,12 @@ namespace display {
 		dst.y = y;
 		SDL_RenderCopy(game::ren, sprites, &cardback, &dst);
 
-		dst = cards[type];
-		dst.x = x + 1;
-		dst.y = y + 1;
-		SDL_RenderCopy(game::ren, sprites, &cards[type], &dst);
+		if (type >= 0 && type < 4) {
+			dst = cards[type];
+			dst.x = x + 1;
+			dst.y = y + 1;
+			SDL_RenderCopy(game::ren, sprites, &cards[type], &dst);
+		}
 	}
 	static void menu_text(int line, string s, const int* col) {
 		int x = game::width - (s.length()*8) - 1;
@@ -317,10 +319,32 @@ namespace display {
 			// draw cards (inline)
 			for (int i = 0; i < spellmenu::hand.size(); i++)
 				drawcard(spellmenu::hand[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
+
+			// draw deck markers
+			{
+				// setup
+				int i = 0,
+					xpos = parchment_pos.x + 22 + (3*17),
+					ypos = parchment_pos.y + 6;
+
+				// draw visual deck
+				for (i = 0; i < min(spellmenu::deck_remaining(), 3); i++) 
+					drawcard(4, xpos+(2*i), ypos-(2*i));
+
+				// draw card left count
+				i--;
+				int x = xpos + 4 + (2*i), 
+					y = ypos + 5 - (2*i);
+				ss(1) << spellmenu::deck_remaining();
+				game::qbcolor(70, 70, 70);
+				game::qbprint(x+1, y+1, ss().str());
+				game::qbcolor(0, 50, 160);
+				game::qbprint(x, y, ss().str());
+			}
 			
 			// menu markers
 			if (scene::current() == scene::SPELLMENU) {
-				int x = parchment_pos.x + 22 + 5 + (spellmenu::cursorpos*17);
+				int x = parchment_pos.x + 22 + 5 + (spellmenu::cursor_pos()*17);
 				int y = parchment_pos.y + 26;
 				string s = string()+char(24);
 				game::qbcolor(70, 70, 70);

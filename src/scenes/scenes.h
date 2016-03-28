@@ -50,11 +50,12 @@ namespace spellmenu {
 		CARD_DIAMOND
 	};
 	extern std::vector<int> hand;
-	extern int deck_size;
-	extern int cursorpos;
 	int  action(const std::string& k);
-	int  reset_cards();
-	void givecard(int card);
+	void give_card(int card);
+	void reset_cards();
+	void clear_deck();
+	int  cursor_pos();
+	int  deck_remaining();
 }
 
 // select new card

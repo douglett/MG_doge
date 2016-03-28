@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "src/globals.h"
 
 using namespace std;
@@ -9,16 +10,16 @@ namespace spellmenu {
 
 	static int  use_card();
 	static void move_cursor(int direction);
+	static void remake_hand();
 
 	// globals
-	int deck_size = 1;
-	int draw_count = 0;
-	int cursorpos = 0;
+	int cursorpos = 0;  // TODO - erase
 	vector<int> hand;
 
 	// member vars
 	static const int HAND_SIZE_MAX = 4;
-	static vector<int> deck;
+	// static int cursorpos = 0;
+	static vector<int> deck, playdeck;
 	
 	
 	int action(const string& k) {
@@ -36,6 +37,31 @@ namespace spellmenu {
 			scene::clear(scene::SPELLMENU);
 		}
 		return 0;
+	}
+
+
+	// external info & status effects
+	void give_card(int card) {
+		deck.push_back(card);
+		playdeck.push_back(card);
+		remake_hand();
+	}
+	void reset_cards() {
+		playdeck.erase(playdeck.begin(), playdeck.end());
+		for (auto i : deck)
+			playdeck.push_back(i);
+		remake_hand();
+	}
+	void clear_deck() {
+		deck.erase(deck.begin(), deck.end());
+		deck.push_back(CARD_HEART);
+		reset_cards();
+	}
+	int cursor_pos() {
+		return cursorpos;
+	}
+	int deck_remaining() {
+		return 3;
 	}
 	
 
@@ -64,7 +90,8 @@ namespace spellmenu {
 		}
 		// check if card was used correctly
 		if (action_performed) {
-			hand.erase(hand.begin()+cursorpos);
+			playdeck.erase(playdeck.begin()+cursorpos);
+			remake_hand();
 			return 1;
 		} else {
 			return 0;
@@ -72,24 +99,11 @@ namespace spellmenu {
 	}
 
 
-	int reset_cards() {
+	// recalculate current hand from deck-in-play
+	static void remake_hand() {
 		hand.erase(hand.begin(), hand.end());
-		hand.push_back(CARD_HEART);
-		draw_count = 1;
-		return 0;
-	}
-
-
-	int givecard() {
-		if (hand.size() >= HAND_SIZE_MAX || draw_count >= deck_size)
-			return 0;
-		hand.push_back( rand() % 4 );
-		draw_count++;
-		return 1;
-	}
-
-	void givecard(int card) {
-		deck.push_back(card);
+		for (int i = 0; i < min(int(playdeck.size()), 3); i++)
+			hand.push_back( playdeck[i] );
 	}
 
 } // end spellmenu
