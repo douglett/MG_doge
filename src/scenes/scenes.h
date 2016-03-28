@@ -20,22 +20,6 @@ namespace scene {
 	int clear(SCENETYPE mode);
 }
 
-// spell menu actions 
-namespace spellmenu {
-	enum cardtypes {
-		CARD_SPADE,
-		CARD_HEART,
-		CARD_CLUB,
-		CARD_DIAMOND
-	};
-	extern std::vector<int> cards;
-	extern int deck_size;
-	extern int handpos;
-	int action(const std::string& k);
-	int reset_cards();
-	int givecard();
-}
-
 namespace titlemenu {
 	void reset();
 	int  step(const std::string& k);
@@ -55,4 +39,27 @@ namespace fadewhite {
 	void reset();
 	int  step(const std::string& k);
 	void draw();	
+}
+
+// spell menu actions 
+namespace spellmenu {
+	enum CARDTYPE {
+		CARD_SPADE,
+		CARD_HEART,
+		CARD_CLUB,
+		CARD_DIAMOND
+	};
+	extern std::vector<int> hand;
+	extern int deck_size;
+	extern int cursorpos;
+	int  action(const std::string& k);
+	int  reset_cards();
+	void givecard(int card);
+}
+
+// select new card
+namespace cardpicker {
+	void reset();
+	int  step(const std::string& k);
+	void draw();
 }

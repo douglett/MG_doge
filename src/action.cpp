@@ -35,7 +35,6 @@ namespace action {
 		if (action_performed) {
 			allenemyactions();
 			cleardead();
-			spellmenu::givecard(); // add random card to hand if space available
 			movecount++; // increment moves
 			revealfog();
 			display::centercam();
@@ -182,10 +181,11 @@ namespace action {
 	void doactionblock(int x, int y) {
 		char block = gmap[y][x];
 		switch (block) {
-		 case 'i':  // brazier
-		 	spellmenu::deck_size++;
-		 case 'j':  // brazier lit
+		 case 'i':  // brazier unlit
 		 	gmap[y][x] = 'j';
+		 	cardpicker::reset();
+		 	break;
+		 case 'j':  // brazier lit
 		 	combatlog("brazier: reset level");
 		 	reset_level();
 		 	player_rest();

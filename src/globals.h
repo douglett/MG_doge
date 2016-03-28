@@ -54,7 +54,13 @@ namespace display {
 	extern SDL_Texture *sprites, *crownsprite;
 	extern int animstate;
 	extern SDL_Rect camera;
-	extern const SDL_Rect crown;
+	extern const SDL_Rect 
+		crown,
+		cardback,
+		spade,
+		heart,
+		club,
+		diamond;
 	void flip();
 	void advance_anim();
 	void centercam();

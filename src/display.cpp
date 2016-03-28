@@ -315,12 +315,12 @@ namespace display {
 			// drawcard(3, 73, 80);
 
 			// draw cards (inline)
-			for (int i = 0; i < spellmenu::cards.size(); i++)
-				drawcard(spellmenu::cards[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
+			for (int i = 0; i < spellmenu::hand.size(); i++)
+				drawcard(spellmenu::hand[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
 			
 			// menu markers
 			if (scene::current() == scene::SPELLMENU) {
-				int x = parchment_pos.x + 22 + 5 + (spellmenu::handpos*17);
+				int x = parchment_pos.x + 22 + 5 + (spellmenu::cursorpos*17);
 				int y = parchment_pos.y + 26;
 				string s = string()+char(24);
 				game::qbcolor(70, 70, 70);

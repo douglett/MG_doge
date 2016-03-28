@@ -65,12 +65,15 @@ static int loopt() {
 			 case FADEBLACK:
 			 	fadeblack::draw();
 				break;
+			 case FADEWHITE:
+			 	fadewhite::draw();
+			 	break;
 			 case GAME:
 			 	display::draw_gamescene();
 			 	display::draw_spellmenu();
 			 	break;
-			 case FADEWHITE:
-			 	fadewhite::draw();
+			 case CARDPICKER:
+			 	cardpicker::draw();
 			 	break;
 			}
 		// display
@@ -88,14 +91,17 @@ static int loopt() {
 		 case FADEBLACK:
 		 	rval = fadeblack::step(k);
 			break;
+		 case FADEWHITE:
+		 	rval = fadewhite::step(k);
+		 	break;
 		 case GAME:
 		 	rval = action::taketurn(k);
 		 	break;
 		 case SPELLMENU:
 			rval = spellmenu::action(k);
 			break;
-		 case FADEWHITE:
-		 	rval = fadewhite::step(k);
+		 case CARDPICKER:
+		 	rval = cardpicker::step(k);
 		 	break;
 		}
 		// handle return values

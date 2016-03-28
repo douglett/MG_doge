@@ -7,7 +7,6 @@ Todo
 - Difficulty
 	- new enemies!
 - UI
-	- new brazier select-cards menu, for deck building
 	- new spell casting behaviour - use cards from built deck
 	- "you died" screen/transition
 - Misc
@@ -17,6 +16,7 @@ Todo
 Done
 ----
 16/03/28
+- new brazier select-cards menu, for deck building
 - player can die again
 
 16/03/26
