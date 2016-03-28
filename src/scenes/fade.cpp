@@ -10,20 +10,25 @@ namespace fadeblack {
 		speed = 8,
 		mdir = 1,
 		fadeval = 0;
+	static void (*callback)() = NULL;
 
-	void reset(int dir) {
+	void reset(int dir, void (*func)()) {
 		assert(dir == -1 || dir == 1);
-		mdir = dir;
 		scene::add(scene::FADEBLACK);
+		mdir = dir;
 		fadeval = (dir == 1 ? 0 : 255);
+		callback = func;
 	}
 
 	int step(const string& k) {
 		fadeval += mdir * speed;
 		fadeval = min(max(0, fadeval), 255);
 		// cout << "f " << fadeval << endl;
-		if (fadeval == 0 || fadeval == 255)
+		if (fadeval == 0 || fadeval == 255) {
 			scene::clear(scene::FADEBLACK);
+			if (callback != NULL)
+				callback();
+		}
 		return 0;
 	}
 

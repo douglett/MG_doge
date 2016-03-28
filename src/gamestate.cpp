@@ -47,7 +47,7 @@ void start_game() {
 	player_rest();
 
 	scene::add(scene::GAME);
-	fadeblack::reset(fadeblack::FADEIN);
+	fadeblack::reset(fadeblack::FADEIN, NULL);
 }
 
 
@@ -93,6 +93,8 @@ void reset_level(int fullreset) {
 		fogofwar = vector<string>(
 			gmap.size(), string(gmap[0].size(), FOG_ENABLED*2) );
 	}
+	// clear gtexts
+	gtexts.erase(gtexts.begin(), gtexts.end());
 
 	// reset cam
 	revealfog();

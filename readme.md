@@ -7,14 +7,18 @@ Todo
 - Difficulty
 	- new enemies!
 - UI
+	- new brazier select-cards menu, for deck building
+	- new spell casting behaviour - use cards from built deck
 	- "you died" screen/transition
 - Misc
-	- selecting cards in menu
 	- some use for spade - teleport?
 	- spell range scaling - e.g. lv5 +1 tile?
 
 Done
 ----
+16/03/28
+- player can die again
+
 16/03/26
 - some hefty code reorganising
 - stacking scenes. will help with in game menus

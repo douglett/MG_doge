@@ -46,7 +46,6 @@ namespace mobmaker {
 // attack actions
 namespace action {
 	int  taketurn(const std::string& k);
-	void allenemyactions();
 	int  dospell(int cardtype);
 }
 

@@ -15,15 +15,19 @@ const string
 
 namespace action {
 
-	int  playeraction(const std::string& k);
-	int  collision(int x, int y);
-	mob* findmob(int x, int y);
-	void doattack(mob* attacker, mob* defender);
-	void doactionblock(int x, int y);
-	void allenemyactions();
-	int  enemyaction(mob& m);
+	static int  playeraction(const std::string& k);
+	static int  collision(int x, int y);
+	static mob* findmob(int x, int y);
+	static void doattack(mob* attacker, mob* defender);
+	static void doactionblock(int x, int y);
+	static void allenemyactions();
+	static int  enemyaction(mob& m);
+	static void dofireball(int x, int y);
+	static void doheal(mob* m);
+	static void callback_gototitle();
 
 
+	// called from main loop - take a turn
 	int taketurn(const string& k) {
 		int action_performed = playeraction(k);
 
@@ -37,6 +41,49 @@ namespace action {
 			display::centercam();
 		}
 
+		if (playermob.hp <= 0) {
+			playermob.hp = 0;
+			fadeblack::reset(1, callback_gototitle);
+		}
+
+		return 0;
+	}
+
+	static void callback_gototitle() {
+		scene::clear(scene::GAME);
+		titlemenu::reset();
+	}
+
+
+	// called from spellmenu - casts a spell
+	int dospell(int cardtype) {
+		int x = playermob.x;
+		int y = playermob.y;
+		switch(cardtype) {
+		 case spellmenu::CARD_HEART:
+		 	combatlog("spell: heart");
+			doheal(&playermob);
+		 	return 1;
+		 case spellmenu::CARD_CLUB:
+			dofireball(x-1, y);
+		 	dofireball(x+1, y);
+		 	dofireball(x, y-1);
+		 	dofireball(x, y+1);
+		 	ss(1) << "spell: club";
+		 	combatlog(ss().str());
+		 	return 1;
+		 case spellmenu::CARD_DIAMOND:
+		 	dofireball(x-1, y-1);
+		 	dofireball(x+1, y-1);
+		 	dofireball(x-1, y+1);
+		 	dofireball(x+1, y+1);
+		 	ss(1) << "spell: diamond";
+		 	combatlog(ss().str());
+		 	return 1;
+		 case spellmenu::CARD_SPADE:
+		 	combatlog("spell: spade (fail)");
+		 	return 1;
+		}
 		return 0;
 	}
 
@@ -200,38 +247,6 @@ namespace action {
 		e.type = 1;
 		e.name = "fireball";
 		effects.push_back(e);
-	}
-
-
-	int dospell(int cardtype) {
-		int x = playermob.x;
-		int y = playermob.y;
-		switch(cardtype) {
-		 case spellmenu::CARD_HEART:
-		 	combatlog("spell: heart");
-			doheal(&playermob);
-		 	return 1;
-		 case spellmenu::CARD_CLUB:
-			dofireball(x-1, y);
-		 	dofireball(x+1, y);
-		 	dofireball(x, y-1);
-		 	dofireball(x, y+1);
-		 	ss(1) << "spell: club";
-		 	combatlog(ss().str());
-		 	return 1;
-		 case spellmenu::CARD_DIAMOND:
-		 	dofireball(x-1, y-1);
-		 	dofireball(x+1, y-1);
-		 	dofireball(x-1, y+1);
-		 	dofireball(x+1, y+1);
-		 	ss(1) << "spell: diamond";
-		 	combatlog(ss().str());
-		 	return 1;
-		 case spellmenu::CARD_SPADE:
-		 	combatlog("spell: spade (fail)");
-		 	return 1;
-		}
-		return 0;
 	}
 
 

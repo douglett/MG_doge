@@ -4,28 +4,22 @@ using namespace std;
 
 
 namespace titlemenu {
-	static int mstate = 0;
-
 	void reset() {
-		mstate = 0;
 		scene::add(scene::TITLEMENU);
-		fadeblack::reset(fadeblack::FADEIN);
+		fadeblack::reset(fadeblack::FADEIN, NULL);
+	}
+
+	static void callback_start() {
+		scene::clear(scene::TITLEMENU);
+		start_game();
 	}
 
 	int step(const string& k) {
-		if (mstate == 1) {
-			scene::clear(scene::TITLEMENU);
-			start_game();
-			return 0;
-		}
-
 		// handle input
 		if (k == "^b" && playermob.name.length()) // backspace
 			playermob.name.pop_back();
-		else if (k == "^e" && playermob.name.length() > 0) { // enter
-			mstate = 1;
-			fadeblack::reset(fadeblack::FADEOUT);
-		}
+		else if (k == "^e" && playermob.name.length() > 0) // enter
+			fadeblack::reset(fadeblack::FADEOUT, callback_start);
 		else if (playermob.name.length() >= 8)
 			;
 		else if (k[0] >= 'a' && k[0] <= 'z')

@@ -46,7 +46,7 @@ namespace fadeblack {
 		FADEIN = -1,
 		FADEOUT = 1
 	};
-	void reset(int dir);
+	void reset(int dir, void (*func)());
 	int  step(const std::string& k);
 	void draw();
 }
