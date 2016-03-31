@@ -321,7 +321,6 @@ namespace display {
 				drawcard(spellmenu::hand[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
 
 			// draw deck markers
-			// setup
 			int dm_max = min(spellmenu::deck_remaining(), 3),
 				dm_xpos = parchment_pos.x + 22 + (3*17),
 				dm_ypos = parchment_pos.y + 6;

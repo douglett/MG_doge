@@ -13,7 +13,6 @@ namespace spellmenu {
 	static void remake_hand();
 
 	// globals
-	// int cursorpos = 0;  // TODO - erase
 	vector<int> hand;
 
 	// member vars
