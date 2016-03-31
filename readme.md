@@ -8,7 +8,6 @@ Todo
 	- new enemies!
 	- spells not taking a turn again...
 - UI
-	- new spell casting behaviour - use cards from built deck
 	- "you died" screen/transition
 - Misc
 	- some use for spade - teleport?
@@ -16,6 +15,9 @@ Todo
 
 Done
 ----
+16/03/31
+- new spell casting behaviour - use cards from built deck
+
 16/03/28
 - new brazier select-cards menu, for deck building
 - player can die again

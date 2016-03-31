@@ -321,25 +321,23 @@ namespace display {
 				drawcard(spellmenu::hand[i], parchment_pos.x+22+(i*17), parchment_pos.y+6);
 
 			// draw deck markers
-			{
-				// setup
-				int i = 0,
-					xpos = parchment_pos.x + 22 + (3*17),
-					ypos = parchment_pos.y + 6;
-
-				// draw visual deck
-				for (i = 0; i < min(spellmenu::deck_remaining(), 3); i++) 
-					drawcard(4, xpos+(2*i), ypos-(2*i));
-
-				// draw card left count
-				i--;
-				int x = xpos + 4 + (2*i), 
-					y = ypos + 5 - (2*i);
-				ss(1) << spellmenu::deck_remaining();
-				game::qbcolor(70, 70, 70);
-				game::qbprint(x+1, y+1, ss().str());
-				game::qbcolor(0, 50, 160);
-				game::qbprint(x, y, ss().str());
+			// setup
+			int dm_max = min(spellmenu::deck_remaining(), 3),
+				dm_xpos = parchment_pos.x + 22 + (3*17),
+				dm_ypos = parchment_pos.y + 6;
+			// draw visual deck
+			for (int i = 0; i < dm_max; i++) {
+				drawcard(4, dm_xpos+(2*i), dm_ypos-(2*i));
+				// draw card left count on top card
+				if (i == dm_max-1) {
+					int x = dm_xpos + 4 + (2*i), 
+						y = dm_ypos + 5 - (2*i);
+					ss(1) << spellmenu::deck_remaining();
+					game::qbcolor(70, 70, 70);
+					game::qbprint(x+1, y+1, ss().str());
+					game::qbcolor(0, 50, 160);
+					game::qbprint(x, y, ss().str());
+				}
 			}
 			
 			// menu markers

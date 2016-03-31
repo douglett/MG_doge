@@ -13,13 +13,13 @@ namespace spellmenu {
 	static void remake_hand();
 
 	// globals
-	int cursorpos = 0;  // TODO - erase
+	// int cursorpos = 0;  // TODO - erase
 	vector<int> hand;
 
 	// member vars
-	static const int HAND_SIZE_MAX = 4;
-	// static int cursorpos = 0;
+	static const int HAND_SIZE_MAX = 3;
 	static vector<int> deck, playdeck;
+	static int cursorpos = 0;
 	
 	
 	int action(const string& k) {
@@ -61,7 +61,7 @@ namespace spellmenu {
 		return cursorpos;
 	}
 	int deck_remaining() {
-		return 3;
+		return max(int(playdeck.size()) - 3, 0);
 	}
 	
 
@@ -102,7 +102,7 @@ namespace spellmenu {
 	// recalculate current hand from deck-in-play
 	static void remake_hand() {
 		hand.erase(hand.begin(), hand.end());
-		for (int i = 0; i < min(int(playdeck.size()), 3); i++)
+		for (int i = 0; i < min(int(playdeck.size()), HAND_SIZE_MAX); i++)
 			hand.push_back( playdeck[i] );
 	}
 
