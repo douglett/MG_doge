@@ -17,6 +17,11 @@ namespace spellmenu {
 
 	// member vars
 	static const int HAND_SIZE_MAX = 3;
+	static const string CARD_NAMES[] = {
+		"SPADE",
+		"HEART",
+		"CLUB",
+		"DIAMOND" };
 	static vector<int> deck, playdeck;
 	static int cursorpos = 0;
 	
@@ -44,6 +49,8 @@ namespace spellmenu {
 		deck.push_back(card);
 		playdeck.push_back(card);
 		remake_hand();
+		ss(1) << "got a new card: " << CARD_NAMES[card];
+		combatlog(ss().str());
 	}
 	void reset_cards() {
 		playdeck.erase(playdeck.begin(), playdeck.end());

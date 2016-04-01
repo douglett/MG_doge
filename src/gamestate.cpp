@@ -137,11 +137,13 @@ void cleardead() {
 	for (int i = 0; i < gmobs.size(); i++)
 		if (gmobs[i].hp <= 0) {
 			// die message
-			ss(1) << gmobs[i].name << " died. +" << gmobs[i].xp << "xp";
-			combatlog(ss().str());
+			ss(1) << gmobs[i].name << " died.";
 			// add xp
-			if (gmobs[i].lvl >= playermob.lvl - 2)
+			if (gmobs[i].lvl >= playermob.lvl - 2) {
 				playermob.xp += gmobs[i].xp;
+				ss() << " +" << gmobs[i].xp << "xp";
+			}
+			combatlog(ss().str());
 			level_up();
 			// erase
 			gmobs.erase(gmobs.begin()+i);

@@ -26,7 +26,7 @@ namespace mobmaker {
 		 	m.name = "scorp";
 		 	m.lvl = 2;
 		 	m.xp = 6;
-		 	m.maxhp = 5;
+		 	m.maxhp = 2;
 		 	m.atk = 2;
 		 	m.def = 2;
 		 	break;
@@ -34,7 +34,7 @@ namespace mobmaker {
 		 	m.name = "ghost";
 		 	m.lvl = 3;
 		 	m.xp = 10;
-		 	m.maxhp = 8;
+		 	m.maxhp = 4;
 		 	m.atk = 2;
 		 	m.def = 5;
 		 	break;
