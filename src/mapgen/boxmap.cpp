@@ -315,8 +315,10 @@ namespace boxmap {
 			int z = (rng::rand()%3 == 0 ? 0 : 1);
 			if (level == 1)
 				z = 1;
-			else if (level < 4)
+			else if (level <= 4)
 				z += level - 1;
+			else
+				z += 3;
 			gmobs.push_back({ 
 				{ "x", x },
 				{ "y", y },
