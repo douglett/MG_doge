@@ -312,13 +312,14 @@ namespace boxmap {
 				continue;
 			if (getdist(bp[0], bp[1], x, y) < 6)  // don't spawn near brazier
 				continue;
-			int z = (rng::rand()%3 == 0 ? 0 : 1);
+			int z = (rng::rand()%3 == 2 ? 1 : 0);
+			const int MAX_MOB_LEVEL = 4;
 			if (level == 1)
 				z = 1;
-			else if (level <= 4)
+			else if (level <= MAX_MOB_LEVEL)
 				z += level - 1;
 			else
-				z += 3;
+				z += MAX_MOB_LEVEL - 1;
 			gmobs.push_back({ 
 				{ "x", x },
 				{ "y", y },
