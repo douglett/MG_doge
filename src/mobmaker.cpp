@@ -34,7 +34,7 @@ namespace mobmaker {
 		 	m.name = "ghost";
 		 	m.lvl = 3;
 		 	m.xp = 10;
-		 	m.maxhp = 4;
+		 	m.maxhp = 5;
 		 	m.atk = 2;
 		 	m.def = 5;
 		 	break;
