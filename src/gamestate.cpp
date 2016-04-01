@@ -24,7 +24,7 @@ void combatlog(const string& s) {
 		last_movecount = 0,
 		last_col = 0;
 	// calculate alternating color
-	if (movecount > last_movecount) {
+	if (movecount != last_movecount) {
 		last_col = !last_col;
 		last_movecount = movecount;
 	}
@@ -47,6 +47,7 @@ void start_game() {
 	movecount = 0;
 	dungeon_floor = 1;
 	// seed = stringtoseed(playermob.name)
+	combat_log.erase(combat_log.begin(), combat_log.end());
 	spellmenu::clear_deck();
 	reset_level(true);
 	player_rest();

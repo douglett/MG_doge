@@ -15,6 +15,9 @@ Todo
 
 Done
 ----
+16/04/01
+- properly resetting combat log after death
+
 16/03/31
 - new spell casting behaviour - use cards from built deck
 
