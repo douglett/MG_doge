@@ -16,7 +16,9 @@ namespace spellmenu {
 	vector<int> hand;
 
 	// member vars
-	static const int HAND_SIZE_MAX = 3;
+	static const int 
+		DECK_SIZE_MAX = 10,
+		HAND_SIZE_MAX = 3;
 	static const string CARD_NAMES[] = {
 		"SPADE",
 		"HEART",
@@ -46,6 +48,8 @@ namespace spellmenu {
 
 	// external info & status effects
 	void give_card(int card) {
+		if (deck_full())
+			return;
 		deck.push_back(card);
 		playdeck.push_back(card);
 		remake_hand();
@@ -68,6 +72,9 @@ namespace spellmenu {
 	}
 	int deck_remaining() {
 		return max(int(playdeck.size()) - 3, 0);
+	}
+	int deck_full() {
+		return (deck.size() >= DECK_SIZE_MAX);
 	}
 	
 

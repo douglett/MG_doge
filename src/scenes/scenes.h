@@ -56,6 +56,7 @@ namespace spellmenu {
 	void clear_deck();
 	int  cursor_pos();
 	int  deck_remaining();
+	int  deck_full();
 }
 
 // select new card

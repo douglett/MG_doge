@@ -16,6 +16,8 @@ namespace cardpicker {
 		colormod = 0;
 
 	void reset() {
+		if (spellmenu::deck_full())
+			return;
 		card_1 = rand()%4;
 		card_2 = rand()%4;
 		while (card_1 == card_2)

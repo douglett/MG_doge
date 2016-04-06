@@ -7,7 +7,9 @@ Todo
 - Difficulty
 	- new enemies!
 	- spells not taking a turn again...
+	- enemy rebalancing
 - UI
+	- stacking damage on gtexts
 	- "you died" screen/transition
 - Misc
 	- some use for spade - teleport?
@@ -15,6 +17,9 @@ Todo
 
 Done
 ----
+16/04/06
+- limit max cards
+
 16/04/01
 - properly resetting combat log after death
 - xp display issue fix
