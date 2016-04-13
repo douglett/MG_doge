@@ -257,6 +257,23 @@ namespace display {
 				SDL_RenderFillRect(game::ren, &dst);
 			}
 		}
+
+		// menu highlighting
+		if (scene::current() == scene::CASTMENU) {
+			dst = man;
+			dst.x = 12 * (playermob.x - camera.x) + offsetx;
+			dst.y = 12 * (playermob.y - camera.y) + offsety;
+			SDL_SetRenderDrawColor(game::ren, 80, 80, 255, 150);
+			for (int i = 0; i < 5; i++) {
+				SDL_RenderFillRect(game::ren, &dst);
+				switch (castmenu::dir) {
+				 case 0:	dst.y -= 12;	break;
+				 case 1:	dst.x += 12;	break;
+				 case 2:	dst.y += 12;	break;
+				 case 3:	dst.x -= 12;	break;
+				}
+			}
+		}
 		
 		// attack text
 		for (auto g : gtexts) {

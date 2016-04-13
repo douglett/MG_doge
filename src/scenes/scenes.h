@@ -11,6 +11,7 @@ namespace scene {
 		GAME,
 		SPELLMENU,
 		CARDPICKER,
+		CASTMENU,
 		FADEBLACK,
 		FADEWHITE
 	};
@@ -64,4 +65,11 @@ namespace cardpicker {
 	void reset();
 	int  step(const std::string& k);
 	void draw();
+}
+
+// aim casted spells
+namespace castmenu {
+	extern int dir;
+	void reset();
+	int  step(const std::string& k);
 }

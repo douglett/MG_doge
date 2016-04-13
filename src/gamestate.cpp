@@ -53,7 +53,8 @@ void start_game() {
 	player_rest();
 
 	scene::add(scene::GAME);
-	fadeblack::reset(fadeblack::FADEIN, NULL);
+	// fadeblack::reset(fadeblack::FADEIN, NULL);
+	castmenu::reset();
 }
 
 

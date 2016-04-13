@@ -103,6 +103,9 @@ static int loopt() {
 		 case CARDPICKER:
 		 	rval = cardpicker::step(k);
 		 	break;
+		 case CASTMENU:
+		 	rval = castmenu::step(k);
+		 	break;
 		}
 		// handle return values
 		// ...
