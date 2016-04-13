@@ -23,12 +23,13 @@ namespace castmenu {
 		else if (k == "x")
 			scene::clear(scene::CASTMENU);  // go back
 		else if (k == "z") {
-			switch (dir) {
-			 case 0:	playermob.y -= 5;	break;
-			 case 1:	playermob.x += 5;	break;
-			 case 2:	playermob.y += 5;	break;
-			 case 3:	playermob.x -= 5;	break;
-			}
+			// switch (dir) {
+			//  case 0:	playermob.y -= 5;	break;
+			//  case 1:	playermob.x += 5;	break;
+			//  case 2:	playermob.y += 5;	break;
+			//  case 3:	playermob.x -= 5;	break;
+			// }
+			action::dospell(spellmenu::CARD_SPADE);
 			scene::clear(scene::CASTMENU);
 		}
 		return 0;

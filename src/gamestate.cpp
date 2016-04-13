@@ -134,6 +134,15 @@ void revealfog() {
 }
 
 
+// if player vanishes or similar, re-add fog of war
+void reflowfog() {
+	for (auto& r : fogofwar)
+		for (auto& c : r)
+			if (c == 0)
+				c = 1;
+}
+
+
 void cleardead() {
 	for (int i = 0; i < gmobs.size(); i++)
 		if (gmobs[i].hp <= 0) {

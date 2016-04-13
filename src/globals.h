@@ -45,7 +45,8 @@ namespace mobmaker {
 
 // attack actions
 namespace action {
-	int  taketurn(const std::string& k);
+	int  taketurn();
+	int  playeraction(const std::string& k);
 	int  dospell(int cardtype);
 }
 
@@ -89,5 +90,6 @@ void  reset_level(int reset = 0);
 void  player_rest();
 void  cleardead();
 void  revealfog();
+void  reflowfog();
 int   level_up();
 int   chest_item();

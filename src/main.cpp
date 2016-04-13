@@ -95,7 +95,7 @@ static int loopt() {
 		 	rval = fadewhite::step(k);
 		 	break;
 		 case GAME:
-		 	rval = action::taketurn(k);
+		 	rval = action::playeraction(k);
 		 	break;
 		 case SPELLMENU:
 			rval = spellmenu::action(k);

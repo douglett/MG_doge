@@ -15,7 +15,6 @@ const string
 
 namespace action {
 
-	static int  playeraction(const std::string& k);
 	static int  collision(int x, int y);
 	static mob* findmob(int x, int y);
 	static void doattack(mob* attacker, mob* defender);
@@ -24,69 +23,9 @@ namespace action {
 	static int  enemyaction(mob& m);
 	static void dofireball(int x, int y);
 	static void doheal(mob* m);
-	static void callback_gototitle();
-
-
-	// called from main loop - take a turn
-	int taketurn(const string& k) {
-		int action_performed = playeraction(k);
-
-		// do turn actions
-		if (action_performed) {
-			allenemyactions();
-			cleardead();
-			movecount++; // increment moves
-			revealfog();
-			display::centercam();
-		}
-
-		if (playermob.hp <= 0) {
-			playermob.hp = 0;
-			fadeblack::reset(1, callback_gototitle);
-		}
-
-		return 0;
-	}
-
-	static void callback_gototitle() {
-		scene::clear(scene::GAME);
-		titlemenu::reset();
-	}
-
-
-	// called from spellmenu - casts a spell
-	int dospell(int cardtype) {
-		int x = playermob.x;
-		int y = playermob.y;
-		switch(cardtype) {
-		 case spellmenu::CARD_HEART:
-		 	combatlog("spell: heart");
-			doheal(&playermob);
-		 	return 1;
-		 case spellmenu::CARD_CLUB:
-			dofireball(x-1, y);
-		 	dofireball(x+1, y);
-		 	dofireball(x, y-1);
-		 	dofireball(x, y+1);
-		 	ss(1) << "spell: club";
-		 	combatlog(ss().str());
-		 	return 1;
-		 case spellmenu::CARD_DIAMOND:
-		 	dofireball(x-1, y-1);
-		 	dofireball(x+1, y-1);
-		 	dofireball(x-1, y+1);
-		 	dofireball(x+1, y+1);
-		 	ss(1) << "spell: diamond";
-		 	combatlog(ss().str());
-		 	return 1;
-		 case spellmenu::CARD_SPADE:
-		 	combatlog("spell: spade (fail)");
-		 	return 1;
-		}
-		return 0;
-	}
 
 	
+	// called from main loop - do player movement action
 	int playeraction(const string& k) {
 		int x = 0, y = 0;
 		int collide = -1;  // default, no movement
@@ -127,9 +66,83 @@ namespace action {
 			else if (collide == 4) {
 				doactionblock(playermob.x+x, playermob.y+y);
 			}
+			// advance turn
+			taketurn();
 			return 1;
 		}
 
+		return 0;
+	}
+
+
+	// called from spellmenu - casts a spell
+	int dospell(int cardtype) {
+		int x = playermob.x;
+		int y = playermob.y;
+		switch(cardtype) {
+		 case spellmenu::CARD_HEART:
+		 	combatlog("spell: heart");
+			doheal(&playermob);
+		 	break;
+		 case spellmenu::CARD_CLUB:
+			dofireball(x-1, y);
+		 	dofireball(x+1, y);
+		 	dofireball(x, y-1);
+		 	dofireball(x, y+1);
+		 	combatlog("spell: club");
+		 	break;
+		 case spellmenu::CARD_DIAMOND:
+		 	dofireball(x-1, y-1);
+		 	dofireball(x+1, y-1);
+		 	dofireball(x-1, y+1);
+		 	dofireball(x+1, y+1);
+		 	combatlog("spell: diamond");
+		 	break;
+		 case spellmenu::CARD_SPADE:
+		 	switch (castmenu::dir) {
+			 case 0:	y -= 5; 	break;
+			 case 1:	x += 5; 	break;
+			 case 2:	y += 5; 	break;
+			 case 3:	x -= 5; 	break;
+			}
+			// check if we can teleoport there
+			if (count(walkable.begin(), walkable.end(), gmap[y][x]) == 0) {
+				combatlog("spell: spade (fail, obstruction)");
+				return 0;
+			}
+			playermob.x = x;
+			playermob.y = y;
+			reflowfog();
+		 	combatlog("spell: spade");
+		 	break;
+		 default:
+		 	cerr << "dospell error: unknown spell type " << cardtype << endl;
+		 	return 0;
+		}
+		// advance turn
+		taketurn();
+		return 1;
+	}
+
+
+	static void callback_gototitle() {
+		scene::clear(scene::GAME);
+		titlemenu::reset();
+	}
+
+	// called from playeraction or dospell
+	int taketurn() {
+		// do turn actions
+		allenemyactions();
+		cleardead();
+		movecount++; // increment moves
+		revealfog();
+		display::centercam();
+		// check if player died
+		if (playermob.hp <= 0) {
+			playermob.hp = 0;
+			fadeblack::reset(1, callback_gototitle);
+		}
 		return 0;
 	}
 
