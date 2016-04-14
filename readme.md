@@ -16,6 +16,9 @@ Todo
 Done
 ----
 16/04/14
+- spell casting direction menu working
+
+16/04/13
 - spells not taking a turn again...
 - some use for spade - teleport?
 - spell casting menu (wip)

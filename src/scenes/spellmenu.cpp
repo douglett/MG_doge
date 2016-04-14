@@ -87,6 +87,15 @@ namespace spellmenu {
 	}
 
 
+	static void spell_cb(int result) {
+		if (result) {  // callback success - remove card and remake hand
+			playdeck.erase(playdeck.begin()+cursorpos);
+			remake_hand();
+			scene::clear(scene::SPELLMENU);
+		}
+	}
+
+
 	static int use_card() {
 		if (cursorpos < 0 || cursorpos >= hand.size())
 			return 0;
@@ -100,8 +109,7 @@ namespace spellmenu {
 		 	action_performed = action::dospell(card);
 		 	break;
 		 case CARD_SPADE:
-		 	cardpicker::reset();
-		 	scene::clear(scene::SPELLMENU);
+		 	castmenu::reset(spell_cb);
 		 	break;
 		}
 		// check if card was used correctly

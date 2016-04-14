@@ -70,6 +70,6 @@ namespace cardpicker {
 // aim casted spells
 namespace castmenu {
 	extern int dir;
-	void reset();
+	void reset(void (*func)(int));
 	int  step(const std::string& k);
 }

@@ -54,6 +54,7 @@ void start_game() {
 
 	scene::add(scene::GAME);
 	fadeblack::reset(fadeblack::FADEIN, NULL);
+	spellmenu::give_card(spellmenu::CARD_SPADE);
 }
 
 
