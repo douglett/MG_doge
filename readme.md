@@ -6,17 +6,20 @@ Todo
 ----
 - Difficulty
 	- new enemies!
-	- spells not taking a turn again...
 	- enemy rebalancing
 - UI
 	- stacking damage on gtexts
 	- "you died" screen/transition
 - Misc
-	- some use for spade - teleport?
 	- spell range scaling - e.g. lv5 +1 tile?
 
 Done
 ----
+16/04/14
+- spells not taking a turn again...
+- some use for spade - teleport?
+- spell casting menu (wip)
+
 16/04/06
 - limit max cards
 
