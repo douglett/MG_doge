@@ -94,11 +94,14 @@ namespace spellmenu {
 		int action_performed = 0;
 		// try to use card
 		switch (card) {
-		 case CARD_SPADE:
 		 case CARD_HEART:
 		 case CARD_CLUB:
 		 case CARD_DIAMOND:
 		 	action_performed = action::dospell(card);
+		 	break;
+		 case CARD_SPADE:
+		 	cardpicker::reset();
+		 	scene::clear(scene::SPELLMENU);
 		 	break;
 		}
 		// check if card was used correctly
