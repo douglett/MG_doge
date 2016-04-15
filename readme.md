@@ -8,13 +8,17 @@ Todo
 	- new enemies!
 	- enemy rebalancing
 - UI
-	- stacking damage on gtexts
+	- stacking damage on gtexts?
 	- "you died" screen/transition
 - Misc
+	- a tileset
 	- spell range scaling - e.g. lv5 +1 tile?
 
 Done
 ----
+16/04/15
+- added character and mob shadows (+ offset), for a nice faux-3D effect
+
 16/04/14
 - spell casting direction menu working
 

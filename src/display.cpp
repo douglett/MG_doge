@@ -121,11 +121,28 @@ namespace display {
 	}
 
 
+	static void draw_shadow(SDL_Rect r) {
+		SDL_Rect dst;
+		dst = { r.x+3, r.y+4, 6, 8 };
+		SDL_SetRenderDrawColor(game::ren, 0, 0, 0, 150);
+		SDL_RenderFillRect(game::ren, &dst);
+		dst = { r.x+1, r.y+5, 2, 6 };
+		SDL_RenderFillRect(game::ren, &dst);
+		dst.x += 8;
+		SDL_RenderFillRect(game::ren, &dst);
+		dst = { r.x, r.y+6, 1, 4 };
+		SDL_RenderFillRect(game::ren, &dst);
+		dst.x += 11;
+		SDL_RenderFillRect(game::ren, &dst);
+	}
+
+
 	// all game scene draw actions
 	void draw_gamescene() {
 		static const int
 			offsety = 0,
-			offsetx = 0;
+			offsetx = 0,
+			moboffset = 3;
 
 		// vars
 		SDL_Rect src, dst;
@@ -192,7 +209,10 @@ namespace display {
 					if (tile) {
 						SDL_Rect s = *tile;
 						s.x += 12 * animstate;
-						SDL_RenderCopy(game::ren, sprites, &s, &dst); // draw top sprite
+						draw_shadow(dst);
+						SDL_Rect r = dst;
+						r.y -= moboffset;
+						SDL_RenderCopy(game::ren, sprites, &s, &r); // draw top sprite
 					}
 					// fog of war edge
 					if ( fogofwar[camera.y+y][camera.x+x] == 1 ) {
@@ -212,6 +232,8 @@ namespace display {
 		dst = man;
 		dst.x = 12 * (playermob.x - camera.x) + offsetx;
 		dst.y = 12 * (playermob.y - camera.y) + offsety;
+		draw_shadow(dst);
+		dst.y -= moboffset;
 		SDL_RenderCopy(game::ren, sprites, &src, &dst);
 
 		// mobs
@@ -241,6 +263,8 @@ namespace display {
 			dst = src;
 			dst.x = 12 * (m.x - camera.x) + offsetx;
 			dst.y = 12 * (m.y - camera.y) + offsety;
+			draw_shadow(dst);
+			dst.y -= moboffset;
 			SDL_RenderCopy(game::ren, sprites, &src, &dst);
 		}
 
