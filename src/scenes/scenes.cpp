@@ -8,7 +8,8 @@ namespace scene {
 
 	vector<int> scenestack;
 
-	static void show() {
+	// handy debug function
+	void show() {
 		cout << "scenes: ";
 		for (auto& s : scenestack)
 			cout << s << " "; 
@@ -23,7 +24,7 @@ namespace scene {
 
 	int add(SCENETYPE mode) {
 		scenestack.push_back(mode);
-		show();
+		// show();
 		return 0;
 	}
 
@@ -31,7 +32,7 @@ namespace scene {
 		for (int i = scenestack.size()-1; i >= 0; i--)
 			if (scenestack[i] == mode) {
 				scenestack.erase(scenestack.begin()+i);
-				show();
+				// show();
 				return 1;
 			}
 		return 0;

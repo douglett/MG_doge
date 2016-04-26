@@ -46,7 +46,7 @@ void start_game() {
 	playermob.def = 0;
 	movecount = 0;
 	dungeon_floor = 1;
-	// seed = stringtoseed(playermob.name)
+	seed = stringtoseed(playermob.name);
 	combat_log.erase(combat_log.begin(), combat_log.end());
 	spellmenu::clear_deck();
 	reset_level(true);
@@ -54,7 +54,6 @@ void start_game() {
 
 	scene::add(scene::GAME);
 	fadeblack::reset(fadeblack::FADEIN, NULL);
-	spellmenu::give_card(spellmenu::CARD_SPADE);
 }
 
 

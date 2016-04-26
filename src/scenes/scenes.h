@@ -16,9 +16,10 @@ namespace scene {
 		FADEWHITE
 	};
 	extern std::vector<int> scenestack;
-	int current();
-	int add(SCENETYPE mode);
-	int clear(SCENETYPE mode);
+	void show();
+	int  current();
+	int  add(SCENETYPE mode);
+	int  clear(SCENETYPE mode);
 }
 
 namespace titlemenu {
