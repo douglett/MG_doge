@@ -44,7 +44,7 @@ namespace mobmaker {
 		 	m.xp = 15;
 		 	m.maxhp = 15;
 		 	m.def = 2;
-		 	m.atk = 4;
+		 	m.atk = 3;
 		 	break;
 		 default:
 		 	m.name = "???";
