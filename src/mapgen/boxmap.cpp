@@ -28,6 +28,7 @@ namespace boxmap {
 	static void make_corridors(char type);
 	static void make_furniture();
 	static void make_mobs(int level);
+	static void make_boss_room();
 
 	vector<string> gmap;
 	vector<map<string, int> > gmobs;
@@ -48,12 +49,17 @@ namespace boxmap {
 		gmobs.erase(gmobs.begin(), gmobs.end());
 		roomlist.erase(roomlist.begin(), roomlist.end());
 
+		if (true || level >= 5 && rng::rand()%3 == 0) {
+			make_boss_room();
+		} 
 		// make rooms & map parts
-		make_rooms();
-		make_corridors('h');
-		make_corridors('v');
-		make_furniture();
-		make_mobs(level);
+		else {
+			make_rooms();
+			make_corridors('h');
+			make_corridors('v');
+			make_furniture();
+			make_mobs(level);
+		}
 
 		display();
 
@@ -327,6 +333,29 @@ namespace boxmap {
 			});
 			mobcount--;
 		}
+	}
+
+
+	static void make_boss_room() {
+		// box room
+		int rsize = 10;
+		for (int y = 0; y < rsize; y++)
+			for (int x = 0; x < rsize; x++) {
+				int iswall = ( x == 0 || y == 0 || x == rsize-1 || y == rsize-1 );
+				gmap[y][x] = ( iswall ? '#' : '.' );
+			}
+		// player
+		gmobs.push_back({
+			{ "x", 2 },
+			{ "y", 2 },
+			{ "type", -1 }
+		});
+		// boss mob
+		gmobs.push_back({
+			{ "x", rsize-3 },
+			{ "y", rsize-3 },
+			{ "type", 1 }
+		});
 	}
 
 } // end boxmap
