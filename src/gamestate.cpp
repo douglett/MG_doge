@@ -1,5 +1,6 @@
+#include <cmath>
+#include <ctime>
 #include "globals.h"
-// #include "mapgen/testmap.h"
 #include "mapgen/boxmap.h"
 
 using namespace std;

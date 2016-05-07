@@ -1,4 +1,5 @@
 #include <iomanip>
+#include <cmath>
 #include "libsrc/xcengine.h"
 #include "globals.h"
 

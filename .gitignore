@@ -1,3 +1,6 @@
 *.o
 *.obj
 *.out
+*.dll
+bin
+libsrc

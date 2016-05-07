@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
-#include <sys/ioctl.h>
+// #include <sys/ioctl.h>
 #include "rng.h"
 
 using namespace std;
@@ -73,13 +73,16 @@ namespace boxmap {
 		for (auto& m : gmobs)
 			map2[ m.at("y") ][ m.at("x") ] = '*';
 		
-		struct winsize w;
-		ioctl(0, TIOCGWINSZ, &w);
-		int col = w.ws_col;
+		// struct winsize w;
+		// ioctl(0, TIOCGWINSZ, &w);
+		// int colmax = w.ws_col;
+
+		// use static colmax for now
+		int colmax = 80;
 
 		// display map
 		for (const auto &r : map2) {
-			for (int x = 0; x < min(int(r.length()), col); x++)
+			for (int x = 0; x < min(int(r.length()), colmax); x++)
 				cout << r[x] << ' ';
 			cout << endl;
 		}

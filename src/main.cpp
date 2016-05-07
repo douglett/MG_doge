@@ -2,6 +2,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <cmath>
 #include "libsrc/xcengine.h"
 #include "globals.h"
 
@@ -20,7 +21,7 @@ vector<gtext> gtexts;
 
 
 
-int main() {
+int main(int argc, char** argv) {
 	cout << "hello world" << endl;
 	if (game::init())
 		return 1;
@@ -36,6 +37,7 @@ int main() {
 	loopt();
 
 	game::quit();
+	return 0;
 }
 
 
