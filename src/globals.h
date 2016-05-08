@@ -38,7 +38,8 @@ namespace mobmaker {
 		CAKEY,
 		SCORP,
 		GHOST,
-		FDISK
+		FDISK,
+		GKING
 	};
 	mob make(std::map<std::string, int>& mm);
 }

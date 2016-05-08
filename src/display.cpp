@@ -37,6 +37,7 @@ namespace display {
 		ghost =    { 3*24, ROW3, 12, 12 },
 		// row4
 		fdisk =    { 0,    ROW4, 12, 12 },
+		gking =    { 1*24, ROW4, 12, 12 },
 		// 2nd image
 		crown = { 0, 0, 32, 32 };
 
@@ -256,6 +257,9 @@ namespace display {
 			 	break;
 			 case mobmaker::FDISK:
 			 	src = fdisk;
+			 	break;
+			 case mobmaker::GKING:
+			 	src = gking;
 			 	break;
 			 default:
 			 	src = flame;

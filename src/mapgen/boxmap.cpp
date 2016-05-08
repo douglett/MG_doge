@@ -49,7 +49,7 @@ namespace boxmap {
 		gmobs.erase(gmobs.begin(), gmobs.end());
 		roomlist.erase(roomlist.begin(), roomlist.end());
 
-		if (true || level >= 5 && rng::rand()%3 == 0) {
+		if (level >= 5 && rng::rand()%3 == 0) {
 			make_boss_room();
 		} 
 		// make rooms & map parts
@@ -357,7 +357,7 @@ namespace boxmap {
 		gmobs.push_back({
 			{ "x", rsize-3 },
 			{ "y", rsize-3 },
-			{ "type", 1 }
+			{ "type", 5 }
 		});
 	}
 

@@ -41,9 +41,17 @@ namespace mobmaker {
 		 case FDISK:
 		 	m.name = "fdisk";
 		 	m.lvl = 4;
-		 	m.xp = 15;
+		 	m.xp = 25;
 		 	m.maxhp = 15;
 		 	m.def = 2;
+		 	m.atk = 3;
+		 	break;
+		 case GKING:
+		 	m.name = "gking";
+		 	m.lvl = 5;
+		 	m.xp = 100;
+		 	m.maxhp = 30;
+		 	m.def = 3;
 		 	m.atk = 3;
 		 	break;
 		 default:
