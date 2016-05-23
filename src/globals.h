@@ -67,6 +67,7 @@ namespace display {
 	void advance_anim();
 	void centercam();
 	void draw_titlemenu();
+	void draw_winscene();
 	void draw_gamescene();
 	void draw_spellmenu();
 }
@@ -74,7 +75,7 @@ namespace display {
 // main.cpp globals
 std::stringstream& ss(int reset = 0);
 int   stringtoseed(std::string seedstr);
-extern std::vector<std::string> gmap, fogofwar;
+extern std::vector<std::string> gmap, fogofwar, cheats;
 extern std::vector<std::pair<int, std::string> > combat_log;
 extern std::vector<mob> gmobs, effects;
 extern std::vector<gtext> gtexts;

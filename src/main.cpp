@@ -14,7 +14,7 @@ static int loopt();
 static string getkey();
 
 // main.cpp globals
-vector<string> gmap, fogofwar;
+vector<string> gmap, fogofwar, cheats;
 vector<pair<int, string> > combat_log;
 vector<mob> gmobs, effects;
 vector<gtext> gtexts;
@@ -22,7 +22,10 @@ vector<gtext> gtexts;
 
 
 int main(int argc, char** argv) {
-	cout << "hello world" << endl;
+	cout << "doge start" << endl;
+	for (int i = 0; i < argc; i++)
+		cheats.push_back(argv[i]);
+
 	if (game::init())
 		return 1;
 
@@ -77,6 +80,9 @@ static int loopt() {
 			 case CARDPICKER:
 			 	cardpicker::draw();
 			 	break;
+			 case WINSCENE:
+			 	display::draw_winscene();
+			 	break;
 			}
 		// display
 		display::flip();
@@ -108,6 +114,8 @@ static int loopt() {
 		 case CASTMENU:
 		 	rval = castmenu::step(k);
 		 	break;
+		 case WINSCENE:
+		 	rval = winscene::step(k);
 		}
 		// handle return values
 		// ...

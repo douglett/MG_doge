@@ -13,7 +13,8 @@ namespace scene {
 		CARDPICKER,
 		CASTMENU,
 		FADEBLACK,
-		FADEWHITE
+		FADEWHITE,
+		WINSCENE
 	};
 	extern std::vector<int> scenestack;
 	void show();
@@ -72,5 +73,11 @@ namespace cardpicker {
 namespace castmenu {
 	extern int dir;
 	void reset(void (*func)(int));
+	int  step(const std::string& k);
+}
+
+// show when player wins
+namespace winscene {
+	void reset();
 	int  step(const std::string& k);
 }

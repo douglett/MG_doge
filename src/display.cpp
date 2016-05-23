@@ -123,6 +123,33 @@ namespace display {
 	}
 
 
+	// win game scene
+	void draw_winscene() {
+		static const string
+			s2 = "You have defeated the",
+			s3 = "GOBLIN EMPEROR!",
+			s4 = "Well done, heroic adventurer!";
+
+		// player name to upper case
+		string name = playermob.name;
+		for (auto& c : name)
+			c = toupper(c);
+
+		// named player congratulations
+		string s1 = "Congratulations " + name + "!";
+		int x = (game::width - s1.length()*8) / 2;
+		textout(x, 40, s1);
+
+		x = (game::width - s2.length()*8) / 2;
+		textout(x, 80, s2);
+		x = (game::width - s3.length()*8) / 2;
+		textout(x, 100, s3);
+
+		x = (game::width - s4.length()*8) / 2;
+		textout(x, 140, s4);
+	}
+
+
 	static void draw_shadow(SDL_Rect r) {
 		SDL_Rect dst;
 		dst = { r.x+3, r.y+4, 6, 8 };

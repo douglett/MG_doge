@@ -1,5 +1,7 @@
 #include <cmath>
 #include <ctime>
+#include <algorithm>
+#include <iostream>
 #include "globals.h"
 #include "mapgen/boxmap.h"
 
@@ -39,7 +41,7 @@ void combatlog(const string& s) {
 
 
 void start_game() {
-	// reset game;
+	// reset game
 	playermob.hp = playermob.maxhp = 20;
 	playermob.lvl = 1;
 	playermob.xp = 0;
@@ -50,9 +52,24 @@ void start_game() {
 	seed = stringtoseed(playermob.name);
 	combat_log.erase(combat_log.begin(), combat_log.end());
 	spellmenu::clear_deck();
+
+	// apply cheats
+	if (find(cheats.begin(), cheats.end(), "power5") != cheats.end()) {
+		cout << "enabling cheat: power5" << endl; 
+		playermob.hp = playermob.maxhp = 20 + 5*4;
+		playermob.atk += 5;
+		playermob.def += 5;
+	}
+	if (find(cheats.begin(), cheats.end(), "level5") != cheats.end()) {
+		cout << "enabling cheat: level5" << endl;
+		dungeon_floor = 5;
+	}
+
+	// setup new game
 	reset_level(true);
 	player_rest();
 
+	// go to game scene
 	scene::add(scene::GAME);
 	fadeblack::reset(fadeblack::FADEIN, NULL);
 }
@@ -143,7 +160,13 @@ void reflowfog() {
 }
 
 
+static void callback_gotowinscene() {
+	scene::clear(scene::GAME);
+	winscene::reset();
+}
+
 void cleardead() {
+	bool boss = false;
 	for (int i = 0; i < gmobs.size(); i++)
 		if (gmobs[i].hp <= 0) {
 			// die message
@@ -155,10 +178,16 @@ void cleardead() {
 			}
 			combatlog(ss().str());
 			level_up();
+			// check for boss mob
+			if (gmobs[i].type == mobmaker::GKING)
+				boss = true;
 			// erase
 			gmobs.erase(gmobs.begin()+i);
 			i--;
 		}
+	// if the boss died, fade out and go to the win scene
+	if (boss)
+		fadeblack::reset(1, callback_gotowinscene);
 }
 
 int level_up() {
