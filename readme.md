@@ -5,17 +5,22 @@ An epic RPG.
 Todo
 ----
 - Difficulty
-	- new enemies!
-	- enemy rebalancing
+	- detect seeds which can't be completed
 - UI
 	- stacking damage on gtexts?
-	- "you died" screen/transition
+	- "you died" screen/transition?
 - Misc
-	- a tileset
-	- spell range scaling - e.g. lv5 +1 tile?
+	- a tileset maybe?
 
 Done
 ----
+16/05/23
+- RELEASE CANDIDATE 1
+- enemy rebalancing
+- new enemies
+- spell range scaling
+- you win! screen
+
 16/04/15
 - added character and mob shadows (+ offset), for a nice faux-3D effect
 
