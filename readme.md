@@ -1,6 +1,23 @@
 Dungeon Of the Goblin Emperor
 -----------------------------
-An epic RPG.
+Ahh, welcome traveller. You wish to test your mettle? Listen well then, and I will tell of a blight upon out fair land... the Goblin Emperor!
+
+To defeat him, you must delve into his foul dungeon... but go with care, for none before you have yet emerged. Who knows what horrors befell them? If you would still embark upon this quest, inscribe your True Name at the cave mouth to be granted entry; but beware, for names have power in this realm, and will shape your journey ahead.
+
+Watch, adventurer, for unlit braziers. These magic constructs will grant magic cards when lit, and when their fires are stoked, they will bolster your will, restoring your full strength. However, fiendish denizens will also be recalled...
+
+Now go forth, brave soul, and cleanse this land!
+
+Controls
+--------
+Arrows : move
+Z : wait (world), OK (menu)
+X : cancel (menu)
+S : enter/exit spell menu
+
+
+Changelog
+---------
 
 Todo
 ----
